@@ -6,13 +6,15 @@ call plug#begin(stdpath('data') . 'vimplug')
     Plug 'willthbill/opener.nvim'
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
+    Plug 'nvim-lualine/lualine.nvim'
+    Plug 'kyazdani42/nvim-web-devicons'
 
-    " Color themes
-    Plug 'chriskempson/base16-vim'
+    " Color themes and syntax
     Plug 'morhetz/gruvbox'
     Plug 'mhartington/oceanic-next'  " colorscheme OceanicNext
-    Plug 'kaicataldo/material.vim', { 'branch': 'main' }
     Plug 'vim-syntastic/syntastic'
+    Plug 'EdenEast/nightfox.nvim'
+    Plug 'joshdick/onedark.vim'
 
     " Telescope
     Plug 'nvim-lua/plenary.nvim'
@@ -44,19 +46,6 @@ call plug#begin(stdpath('data') . 'vimplug')
     Plug 'kentaroi/ultisnips-swift'
     "Plug 'xbase-lab/xbase', { 'do': 'make install' }
 call plug#end()
-
-" MARK: - Color theme
-
-colorscheme OceanicNext
-
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
 
 " MARK: - Swift setup
 
@@ -125,6 +114,7 @@ let g:mapleader=","
 nnoremap <leader>pv :wincmd v<bar> :e . <bar> :vertical resize 30<CR>
 nnoremap <leader>nh :noh<CR>
 nnoremap <leader>F :Ag<CR>
+nnoremap <leader>C :Colors<CR>
 map <C-k> :tabnext<CR>
 map <C-j> :tabprev<CR>
 
@@ -133,3 +123,17 @@ map <C-j> :tabprev<CR>
 nnoremap <Leader>; <cmd>lua require'telescope.builtin'.buffers{}<CR>
 nnoremap <Leader>O <cmd>lua require'telescope.builtin'.find_files{}<CR>
 nnoremap <Leader>cs <cmd>lua require'telescope.builtin'.colorscheme{}<CR>
+
+" MARK: - Color theme
+
+lua require('lualine').setup()
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+set background=dark
+
+colorscheme onedark
+
