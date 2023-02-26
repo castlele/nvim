@@ -45,6 +45,10 @@ call plug#begin(stdpath('data') . 'vimplug')
     Plug 'aciidb0mb3r/SwiftDoc.vim'
     Plug 'kentaroi/ultisnips-swift'
     "Plug 'xbase-lab/xbase', { 'do': 'make install' }
+
+    " C/C++ lang
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
 call plug#end()
 
 " MARK: - Swift setup
