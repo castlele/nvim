@@ -139,5 +139,5 @@ let g:syntastic_check_on_wq = 0
 
 set background=dark
 
-colorscheme onedark
+colorscheme OceanicNext
 
