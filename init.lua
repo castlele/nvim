@@ -3,12 +3,15 @@ local Plug = vim.fn['plug#']
 vim.call("plug#begin")
 
     -- MARK: Supportive plugins
-    -- Plug 'lukas-reineke/indent-blankline.nvim'
-    -- Plug 'willthbill/opener.nvim'
     Plug('junegunn/fzf', {['do'] = vim.fn['fzf#install']})
-    Plug 'junegunn/fzf.vim'   
+    Plug 'junegunn/fzf.vim'
     Plug 'nvim-lualine/lualine.nvim' -- Statusbarg
     Plug 'kyazdani42/nvim-web-devicons'
+    Plug 'ntpeters/vim-better-whitespace'
+    Plug 'tpope/vim-commentary'
+
+    -- MARK: Git
+    Plug 'tpope/vim-fugitive'
 
     -- MARK: Color themes and syntax
     Plug 'morhetz/gruvbox'
@@ -23,25 +26,30 @@ vim.call("plug#begin")
 
     -- MARK: Lsp server
     Plug 'neovim/nvim-lspconfig'
+    Plug('neoclide/coc.nvim', {branch = 'release'})
 
     -- MARK: Treesitter
     Plug 'nvim-treesitter/nvim-treesitter'
-   
-    -- MARK: Swift and Obj-c lang
-    Plug 'keith/swift.vim'
-    Plug 'msanders/cocoa.vim'
 
-    -- MARK: C/C++ lang
-    Plug('neoclide/coc.nvim', {branch = 'release'})
+    -- MARK: Swift and Obj-c lang
+    Plug 'kballard/vim-swift'
 
     -- MARK: Lua lang
     Plug 'euclidianAce/BetterLua.vim'
 
+    -- MARK: Markdown
+    Plug('iamcco/markdown-preview.nvim', { ['do'] = 'cd app && yarn install' })
+
 vim.call("plug#end")
 
+require('autocommands')
 require('appearance')
 require('castlelecs.common_settings')
 require('castlelecs.keymap_settings')
+require('plugins.markdown_preview')
+require('plugins.better_whitespace')
+require('plugins.git')
+require('plugins.lualine')
 require('plugins.coc')
 require('plugins.telescope')
-require('plugins.lualine')
+require('castlelecs.swift_imports')

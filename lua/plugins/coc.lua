@@ -1,16 +1,9 @@
--- Some servers have issues with backup files, see #649
-vim.opt.backup = false
-vim.opt.writebackup = false
-
--- Having longer updatetime (default is 4000 ms = 4s) leads to noticeable
--- delays and poor user experience
-vim.opt.updatetime = 300
-
--- Always show the signcolumn, otherwise it would shift the text each time
--- diagnostics appeared/became resolved
-vim.opt.signcolumn = "yes"
+-- vim.call(":CocInstall coc-lua")
+-- vim.call(":CocInstall coc-clangd")
+-- vim.call(":CocInstall coc-sourcekit")
 
 local keyset = vim.keymap.set
+--
 -- Autocomplete
 function _G.check_back_space()
     local col = vim.fn.col('.') - 1
@@ -73,20 +66,6 @@ vim.api.nvim_create_autocmd("CursorHold", {
 -- Symbol renaming
 keyset("n", "<leader>rn", "<Plug>(coc-rename)", {silent = true})
 
-
--- Formatting selected code
-keyset("x", "<leader>f", "<Plug>(coc-format-selected)", {silent = true})
-keyset("n", "<leader>f", "<Plug>(coc-format-selected)", {silent = true})
-
-
--- Setup formatexpr specified filetype(s)
-vim.api.nvim_create_autocmd("FileType", {
-    group = "CocGroup",
-    pattern = "typescript,json",
-    command = "setl formatexpr=CocAction('formatSelected')",
-    desc = "Setup formatexpr specified filetype(s)."
-})
-
 -- Update signature help on jump placeholder
 vim.api.nvim_create_autocmd("User", {
     group = "CocGroup",
@@ -130,26 +109,6 @@ keyset("o", "ic", "<Plug>(coc-classobj-i)", opts)
 keyset("x", "ac", "<Plug>(coc-classobj-a)", opts)
 keyset("o", "ac", "<Plug>(coc-classobj-a)", opts)
 
-
--- Remap <C-f> and <C-b> to scroll float windows/popups
----@diagnostic disable-next-line: redefined-local
-local opts = {silent = true, nowait = true, expr = true}
-keyset("n", "<C-f>", 'coc#float#has_scroll() ? coc#float#scroll(1) : "<C-f>"', opts)
-keyset("n", "<C-b>", 'coc#float#has_scroll() ? coc#float#scroll(0) : "<C-b>"', opts)
-keyset("i", "<C-f>",
-       'coc#float#has_scroll() ? "<c-r>=coc#float#scroll(1)<cr>" : "<Right>"', opts)
-keyset("i", "<C-b>",
-       'coc#float#has_scroll() ? "<c-r>=coc#float#scroll(0)<cr>" : "<Left>"', opts)
-keyset("v", "<C-f>", 'coc#float#has_scroll() ? coc#float#scroll(1) : "<C-f>"', opts)
-keyset("v", "<C-b>", 'coc#float#has_scroll() ? coc#float#scroll(0) : "<C-b>"', opts)
-
-
--- Use CTRL-S for selections ranges
--- Requires 'textDocument/selectionRange' support of language server
-keyset("n", "<C-s>", "<Plug>(coc-range-select)", {silent = true})
-keyset("x", "<C-s>", "<Plug>(coc-range-select)", {silent = true})
-
-
 -- Add `:Format` command to format current buffer
 vim.api.nvim_create_user_command("Format", "call CocAction('format')", {})
 
@@ -158,11 +117,6 @@ vim.api.nvim_create_user_command("Fold", "call CocAction('fold', <f-args>)", {na
 
 -- Add `:OR` command for organize imports of the current buffer
 vim.api.nvim_create_user_command("OR", "call CocActionAsync('runCommand', 'editor.action.organizeImport')", {})
-
--- Add (Neo)Vim's native statusline support
--- NOTE: Please see `:h coc-status` for integrations with external plugins that
--- provide custom statusline: lightline.vim, vim-airline
-vim.opt.statusline:prepend("%{coc#status()}%{get(b:,'coc_current_function','')}")
 
 -- Mappings for CoCList
 -- code actions and coc stuff
