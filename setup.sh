@@ -2,7 +2,6 @@
 
 mkdir ~/.config/tmux
 git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/tpm
-cp .tmux.conf ~/
 
 curl -fsSL https://raw.githubusercontent.com/dhavalkapil/luaver/master/install.sh | sh -s - -r v1.1.0
 luaver install 5.1
