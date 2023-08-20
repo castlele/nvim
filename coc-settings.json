@@ -1,3 +1,51 @@
 {
-  "coc.preferences.extensionUpdateCheck": "daily"
+    "Lua": {
+      "workspace": {
+          "library": {
+                "/Users/castlelecs/.local/share/nvim/plugged/fzf": true,
+                "/Users/castlelecs/.local/share/nvim/plugged/fzf.vim": true,
+                "/Users/castlelecs/.local/share/nvim/plugged/lualine.nvim": true,
+                "/Users/castlelecs/.local/share/nvim/plugged/nvim-web-devicons": true,
+                "/Users/castlelecs/.local/share/nvim/plugged/vim-better-whitespace": true,
+                "/Users/castlelecs/.local/share/nvim/plugged/vim-commentary": true,
+                "/Users/castlelecs/.local/share/nvim/plugged/vim-fugitive": true,
+                "/Users/castlelecs/.local/share/nvim/plugged/gruvbox": true,
+                "/Users/castlelecs/.local/share/nvim/plugged/oceanic-next": true,
+                "/Users/castlelecs/.local/share/nvim/plugged/nightfox.nvim": true,
+                "/Users/castlelecs/.local/share/nvim/plugged/onedark.vim": true,
+                "/Users/castlelecs/.local/share/nvim/plugged/plenary.nvim": true,
+                "/Users/castlelecs/.local/share/nvim/plugged/popup.nvim": true,
+                "/Users/castlelecs/.local/share/nvim/plugged/telescope.nvim": true,
+                "/Users/castlelecs/.local/share/nvim/plugged/coc.nvim": true,
+                "/Users/castlelecs/.local/share/nvim/plugged/nvim-treesitter": true,
+                "/Users/castlelecs/.local/share/nvim/plugged/vim-swift": true,
+                "/Users/castlelecs/.local/share/nvim/plugged/BetterLua.vim": true,
+                "/Users/castlelecs/.local/share/nvim/plugged/markdown-preview.nvim": true,
+                "/Users/castlelecs/.local/share/nvim/site": true,
+                "/opt/homebrew/Cellar/neovim/0.9.1/share/nvim/runtime": true,
+                "/opt/homebrew/Cellar/neovim/0.9.1/share/nvim/runtime/lua": true,
+                "/opt/homebrew/Cellar/neovim/0.9.1/share/nvim/runtime/lua/vim": true,
+                "/opt/homebrew/Cellar/neovim/0.9.1/share/nvim/runtime/lua/vim/lsp": true,
+                "/opt/homebrew/Cellar/neovim/0.9.1/share/nvim/runtime/pack/dist/opt/matchit": true,
+                "/opt/homebrew/Cellar/neovim/0.9.1/lib/nvim": true,
+                //"/opt/homebrew/share/lua/5.4/": true,
+                "/Users/castlelecs/.local/share/nvim/plugged/oceanic-next/after": true,
+                "/Users/castlelecs/.local/share/nvim/plugged/vim-swift/after": true,
+                "/Users/castlelecs/.luaver/lua/5.1/": true,
+                "/Users/castlelecs/.luaver/luarocks/2.3.0_5.1/share/lua/5.1": true
+          },
+          "checkThirdParty": false
+      },
+      "runtime": {
+          "version": "LuaJIT",
+          "path": "?/init.lua",
+          "pathStrict": false
+      },
+      "diagnostics": {
+            "globals": [ "vim" ]
+      },
+      "telemetry": {
+            "enable": false
+      }
+    }
 }

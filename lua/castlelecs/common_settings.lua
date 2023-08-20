@@ -1,13 +1,8 @@
 vim.g.mapleader = ','
 
-vim.cmd("syntax on")
-vim.cmd("set termguicolors")
-vim.cmd("hi Cursor guifg=yellow guibg=yellow")
-vim.cmd("hi Cursor2 guifg=white guibg=white")
 
 local settings = {
     number = true,
-    guicursor = "n:block-Cursor2/lCursor2,v-c-i:block-Cursor/lCursor",
     cursorline = true,
     relativenumber = true,
     ignorecase = true,     -- ignore case
@@ -25,12 +20,13 @@ local settings = {
     virtualedit = "all",
     backspace = { "indent", "eol", "start" }, -- allow backspacing over everything in insert mode
     mouse = "a",                              -- mouse support
-
+    listchars = {eol = "¬", tab = "->", extends = ">", precedes = "<", space = "•"},
+    list = true,
     -- Coc recomended settings
     backup = false,
     writebackup = false,
     updatetime = 300,
-    signcolumn = "yes"
+    signcolumn = "yes",
 }
 
 for k, v in pairs(settings) do
