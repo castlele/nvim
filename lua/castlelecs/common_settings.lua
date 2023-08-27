@@ -1,6 +1,5 @@
 vim.g.mapleader = ','
 
-
 local settings = {
     number = true,
     cursorline = true,
@@ -20,12 +19,12 @@ local settings = {
     virtualedit = "all",
     backspace = { "indent", "eol", "start" }, -- allow backspacing over everything in insert mode
     mouse = "a",                              -- mouse support
-    listchars = {eol = "¬", tab = "->", extends = ">", precedes = "<", space = "•"},
+    listchars = { tab = "->", extends = ">", precedes = "<", space = "•"},
     list = true,
     -- Coc recomended settings
     backup = false,
     writebackup = false,
-    updatetime = 300,
+    -- updatetime = 300,
     signcolumn = "yes",
 }
 

@@ -9,6 +9,7 @@ k("n", "<C-h>", ":tabprev" .. post)
 k("n", "<C-l>", ":tabnext" .. post)
 k("n", "tn", ":tabnew" .. post)
 k("n", "tc", ":tabclose" .. post)
+k("n", "<C-s>", ":Neotree toggle" .. post)
 
 -- Close bottom windown
 k("n", l .. "jq", ":wincmd j | :q" .. post)

@@ -15,10 +15,9 @@ vim.call("plug#begin")
     Plug 'tpope/vim-fugitive'
 
     -- MARK: Color themes and syntax
-    Plug 'morhetz/gruvbox'
-    Plug 'mhartington/oceanic-next'   -- colorscheme OceanicNext
-    Plug 'EdenEast/nightfox.nvim'
     Plug 'joshdick/onedark.vim'
+    Plug 'rktjmp/lush.nvim'
+    Plug '~/.config/nvim/castlelecs-scheme'
 
     -- MARK: Telescope
     Plug 'nvim-lua/plenary.nvim'
@@ -31,18 +30,15 @@ vim.call("plug#begin")
     -- MARK: Treesitter
     Plug 'nvim-treesitter/nvim-treesitter'
 
-    -- MARK: Swift and Obj-c lang and Xcode
-    Plug 'kballard/vim-swift'
+    -- MARK: Mobile development
     Plug 'cfdrake/vim-pbxproj'
+    Plug 'udalov/kotlin-vim'
 
     -- MARK: Lua lang
     Plug 'euclidianAce/BetterLua.vim'
 
     -- MARK: Markdown
     Plug('iamcco/markdown-preview.nvim', { ['do'] = 'cd app && yarn install' })
-
-    -- MARK: Terminal
-    Plug('akinsho/toggleterm.nvim', { ['tag'] = '*' })
 
     -- MARK: File browsing
 
@@ -61,6 +57,9 @@ require('plugins.git')
 require('plugins.lualine')
 require('plugins.coc')
 require('plugins.telescope')
-require('toggleterm').setup()
 require('castlelecs.swift_imports')
 require('castlelecs.case_converter_binding')
+require('castlelecs.xvim_binding')
+require('castlelecs.author_comments_binding')({
+    default_author_name="Nikita Semenov"
+})

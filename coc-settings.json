@@ -1,4 +1,7 @@
 {
+    "clangd": {
+        "fallbackFlags": "/Users/castlelecs/.luaver/lua/5.1/include"
+    },
     "Lua": {
       "workspace": {
           "library": {
