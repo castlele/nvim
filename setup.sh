@@ -8,5 +8,6 @@ luaver use-luarocks 2.3.0
 brew install node
 brew install yarn
 brew install lua-language-server
+brew install kotlin-language-serve
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'

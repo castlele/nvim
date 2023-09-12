@@ -24,15 +24,18 @@ vim.call("plug#begin")
     Plug 'nvim-lua/popup.nvim'
     Plug 'nvim-telescope/telescope.nvim'
 
-    -- MARK: Lsp server
-    Plug('neoclide/coc.nvim', {branch = 'release'})
+    -- MARK: Lsp server and completions
+    Plug 'neovim/nvim-lspconfig'
+    Plug 'ms-jpq/coq-nvim'
+    Plug('ms-jpq/coq.artifacts', {['branch'] = 'artifacts'})
+    Plug('ms-jpq/coq.thirdparty', {['branch'] = '3p'})
 
     -- MARK: Treesitter
     Plug 'nvim-treesitter/nvim-treesitter'
 
     -- MARK: Mobile development
     Plug 'cfdrake/vim-pbxproj'
-    Plug 'udalov/kotlin-vim'
+    Plug "~/dev/projects/xvimlua"
 
     -- MARK: Lua lang
     Plug 'euclidianAce/BetterLua.vim'
@@ -47,6 +50,7 @@ vim.call("plug#begin")
 
 vim.call("plug#end")
 
+require("plenary")
 require('autocommands')
 require('appearance')
 require('castlelecs.common_settings')
@@ -55,11 +59,11 @@ require('plugins.markdown_preview')
 require('plugins.better_whitespace')
 require('plugins.git')
 require('plugins.lualine')
-require('plugins.coc')
 require('plugins.telescope')
+require('plugins.lsp-configuration')
 require('castlelecs.swift_imports')
 require('castlelecs.case_converter_binding')
-require('castlelecs.xvim_binding')
+---@TODO: update to castlelecs. ... or plugin
 require('castlelecs.author_comments_binding')({
     default_author_name="Nikita Semenov"
 })
