@@ -21,10 +21,8 @@ local settings = {
    list = true,
    tabstop = 4,
    shiftwidth = 4,
-   -- Coc recomended settings
    backup = false,
    writebackup = false,
-   updatetime = 0,
    signcolumn = "yes",
 }
 

@@ -1,6 +1,8 @@
 require("castlelecs.author_comments")
 require("cluautils.string_utils")
 
+local M = {}
+
 ---@class param
 ---@field default_author_name string?
 ---@field comment_sign_for_unknown_files string
@@ -23,7 +25,7 @@ local author_vim = {
 }
 
 ---@param params param
-local function setup(params)
+M.setup = function (params)
     if params == nil then
         return
     end
@@ -140,12 +142,4 @@ end
 
 vim.api.nvim_create_user_command("Comment", author_vim_wrapper, { desc="Comment", complete=completion, nargs="*" })
 
-local k = require("utils").keymap
-k("v", "gca", ":<C-U>Comment TODO=<CR>")
-k("n", "gca", ":<C-U>Comment TODO=<CR>")
-
-return setup
-
-
-
-
+return M
