@@ -24,7 +24,7 @@ local settings = {
    -- Coc recomended settings
    backup = false,
    writebackup = false,
-   -- updatetime = 300,
+   updatetime = 0,
    signcolumn = "yes",
 }
 
