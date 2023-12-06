@@ -9,19 +9,20 @@ local M = {}
 ---@field user_arguments table
 ---@field comment_signs table
 local author_vim = {
-    default_author_name=nil,
-    comment_sign_for_unknown_files="//",
-    user_arguments={},
-    comment_signs={
-        swift="//",
-        python="#",
-        sh="#",
-        objc="//",
-        objcpp="//",
-        c="//",
-        cpp="//",
-        lua="--",
-    }
+   default_author_name=nil,
+   comment_sign_for_unknown_files="//",
+   user_arguments={},
+   comment_signs={
+      swift="//",
+      python="#",
+      sh="#",
+      objc="//",
+      objcpp="//",
+      c="//",
+      cpp="//",
+      lua="--",
+      kotlin="//"
+   }
 }
 
 ---@param params param
