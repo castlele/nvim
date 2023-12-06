@@ -1,6 +1,6 @@
 local Plug = vim.fn['plug#']
 
-vim.call("plug#begin")
+vim.call('plug#begin')
 
    -- MARK: Supportive plugins
    Plug 'ntpeters/vim-better-whitespace'
@@ -30,14 +30,17 @@ vim.call("plug#begin")
    Plug 'williamboman/mason-lspconfig.nvim'
    Plug 'hrsh7th/nvim-cmp' -- Completion
    Plug 'hrsh7th/cmp-nvim-lsp'
+   Plug 'L3MON4D3/LuaSnip'
 
    -- MARK: Treesitter
    Plug 'nvim-treesitter/nvim-treesitter'
    Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+   Plug 'nvim-treesitter/playground'
 
    -- MARK: Mobile development
    Plug 'cfdrake/vim-pbxproj' -- pbxproj syntax highlighting
-   Plug "~/dev/projects/xvimlua"
+   Plug '~/dev/projects/xvimlua'
+   Plug 'udalov/kotlin-vim'
 
    -- MARK: Lua lang
    Plug 'euclidianAce/BetterLua.vim'
@@ -50,15 +53,16 @@ vim.call("plug#begin")
    Plug 'nvim-neo-tree/neo-tree.nvim'
    Plug 'MunifTanjim/nui.nvim' -- neotree dependency
 
-vim.call("plug#end")
+vim.call('plug#end')
 
 require('autocommands')
 require('appearance')
-require("plenary")
+require('plenary')
 require('castlelecs.common_settings')
 require('castlelecs.keymap_settings')
 require('castlelecs.case_converter_binding')
-require('castlelecs.author_comments_binding').setup({ default_author_name="Nikita Semenov"})
+require('castlelecs.author_comments_binding').setup({ default_author_name='Nikita Semenov'})
+require('castlelecs.swift_imports')
 require('plugins.markdown_preview')
 require('plugins.better_whitespace')
 require('plugins.git')
