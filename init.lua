@@ -13,7 +13,8 @@ vim.call('plug#begin')
    -- MARK: Color themes and syntax
    Plug 'joshdick/onedark.vim'
    Plug 'rktjmp/lush.nvim'
-   Plug '~/.config/nvim/castlelecs-scheme'
+   Plug 'arzg/vim-colors-xcode'
+   Plug '~/.config/nvim/castlelecsscheme'
    Plug 'nvim-lualine/lualine.nvim' -- Statusbarg
    Plug 'kyazdani42/nvim-web-devicons'
 
