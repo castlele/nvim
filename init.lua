@@ -67,6 +67,7 @@ require("lazy").setup({
          { "MunifTanjim/nui.nvim" },
       }
    },
+   { "stevearc/oil.nvim" },
 
    -- Lua lang
    { "euclidianAce/BetterLua.vim" },
@@ -82,19 +83,20 @@ require("lazy").setup({
    },
 })
 
-require('autocommands')
-require('appearance')
-require('plenary')
-require('castlelecs.common_settings')
-require('castlelecs.keymap_settings')
-require('castlelecs.case_converter_binding')
-require('castlelecs.author_comments_binding').setup({ default_author_name='Nikita Semenov'})
-require('castlelecs.swift_imports')
-require('plugins.markdown_preview')
-require('plugins.better_whitespace')
-require('plugins.git')
-require('plugins.lualine')
-require('plugins.telescope')
-require('plugins.lsp-configuration')
-require('plugins.comment')
-require('neodev').setup()
+require("autocommands")
+require("appearance")
+require("plenary")
+require("castlelecs.common_settings")
+require("castlelecs.keymap_settings")
+require("castlelecs.case_converter_binding")
+require("castlelecs.author_comments_binding").setup({ default_author_name="Nikita Semenov"})
+require("castlelecs.swift_imports")
+require("plugins.markdown_preview")
+require("plugins.better_whitespace")
+require("plugins.git")
+require("plugins.lualine")
+require("plugins.telescope")
+require("plugins.lsp-configuration")
+require("plugins.comment")
+require("plugins.oil_configuration")
+require("neodev").setup()
