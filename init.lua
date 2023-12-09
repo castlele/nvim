@@ -1,60 +1,86 @@
-local Plug = vim.fn['plug#']
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
-vim.call('plug#begin')
+if not vim.loop.fs_stat(lazypath) then
+   vim.fn.system({
+      "git",
+      "clone",
+      "--filter=blob:none",
+      "https://github.com/folke/lazy.nvim.git",
+      "--branch=stable", -- latest stable release
+      lazypath,
+   })
+end
 
-   -- MARK: Supportive plugins
-   Plug 'ntpeters/vim-better-whitespace'
-   Plug 'numToStr/Comment.nvim'
-   Plug 'tpope/vim-surround'
+vim.opt.rtp:prepend(lazypath)
 
-   -- MARK: Git
-   Plug 'tpope/vim-fugitive'
+require("lazy").setup({
+   -- Color themes and syntax
+   { "rktjmp/lush.nvim" },
+   { "castlele/castlelecsscheme" },
+   { "nvim-lualine/lualine.nvim" }, -- Statusbarg
+   { "kyazdani42/nvim-web-devicons" },
 
-   -- MARK: Color themes and syntax
-   Plug 'joshdick/onedark.vim'
-   Plug 'rktjmp/lush.nvim'
-   Plug 'arzg/vim-colors-xcode'
-   Plug '~/.config/nvim/castlelecsscheme'
-   Plug 'nvim-lualine/lualine.nvim' -- Statusbarg
-   Plug 'kyazdani42/nvim-web-devicons'
+   -- Lsp server and completions
+   { "neovim/nvim-lspconfig" },
+   { "williamboman/mason.nvim" },
+   { "williamboman/mason-lspconfig.nvim" },
+   { "hrsh7th/nvim-cmp" }, -- Completion
+   { "hrsh7th/cmp-nvim-lsp" },
+   { "L3MON4D3/LuaSnip" },
+
+   -- Treesitter
+   { "nvim-treesitter/nvim-treesitter" },
+   { "nvim-treesitter/nvim-treesitter-textobjects" },
+   { "nvim-treesitter/playground" },
 
    -- MARK: Telescope
-   Plug 'nvim-lua/plenary.nvim'
-   Plug 'nvim-lua/popup.nvim'
-   Plug 'nvim-telescope/telescope.nvim'
-   Plug('junegunn/fzf', {['do'] = vim.fn['fzf#install']})
-   Plug 'junegunn/fzf.vim'
+   { "nvim-lua/plenary.nvim" },
+   { "nvim-lua/popup.nvim" },
+   {
+      "nvim-telescope/telescope.nvim",
+      dependencies = {
+         "nvim-telescope/telescope-fzf-native.nvim",
+         build = "make",
+--         config = function()
+--            require("telescope").load_extension("fzf")
+--         end,
+      },
+   },
 
-   -- MARK: Lsp server and completions
-   Plug 'neovim/nvim-lspconfig'
-   Plug('williamboman/mason.nvim', { ['config'] = true })
-   Plug 'williamboman/mason-lspconfig.nvim'
-   Plug 'hrsh7th/nvim-cmp' -- Completion
-   Plug 'hrsh7th/cmp-nvim-lsp'
-   Plug 'L3MON4D3/LuaSnip'
+   -- Supportive plugins
+   { "ntpeters/vim-better-whitespace" },
+   { "numToStr/Comment.nvim" },
 
-   -- MARK: Treesitter
-   Plug 'nvim-treesitter/nvim-treesitter'
-   Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-   Plug 'nvim-treesitter/playground'
+   -- Git
+   { "tpope/vim-fugitive" },
 
-   -- MARK: Mobile development
-   Plug 'cfdrake/vim-pbxproj' -- pbxproj syntax highlighting
-   Plug '~/dev/projects/xvimlua'
-   Plug 'udalov/kotlin-vim'
+   -- Mobile development
+   { "cfdrake/vim-pbxproj" }, -- pbxproj syntax highlighting
+   { dir = "~/dev/projects/xvimlua" },
+   { "udalov/kotlin-vim" },
 
-   -- MARK: Lua lang
-   Plug 'euclidianAce/BetterLua.vim'
-   Plug 'folke/neodev.nvim'
 
-   -- MARK: Markdown
-   Plug('iamcco/markdown-preview.nvim', { ['do'] = 'cd app && yarn install' })
+   -- File browsing
+   {
+      "nvim-neo-tree/neo-tree.nvim",
+      dependencies = {
+         { "MunifTanjim/nui.nvim" },
+      }
+   },
 
-   -- MARK: File browsing
-   Plug 'nvim-neo-tree/neo-tree.nvim'
-   Plug 'MunifTanjim/nui.nvim' -- neotree dependency
+   -- Lua lang
+   { "euclidianAce/BetterLua.vim" },
+   { "folke/neodev.nvim" },
 
-vim.call('plug#end')
+   -- Markdown
+   {
+      "iamcco/markdown-preview.nvim",
+      lazy = true,
+      config = function ()
+         vim.cmd("!cd app && yarn install")
+      end
+   },
+})
 
 require('autocommands')
 require('appearance')
