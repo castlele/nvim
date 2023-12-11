@@ -60,6 +60,7 @@ require("lazy").setup({
 
    -- Git
    { "tpope/vim-fugitive" },
+   { "f-person/git-blame.nvim" },
 
    -- Mobile development
    { "cfdrake/vim-pbxproj" }, -- pbxproj syntax highlighting
@@ -101,6 +102,7 @@ require("castlelecs.swift_imports")
 require("plugins.markdown_preview")
 require("plugins.better_whitespace")
 require("plugins.neo-tree-configuration")
+require("plugins.git-blame-configuration")
 require("plugins.git")
 require("plugins.lualine")
 require("plugins.telescope")
