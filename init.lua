@@ -16,7 +16,7 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
    -- Color themes and syntax
    { "rktjmp/lush.nvim" },
-   { "castlele/castlelecsscheme" },
+   { dir = "~/.config/castlelecsscheme" },
    { "nvim-lualine/lualine.nvim" }, -- Statusbarg
    { "kyazdani42/nvim-web-devicons" },
 
@@ -39,11 +39,18 @@ require("lazy").setup({
    {
       "nvim-telescope/telescope.nvim",
       dependencies = {
-         "nvim-telescope/telescope-fzf-native.nvim",
-         build = "make",
---         config = function()
---            require("telescope").load_extension("fzf")
---         end,
+         -- {
+         --    "kelly-lin/telescope-ag",
+         --    lazy = true,
+         -- },
+         {
+            "nvim-telescope/telescope-live-grep-args.nvim" ,
+            version = "^1.0.0",
+         },
+         {
+            "nvim-telescope/telescope-fzf-native.nvim",
+            build = "make"
+         },
       },
    },
 
@@ -93,6 +100,7 @@ require("castlelecs.author_comments_binding").setup({ default_author_name="Nikit
 require("castlelecs.swift_imports")
 require("plugins.markdown_preview")
 require("plugins.better_whitespace")
+require("plugins.neo-tree-configuration")
 require("plugins.git")
 require("plugins.lualine")
 require("plugins.telescope")
