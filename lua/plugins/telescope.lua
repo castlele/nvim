@@ -11,19 +11,21 @@ require('telescope').setup {
 }
 
 require('telescope').load_extension('fzf')
+require("telescope").load_extension("live_grep_args")
 
 local t = ":Telescope "
 local l = "<leader>"
 local k = require("utils").keymap
 
-k("n", l .. "O", t .. "find_files<CR>")
+k('n', l .. "O", '<cmd>lua require("telescope.builtin").find_files({hidden = false})<CR>')
+vim.keymap.set('n', '<leader>F', require("telescope").extensions.live_grep_args.live_grep_args, { noremap = true })
 k("n", l .. "C", t .. "colorscheme<CR>")
-vim.keymap.set(
-   "n",
-   l .. "F",
-   function()
-      require("telescope.builtin").find_files({
-         cwd = require("lazy.core.config").options.root
-      })
-   end
-)
+-- vim.keymap.set(
+--    "n",
+--    l .. "F",
+--    function()
+--       require("telescope.builtin").find_files({
+--          cwd = require("lazy.core.config").options.root
+--       })
+--    end
+-- )

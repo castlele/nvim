@@ -29,7 +29,6 @@ local servers = {
    clangd = {},
    pyright = {},
    kotlin_language_server = {},
-
    lua_ls = {
       Lua = {
          runtime = { version = "LuaJIT" },
@@ -77,6 +76,7 @@ mason_lspconfig.setup_handlers {
    end
 }
 
+--TODO: Move to servser!
 require('lspconfig').sourcekit.setup {
    capabilities = capabilities,
    on_attach = on_attach,
