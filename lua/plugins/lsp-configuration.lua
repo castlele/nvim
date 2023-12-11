@@ -5,7 +5,7 @@ require("cluautils.table_utils")
 ---@MARK - tree sitter
 
 require('nvim-treesitter.configs').setup {
-   ensure_installed = { 'c', 'cpp', 'lua', 'python', 'vimdoc', 'vim', 'swift', 'kotlin', 'java' },
+   ensure_installed = { 'c', 'cpp', 'lua', 'python', 'vimdoc', 'vim', 'swift', 'kotlin', 'java', 'gleam' },
    auto_install     = true,
    highlight        = { enable = true },
    indent           = { enable = true },
@@ -21,8 +21,8 @@ require("mason").setup()
 local mason_lspconfig = require('mason-lspconfig')
 
 local packages = {
-   -- "/Users/castlelecs/.luaver/lua/5.1/",
-   "/Users/castlelecs/.luaver/luarocks/2.3.0_5.1/share/lua/5.1"
+   "/Users/castlelecs/.luaver/luarocks/2.3.0_5.1/share/lua/5.1",
+   "${3rd}/love2d/library",
 }
 
 local servers = {
@@ -31,10 +31,24 @@ local servers = {
    kotlin_language_server = {},
    lua_ls = {
       Lua = {
-         runtime = { version = "LuaJIT" },
+         runtime = {
+            version = "LuaJIT",
+            path = {
+               "?.lua",
+               "?/init.lua",
+            },
+         },
+         format = {
+            enable = true,
+            defaultConfig = {
+               indent_style = "space",
+               indent_size = "3",
+            },
+         },
          workspace = {
             library = table.concat_tables(vim.api.nvim_get_runtime_file("", true), packages),
-            checkThirdParty = false
+            checkThirdParty = false,
+            telemetry = { enable = false },
          },
          diagnostics = { globals = { "vim" } }
       }
@@ -44,6 +58,8 @@ local servers = {
 mason_lspconfig.setup {
    ensure_installed = vim.tbl_keys(servers),
 }
+
+require("lspconfig").gleam.setup {}
 
 ---@MARK - General configuration
 
@@ -82,7 +98,7 @@ require('lspconfig').sourcekit.setup {
    on_attach = on_attach,
 }
 
----@MARK - Completion
+-- Completion
 
 local cmp = require('cmp')
 local luasnip = require('luasnip')
@@ -101,7 +117,6 @@ cmp.setup {
       ['<C-p>'] = cmp.mapping.select_prev_item(),
       ['<C-d>'] = cmp.mapping.scroll_docs(-4),
       ['<C-f>'] = cmp.mapping.scroll_docs(4),
-      ['<C-Space>'] = cmp.mapping.complete {},
       ['<CR>'] = cmp.mapping.confirm {
          behavior = cmp.ConfirmBehavior.Replace,
          select = true,
@@ -117,15 +132,15 @@ cmp.setup {
       end, { 'i', 's' }),
       ['<S-Tab>'] = cmp.mapping(function(fallback)
          if cmp.visible() then
-           cmp.select_prev_item()
+            cmp.select_prev_item()
          elseif luasnip.locally_jumpable(-1) then
             luasnip.jump(-1)
          else
-           fallback()
+            fallback()
          end
       end, { 'i', 's' }),
    },
    sources = {
-       { name = 'nvim_lsp' },
+      { name = 'nvim_lsp' },
    },
 }

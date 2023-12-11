@@ -1,54 +1,79 @@
--- Bubbles config for lualine
--- Author: lokesh-krishna
--- MIT license, see LICENSE for more details.
-
--- stylua: ignore
 local colors = {
-   blue   = '#80a0ff',
-   cyan   = '#79dac8',
-   black  = '#080808',
-   white  = '#c6c6c6',
-   red    = '#ff5189',
-   violet = '#d183e8',
-   grey   = '#303030',
+   bg     = "#272b34",
+   fg     = "#dedede",
+   pink   = "#ff66b0",
+   yellow = "#feffad",
+   purple = "#beadfa",
+   search = "#adadad",
 }
 
-local bubbles_theme = {
+local castlelecsscheme = {
    normal = {
-      a = { fg = colors.black, bg = colors.violet },
-      b = { fg = colors.white, bg = colors.grey },
-      c = { fg = colors.black, bg = colors.black },
+      a = { fg = colors.bg, bg = colors.pink },
+      b = { fg = colors.bg, bg = colors.purple },
+      c = { fg = colors.fg, bg = colors.bg },
+
+      x = { fg = colors.fg, bg = colors.bg },
+      y = { fg = colors.fg, bg = colors.bg },
+      z = { fg = colors.fg, bg = colors.bg },
    },
-   insert = { a = { fg = colors.black, bg = colors.blue } },
-   visual = { a = { fg = colors.black, bg = colors.cyan } },
-   replace = { a = { fg = colors.black, bg = colors.red } },
+   insert = {
+      a = { fg = colors.bg, bg = colors.yellow },
+      b = { fg = colors.bg, bg = colors.purple },
+
+      x = { fg = colors.fg, bg = colors.bg },
+      y = { fg = colors.fg, bg = colors.bg },
+   },
+   visual = {
+      a = { fg = colors.bg, bg = colors.purple },
+      b = { fg = colors.bg, bg = colors.purple },
+
+      x = { fg = colors.fg, bg = colors.bg },
+      y = { fg = colors.fg, bg = colors.bg },
+   },
+   command = {
+      a = { fg = colors.bg, bg = colors.purple },
+      b = { fg = colors.bg, bg = colors.purple },
+
+      x = { fg = colors.fg, bg = colors.bg },
+      y = { fg = colors.fg, bg = colors.bg },
+   },
    inactive = {
-      a = { fg = colors.white, bg = colors.black },
-      b = { fg = colors.white, bg = colors.black },
-      c = { fg = colors.black, bg = colors.black },
+      b = { fg = colors.fg, bg = colors.bg },
    },
 }
 
 require('lualine').setup {
    options = {
-      theme = bubbles_theme,
+      theme = castlelecsscheme,
       component_separators = '|',
       section_separators = { left = '', right = '' },
    },
    sections = {
-      lualine_b = { 'filename', 'branch' },
-      lualine_c = { 'fileformat' },
+      lualine_b = {},
+      lualine_c = { "branch" },
+      lualine_x = { "diagnostics" },
+      lualine_y = { "diff", "progress" },
+      lualine_z = { "location" },
+   },
+   tabline = {
+      lualine_a = {},
+      lualine_b = {
+         {
+            "tabs",
+            mode = 0,
+            use_mode_colors = true,
+         },
+      },
+      lualine_c = {},
       lualine_x = {},
-      lualine_y = { 'filetype', 'progress' },
+      lualine_y = {
+         {
+            "filename",
+            path = 1,
+         },
+      },
+      lualine_z = {},
    },
-   inactive_sections = {
-     lualine_a = { 'filename' },
-     lualine_b = {},
-     lualine_c = {},
-     lualine_x = {},
-     lualine_y = {},
-     lualine_z = { 'location' },
-   },
-   tabline = {},
    extensions = {},
 }
