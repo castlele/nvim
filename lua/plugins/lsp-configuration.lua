@@ -5,7 +5,7 @@ require("cluautils.table_utils")
 ---@MARK - tree sitter
 
 require('nvim-treesitter.configs').setup {
-   ensure_installed = { 'c', 'cpp', 'lua', 'python', 'vimdoc', 'vim', 'swift', 'kotlin', 'java', 'gleam' },
+   ensure_installed = { "swift", 'c', 'cpp', 'lua', 'python', 'vimdoc', 'vim', 'norg', 'kotlin', 'java', 'gleam' },
    auto_install     = true,
    highlight        = { enable = true },
    indent           = { enable = true },
@@ -21,7 +21,7 @@ require("mason").setup()
 local mason_lspconfig = require('mason-lspconfig')
 
 local packages = {
-   "/Users/castlelecs/.luaver/luarocks/2.3.0_5.1/share/lua/5.1",
+   "~/.luaver/luarocks/2.3.0_5.1/share/lua/5.1",
    "${3rd}/love2d/library",
 }
 

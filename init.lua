@@ -20,6 +20,14 @@ require("lazy").setup({
    { "nvim-lualine/lualine.nvim" }, -- Statusbarg
    { "kyazdani42/nvim-web-devicons" },
 
+   -- Writing
+   {
+      "folke/zen-mode.nvim",
+      dependencies = {
+         { "folke/twilight.nvim" },
+      },
+   },
+
    -- Lsp server and completions
    { "neovim/nvim-lspconfig" },
    { "williamboman/mason.nvim" },
@@ -33,7 +41,7 @@ require("lazy").setup({
    { "nvim-treesitter/nvim-treesitter-textobjects" },
    { "nvim-treesitter/playground" },
 
-   -- MARK: Telescope
+   -- Telescope
    { "nvim-lua/plenary.nvim" },
    { "nvim-lua/popup.nvim" },
    {

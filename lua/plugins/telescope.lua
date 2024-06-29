@@ -10,7 +10,9 @@ require('telescope').setup {
   }
 }
 
+-- Install fzf first
 require('telescope').load_extension('fzf')
+-- Install ripgrep first
 require("telescope").load_extension("live_grep_args")
 
 local t = ":Telescope "
