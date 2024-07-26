@@ -11,6 +11,9 @@ local floating_terminal = Terminal:new {
 local bottom_terminal = Terminal:new {
    direction = "horizontal",
 }
+local tab_terminal = Terminal:new {
+   direction = "tab",
+}
 
 function _G.show_bottom_terminal()
    bottom_terminal:toggle()
@@ -20,6 +23,10 @@ function _G.show_floating_terminal()
    floating_terminal:toggle()
 end
 
+function _G.show_tab_terminal()
+   tab_terminal:toggle()
+end
+
 function _G.set_terminal_keymaps()
    vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
 end
@@ -27,5 +34,5 @@ end
 vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")
 
 k("n", l .. "tf", ":lua show_floating_terminal()" .. post)
-k("n", l .. "tt", ":lua show_bottom_terminal()" .. post)
-
+k("n", l .. "tb", ":lua show_bottom_terminal()" .. post)
+k("n", l .. "tt", ":lua show_tab_terminal()" .. post)
