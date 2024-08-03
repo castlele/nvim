@@ -103,13 +103,13 @@ require("lazy").setup({
    { "Wansmer/treesj" }, -- toggling indentations
 
    -- File browsing
-   {
-      "nvim-neo-tree/neo-tree.nvim",
-      version = "v0.9.1",
-      dependencies = {
-         { "MunifTanjim/nui.nvim" },
-      }
-   },
+   -- {
+   --    "nvim-neo-tree/neo-tree.nvim",
+   --    version = "v0.9.1",
+   --    dependencies = {
+   --       { "MunifTanjim/nui.nvim" },
+   --    }
+   -- },
    {
       "stevearc/oil.nvim",
       version = "v2.10.0",
@@ -141,7 +141,7 @@ require("castlelecs.author_comments_binding").setup({ default_author_name="Nikit
 require("castlelecs.swift_imports")
 require("plugins.markdown_preview")
 require("plugins.better_whitespace")
-require("plugins.neo-tree-configuration")
+-- require("plugins.neo-tree-configuration")
 require("plugins.git-blame-configuration")
 require("plugins.git")
 require("plugins.lualine")
