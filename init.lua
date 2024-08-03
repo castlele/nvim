@@ -110,7 +110,10 @@ require("lazy").setup({
          { "MunifTanjim/nui.nvim" },
       }
    },
-   { "stevearc/oil.nvim" },
+   {
+      "stevearc/oil.nvim",
+      version = "v2.10.0",
+   },
 
    -- Lua lang
    { "euclidianAce/BetterLua.vim" },
