@@ -34,7 +34,23 @@ require("lazy").setup({
    { "williamboman/mason-lspconfig.nvim" },
    { "hrsh7th/nvim-cmp" }, -- Completion
    { "hrsh7th/cmp-nvim-lsp" },
+   { "hrsh7th/cmp-buffer" },
+   { "hrsh7th/cmp-path" },
    { "L3MON4D3/LuaSnip" },
+	{ "saadparwaiz1/cmp_luasnip" },
+   {
+      -- AI Integration
+      "Exafunction/codeium.nvim",
+      dependencies = {
+         "nvim-lua/plenary.nvim",
+         "hrsh7th/nvim-cmp",
+      },
+      config = function()
+         require("codeium").setup({
+            enable_chat = true,
+         })
+      end
+   },
 
    -- Treesitter
    { "nvim-treesitter/nvim-treesitter" },
