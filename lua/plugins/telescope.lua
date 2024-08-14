@@ -15,10 +15,17 @@ require('telescope').load_extension('fzf')
 -- Install ripgrep first
 require("telescope").load_extension("live_grep_args")
 
+local function find_files()
+   require("telescope.builtin").find_files {
+      hidden = true,
+      no_ignore = true,
+   }
+end
+
 local t = ":Telescope "
 local l = "<leader>"
 local utils = require("utils")
 
-utils.keymap('n', l .. "O", '<cmd>lua require("telescope.builtin").find_files({hidden = true})<CR>')
+utils.keymap_func('n', l .. "O", find_files)
 utils.keymap_func('n', '<leader>F', require("telescope").extensions.live_grep_args.live_grep_args)
 utils.keymap("n", l .. "C", t .. "colorscheme<CR>")
