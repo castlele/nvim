@@ -16,9 +16,16 @@ require('telescope').load_extension('fzf')
 require("telescope").load_extension("live_grep_args")
 
 local function find_files()
+   local ignore_files = {
+      "%.git/",
+      "build/",
+      "bin/",
+   }
+
    require("telescope.builtin").find_files {
       hidden = true,
       no_ignore = true,
+      file_ignore_patterns = ignore_files,
    }
 end
 
