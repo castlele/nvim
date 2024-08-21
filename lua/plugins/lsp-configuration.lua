@@ -124,9 +124,11 @@ cmp.setup {
    },
    sources = cmp.config.sources(
       {
-         { name = "codeium" },
+         -- TODO: Add this as a source on some key combination
+         -- TODO: By it self it feels laggy and couses some errors
+         -- { name = "codeium" },
+         { name = "luasnip" },
          { name = "nvim_lsp" },
-         { name = "lua_snip" },
          { name = 'buffer' },
          { name = 'path' },
       }

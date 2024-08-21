@@ -2,8 +2,7 @@ local ls = require("luasnip")
 local s = ls.snippet
 local t = ls.text_node
 local i = ls.insert_node
-
-local tab = "   "
+local f = ls.function_node
 
 -- Lua snippents
 
@@ -15,5 +14,19 @@ ls.add_snippets("lua", {
       t({ "", "", "\tself.__index = self" }),
       t({ "", "", "\treturn this" }),
       t({ "", "end" }),
+   })
+})
+
+-- CPP snippets
+
+local function echo(args, _, _)
+   return args[1][1]
+end
+
+ls.add_snippets("cpp", {
+   s("namespace", {
+      t("namespace "), i(1, "name"), t(" {"),
+      t({"", ""}),
+      t({"", "} // namespace "}), f(echo, {1}),
    })
 })
