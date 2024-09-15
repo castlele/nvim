@@ -25,6 +25,10 @@ installNeovim() {
         curl -LO https://github.com/neovim/neovim/releases/download/v0.10.0/nvim-macos-arm64.tar.gz
         tar xzf nvim-macos-arm64.tar.gz
 
+	sudo mkdir /usr/local/bin/
+	sudo mkdir /usr/local/lib/
+	sudo mkdir /usr/local/share/
+
         sudo cp -R nvim-macos-arm64/bin/* /usr/local/bin/
         sudo cp -R nvim-macos-arm64/lib/* /usr/local/lib/
         sudo cp -R nvim-macos-arm64/share/* /usr/local/share/
@@ -38,16 +42,19 @@ setupLua() {
         sudo apt-get install libreadline-dev
     fi
 
-    if which luaver >/dev/null; then
-        echo "Installing luaver"
-        curl -fsSL https://raw.githubusercontent.com/dhavalkapil/luaver/master/install.sh | sh -s - -r v1.1.0
-    fi
+    echo "Installing luaver"
+    curl -fsSL https://raw.githubusercontent.com/dhavalkapil/luaver/master/install.sh | sh -s - -r v1.1.0
 
     [ -s ~/.luaver/luaver ] && . ~/.luaver/luaver
 
     luaver install 5.1
+    luaver set-default 5.1
     luaver install-luarocks 2.3.0
-    luaver use-luarocks 2.3.0
+    luaver set-default-luarocks 2.3.0
+
+    cd cluautils
+        luarocks make
+    cd ..
 }
 
 setupDependencies() {
@@ -74,8 +81,8 @@ setupColorScheme() {
 }
 
 echo "Setup Neovim"
-installNeovim
-# setupLua
-# setupDependencies
-# setupLSP
-# setupColorScheme
+#installNeovim
+setupLua
+#setupDependencies
+#setupLSP
+#setupColorScheme
