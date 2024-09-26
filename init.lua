@@ -145,6 +145,14 @@ require("lazy").setup({
       end,
       ft = { "markdown" },
    },
+
+   -- Puml image creation
+   {
+      "weirongxu/plantuml-previewer.vim",
+      dependencies = {
+         "tyru/open-browser.vim"
+      },
+   },
 })
 
 require("autocommands")
