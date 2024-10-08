@@ -14,10 +14,8 @@ local function swap_lines(from, to, lines)
    vim.api.nvim_buf_set_lines(0, from - 1, to, false, lines)
 end
 
---[[--
-If some range was selected and there are import statements, those statements is sorted in alphabetical order.
-File type should be equal to swift.
-]]
+--- If some range was selected and there are import statements, those statements is sorted in alphabetical order.
+--- File type should be equal to swift.
 function SSImports()
    local from = vim.fn.getpos("'<")[2]
    local to = vim.fn.getpos("'>")[2]
@@ -35,7 +33,6 @@ end
 
 vim.api.nvim_create_user_command("SSImports", SSImports, { desc = "sorting swift imports" })
 
--- MARK: Keybindings
 local post = "<CR>"
 local k = require('utils').keymap
 
