@@ -1,6 +1,6 @@
 require("cluautils.tests.base_test_case")
 require("cluautils.string_utils")
-require("lua.castlelecs.case_converter")
+require("castlelecs.case_converter")
 
 ToSnakeConvertTest = CTestCase
 
@@ -36,7 +36,7 @@ function ToSnakeConvertTest:test_convert_camel_to_snake()
     return result == "hello_world_man"
 end
 
-function ToSnakeConvertTest:Test_convert_camel_to_snake_with_first_capital()
+function ToSnakeConvertTest:test_convert_camel_to_snake_with_first_capital()
     local str = "HelloWorldMan"
 
     local result = ConvertToSnake(str)

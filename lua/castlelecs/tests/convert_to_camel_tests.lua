@@ -1,6 +1,6 @@
 require("cluautils.tests.base_test_case")
 require("cluautils.tests.base_test_case")
-require("lua.castlelecs.case_converter")
+require("castlelecs.case_converter")
 
 ToCamelConvertTest = CTestCase
 
