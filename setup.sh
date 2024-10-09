@@ -22,7 +22,7 @@ installNeovim() {
         source ~/.bashrc
 
     elif [[ $OS_TYPE == $MACOS* ]]; then
-        curl -LO https://github.com/neovim/neovim/releases/download/v0.10.0/nvim-macos-arm64.tar.gz
+        curl -LO https://github.com/neovim/neovim/releases/download/v0.10.2/nvim-macos-arm64.tar.gz
         tar xzf nvim-macos-arm64.tar.gz
 
 	sudo mkdir /usr/local/bin/

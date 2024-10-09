@@ -1,6 +1,6 @@
 #!/bin/bash
 
-tests_dir=./tests
+tests_dir=./castlelecs/tests
 
 for test_file in $tests_dir/*tests.lua; do
     echo -e "\033[35mRunning tests for $test_file\033[0m"
