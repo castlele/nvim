@@ -17,6 +17,13 @@ ls.add_snippets("lua", {
    })
 })
 
+ls.add_snippets("lua", {
+   s("it", {
+      t("t.it(\""), i(1, "test case name"), t("\", function ()"),
+      t({ "", "end)" })
+   })
+})
+
 -- CPP snippets
 
 local function echo(args, _, _)
