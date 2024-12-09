@@ -3,9 +3,10 @@ local layout = require("telescope.actions.layout")
 
 require('telescope').setup {
    defaults = {
+      sorting_strategy = "ascending",
       layout_config = {
          horizontal = {
-            prompt_position = "bottom",
+            prompt_position = "top",
             width = { padding = 0 },
             height = { padding = 0 },
             preview_width = 0.7,
@@ -35,7 +36,7 @@ require('telescope').setup {
 require('telescope').load_extension('fzf')
 require("telescope").load_extension("live_grep_args")
 
-local function find_files()
+local function findFilesOverProject()
    local ignore_files = {
       "%.git/",
       "build/",
@@ -49,10 +50,17 @@ local function find_files()
    }
 end
 
+local function searchOverCurrentFile()
+   require("telescope.builtin").current_buffer_fuzzy_find {
+      skip_empty_lines = true,
+   }
+end
+
 local t = ":Telescope "
 local l = "<leader>"
 local utils = require("utils")
 
-utils.keymap_func("n", l .. "O", find_files)
+utils.keymap_func("n", l .. "O", findFilesOverProject)
 utils.keymap_func("n", l .. "F", require("telescope").extensions.live_grep_args.live_grep_args)
+utils.keymap_func("n", l .. "f", searchOverCurrentFile)
 utils.keymap("n", l .. "C", t .. "colorscheme<CR>")
