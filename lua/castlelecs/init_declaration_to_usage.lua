@@ -41,7 +41,7 @@ end
 ---@param rules RulesSet
 ---@return string
 function ConvertToCallFromInit(str, rules)
-   local trimmedStr = string:trim()
+   local trimmedStr = str:trim()
 
    if trimmedStr:is_empty() then
       return trimmedStr

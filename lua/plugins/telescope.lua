@@ -67,6 +67,17 @@ local function searchOverCurrentFile()
    }
 end
 
+local function searchFileComponents()
+   builtin.treesitter {
+      symbols = {
+         "var",
+         "type",
+         "function",
+         "macro",
+      }
+   }
+end
+
 ---@see TJs video for explanation https://www.youtube.com/watch?v=xdXE1tOT-qg
 local function multiSearch()
    local opts = {
@@ -126,4 +137,5 @@ local utils = require("utils")
 utils.keymap_func("n", l .. "O", findFilesOverProject)
 utils.keymap_func("n", l .. "F", require("telescope").extensions.live_grep_args.live_grep_args)
 utils.keymap_func("n", l .. "f", searchOverCurrentFile)
+utils.keymap_func("n", l .. "fc", searchFileComponents)
 utils.keymap_func("n", l .. "ms", multiSearch)
