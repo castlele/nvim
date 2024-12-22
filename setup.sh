@@ -4,6 +4,8 @@ OS_TYPE="$OSTYPE"
 LINUX_MINT="linux-gnu"
 MACOS="darwin"
 
+NVIM_VERSION=v0.10.3
+
 if [[ $OS_TYPE == $LINUX_MINT* ]]; then
     INSTALLATION_CMD="sudo apt install"
 elif [[ $OS_TYPE == $MACOS* ]]; then
@@ -13,26 +15,18 @@ fi
 installNeovim() {
     echo "Installing neovim"
 
-    if [[ $OS_TYPE == $LINUX_MINT* ]]; then
-        curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
-        sudo rm -rf /opt/nvim
-        sudo tar -C /opt -xzf nvim-linux64.tar.gz
+    sudo rm /usr/local/bin/nvim
+    sudo rm -r /usr/local/share/nvim/
 
-        echo "export PATH=\"$PATH:/opt/nvim-linux64/bin\"" >> ~/.bashrc
-        source ~/.bashrc
+    cd ./neovim/
+    rm -r build/
+    sudo rm -rf .deps/
+    sudo cmake --build build/ --target uninstall
 
-    elif [[ $OS_TYPE == $MACOS* ]]; then
-        curl -LO https://github.com/neovim/neovim/releases/download/v0.10.2/nvim-macos-arm64.tar.gz
-        tar xzf nvim-macos-arm64.tar.gz
-
-	sudo mkdir /usr/local/bin/
-	sudo mkdir /usr/local/lib/
-	sudo mkdir /usr/local/share/
-
-        sudo cp -R nvim-macos-arm64/bin/* /usr/local/bin/
-        sudo cp -R nvim-macos-arm64/lib/* /usr/local/lib/
-        sudo cp -R nvim-macos-arm64/share/* /usr/local/share/
-    fi
+    git checkout $NVIM_VERSION
+    make CMAKE_BUILD_TYPE=Release
+    sudo make install
+    cd ..
 }
 
 setupLua() {
@@ -81,8 +75,39 @@ setupColorScheme() {
 }
 
 echo "Setup Neovim"
-#installNeovim
-setupLua
-#setupDependencies
-#setupLSP
-#setupColorScheme
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -all)
+            echo "all"
+            installNeovim
+            setupLua
+            setupDependencies
+            setupLSP
+            setupColorScheme
+            break
+            ;;
+        -in | --install-nvim)
+            installNeovim
+            shift 1
+            ;;
+        -sl | --setup-lua)
+            setupLua
+            shift 1
+            ;;
+        -lsp | --setup-lsp)
+            setupLSP
+            shift 1
+            ;;
+        -cs | --setup-colorscheme)
+            setupColorScheme
+            shift 1
+            ;;
+        * | h | --help) shift;
+            echo "Usage: ./setup.sh -all"
+            break;
+            ;;
+    esac
+done
+
+

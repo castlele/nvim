@@ -1,3 +1,6 @@
 [submodule "cluautils"]
 	path = cluautils
 	url = git@github.com:castlele/cluautils.git
+[submodule "neovim"]
+	path = neovim
+	url = git@github.com:neovim/neovim.git
