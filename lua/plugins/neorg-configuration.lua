@@ -20,7 +20,7 @@ require("neorg").setup {
             export_dir = "~/Documents/neorg/"
          },
       },
-      ["core.integrations.treesitter"] = {
-      },
+      ["core.integrations.treesitter"] = { },
+      ["core.ui.calendar"] = {}
    },
 }

@@ -114,7 +114,6 @@ require("lazy").setup({
 
    -- Mobile development
    { "cfdrake/vim-pbxproj" }, -- pbxproj syntax highlighting
-   { dir = "~/dev/projects/xvimlua" },
    { "udalov/kotlin-vim" },
    { "Wansmer/treesj" }, -- toggling indentations
 

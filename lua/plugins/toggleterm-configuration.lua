@@ -1,6 +1,5 @@
-local k = require('utils').keymap
-local post = "<CR>"
-local l = "<leader>"
+local utils = require('utils')
+local build = require("castlelecs.build")
 
 require("toggleterm").setup()
 
@@ -15,24 +14,56 @@ local tab_terminal = Terminal:new {
    direction = "tab",
 }
 
-function _G.show_bottom_terminal()
+local function show_bottom_terminal()
    bottom_terminal:toggle()
 end
 
-function _G.show_floating_terminal()
+local function show_floating_terminal()
    floating_terminal:toggle()
 end
 
-function _G.show_tab_terminal()
+local function show_tab_terminal()
    tab_terminal:toggle()
 end
 
-function _G.set_terminal_keymaps()
-   vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
+---@param command string
+---@param name string?
+---@param layout "float"|"horizontal"|"tab"|"vertical"
+local function newTerminal(command, name, layout)
+   Terminal:new {
+      direction = layout,
+      cmd = command,
+      display_name = name,
+      hidden = false,
+      close_on_exit = false,
+   }:toggle()
 end
 
-vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")
+local function buildCommandBinding(args)
+   local fun = build.build(args.args)
 
-k("n", l .. "tf", ":lua show_floating_terminal()" .. post)
-k("n", l .. "tb", ":lua show_bottom_terminal()" .. post)
-k("n", l .. "tt", ":lua show_tab_terminal()" .. post)
+   if not fun then
+      return
+   end
+
+   local terminalCommand = fun()
+
+   if terminalCommand then
+      -- TODO: Add configuration of layout from nvim command
+      newTerminal(terminalCommand, args.args, "horizontal")
+   end
+end
+
+local l = "<leader>"
+utils.keymap_func("n", l .. "tf", show_floating_terminal)
+utils.keymap_func("n", l .. "tb", show_bottom_terminal)
+utils.keymap_func("n", l .. "tt", show_tab_terminal)
+vim.api.nvim_create_user_command(
+   "Build",
+   buildCommandBinding,
+   {
+      desc = "Build",
+      complete = build.completion,
+      nargs = 1,
+   }
+)
