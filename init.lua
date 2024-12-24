@@ -53,9 +53,14 @@ require("lazy").setup({
    },
 
    -- Treesitter
-   { "nvim-treesitter/nvim-treesitter" },
-   { "nvim-treesitter/nvim-treesitter-textobjects" },
-   { "nvim-treesitter/playground" },
+   {
+      "nvim-treesitter/nvim-treesitter",
+      version = "v0.9.3",
+      dependencies = {
+         { "nvim-treesitter/nvim-treesitter-textobjects" },
+         { "nvim-treesitter/playground" },
+      },
+   },
 
    -- Telescope
    { "nvim-lua/plenary.nvim" },
