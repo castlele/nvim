@@ -1,19 +1,19 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
 if not vim.loop.fs_stat(lazypath) then
-   vim.fn.system({
+   vim.fn.system {
       "git",
       "clone",
       "--filter=blob:none",
       "https://github.com/folke/lazy.nvim.git",
       "--branch=stable",
       lazypath,
-   })
+   }
 end
 
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup({
+require("lazy").setup {
    -- Color themes and syntax
    { "rktjmp/lush.nvim" },
    { dir = "~/.config/castlelecsscheme" },
@@ -37,7 +37,7 @@ require("lazy").setup({
    { "hrsh7th/cmp-buffer" },
    { "hrsh7th/cmp-path" },
    { "L3MON4D3/LuaSnip" },
-	{ "saadparwaiz1/cmp_luasnip" },
+   { "saadparwaiz1/cmp_luasnip" },
    {
       -- AI Integration
       "Exafunction/codeium.nvim",
@@ -46,10 +46,10 @@ require("lazy").setup({
          "hrsh7th/nvim-cmp",
       },
       config = function()
-         require("codeium").setup({
+         require("codeium").setup {
             enable_chat = true,
-         })
-      end
+         }
+      end,
    },
 
    -- Treesitter
@@ -69,12 +69,12 @@ require("lazy").setup({
       "nvim-telescope/telescope.nvim",
       dependencies = {
          {
-            "nvim-telescope/telescope-live-grep-args.nvim" ,
+            "nvim-telescope/telescope-live-grep-args.nvim",
             version = "^1.0.0",
          },
          {
             "nvim-telescope/telescope-fzf-native.nvim",
-            build = "make"
+            build = "make",
          },
       },
    },
@@ -131,11 +131,16 @@ require("lazy").setup({
    -- Lua lang
    { "euclidianAce/BetterLua.vim" },
    { "folke/neodev.nvim" },
+   { "ckipp01/stylua-nvim" }, -- stylua formatter wrapper
 
    -- Markdown
    {
       "iamcco/markdown-preview.nvim",
-      cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+      cmd = {
+         "MarkdownPreviewToggle",
+         "MarkdownPreview",
+         "MarkdownPreviewStop",
+      },
       build = "cd app && yarn install",
       init = function()
          vim.g.mkdp_filetypes = { "markdown" }
@@ -147,10 +152,10 @@ require("lazy").setup({
    {
       "weirongxu/plantuml-previewer.vim",
       dependencies = {
-         "tyru/open-browser.vim"
+         "tyru/open-browser.vim",
       },
    },
-})
+}
 
 require("autocommands")
 require("appearance")
@@ -158,7 +163,9 @@ require("plenary")
 require("castlelecs.common_settings")
 require("castlelecs.keymap_settings")
 require("castlelecs.case_converter_binding")
-require("castlelecs.author_comments_binding").setup({ default_author_name="Nikita Semenov"})
+require("castlelecs.author_comments_binding").setup {
+   default_author_name = "Nikita Semenov",
+}
 require("castlelecs.init_declaration_to_usage_binding")
 require("castlelecs.imports_sorting")
 require("plugins.markdown_preview")
@@ -175,4 +182,10 @@ require("plugins.neorg-configuration")
 require("plugins.treesj-configuration")
 require("plugins.toggleterm-configuration")
 require("plugins.align-configuration")
+require("plugins.stylua-nvim-configuration")
 require("neodev").setup()
+require("castlelecs.obsidian").setup {
+   "docs",
+   "catscastle",
+   "kbase",
+}

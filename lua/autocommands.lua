@@ -26,10 +26,21 @@ local function change_indent_level()
 end
 
 local function setTerminalKeymaps()
-   vim.keymap.set('t', '<esc>', [[<C-\><C-n>]])
+   vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
 end
 
-vim.api.nvim_create_autocmd({ "InsertEnter" }, { callback=disable_relative_numbers })
-vim.api.nvim_create_autocmd({ "InsertLeave" }, { callback=enable_relative_numbers })
-vim.api.nvim_create_autocmd({ "FileType" }, { callback=change_indent_level })
-vim.api.nvim_create_autocmd({ "TermOpen" }, { callback=setTerminalKeymaps })
+local function setFormatting()
+   vim.cmd("LuaFormat")
+end
+
+vim.api.nvim_create_autocmd(
+   { "InsertEnter" },
+   { callback = disable_relative_numbers }
+)
+vim.api.nvim_create_autocmd(
+   { "InsertLeave" },
+   { callback = enable_relative_numbers }
+)
+vim.api.nvim_create_autocmd({ "FileType" }, { callback = change_indent_level })
+vim.api.nvim_create_autocmd({ "TermOpen" }, { callback = setTerminalKeymaps })
+vim.api.nvim_create_autocmd({ "BufWritePre" }, { callback = setFormatting })
