@@ -34,6 +34,7 @@ end
 vim.api.nvim_create_user_command("SSImports", SSImports, { desc = "sorting swift imports" })
 
 local post = "<CR>"
+local l = "<leader>"
 local k = require('utils').keymap
 
-k("v", "ssi", ":<C-U>SSImports" .. post)
+k("v", l .. "ssi", ":<C-U>SSImports" .. post)

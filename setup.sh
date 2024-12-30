@@ -1,4 +1,4 @@
-#!/bin/bash
+#"!/bin/bash
 
 OS_TYPE="$OSTYPE"
 LINUX_MINT="linux-gnu"

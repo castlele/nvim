@@ -21,7 +21,7 @@ require("mason").setup()
 local mason_lspconfig = require('mason-lspconfig')
 
 local packages = {
-   "~/.luaver/luarocks/2.3.0_5.1/share/lua/5.1",
+   "~/.luaver/luarocks/3.0.0_5.1/share/lua/5.1",
    "${3rd}/love2d/library",
 }
 

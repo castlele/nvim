@@ -1,11 +1,15 @@
 require("cluautils.string_utils")
 
+local build = require("castlelecs.build")
+local FM = require("cluautils.file_manager")
 local actions = require("telescope.actions")
+local previewers = require("telescope.previewers")
 local layout = require("telescope.actions.layout")
 local builtin = require("telescope.builtin")
 local pickers = require("telescope.pickers")
 local finders = require("telescope.finders")
 local makeEntry = require("telescope.make_entry")
+local actionState = require("telescope.actions.state")
 local conf = require("telescope.config").values
 
 require("telescope").load_extension('fzf')
@@ -54,6 +58,22 @@ local function findFilesOverProject()
       "bin/",
    }
 
+   local ignore = { "customignore" }
+
+   for _, fileName in pairs(ignore) do
+      local file = io.open(fileName, IOMODE.READ)
+
+      if file ~= nil then
+         local lines = FM.get_lines_from_file(file)
+
+         for _, line in pairs(lines) do
+            table.insert(ignore_files, line)
+         end
+
+         io.close(file)
+      end
+   end
+
    builtin.find_files {
       hidden = true,
       no_ignore = true,
@@ -85,7 +105,7 @@ local function multiSearch()
    }
    local finder = finders.new_async_job {
       ---@type fun(prompt: string): table?
-      command_generator = function (prompt)
+      command_generator = function(prompt)
          if not prompt or prompt:is_empty() then
             return nil
          end
@@ -131,11 +151,53 @@ local function multiSearch()
    ):find()
 end
 
+local function searchBuild()
+   local opts = {
+      cwd = vim.uv.cwd(),
+   }
+
+   local finder = finders.new_table {
+      results = build.completion(),
+      entry_maker = makeEntry.gen_from_string(opts),
+      cwd = opts.cwd,
+   }
+
+   pickers.new(opts, {
+      debounce = 100,
+      prompt_title = "Build Commands",
+      finder = finder,
+      previewer = previewers.new_buffer_previewer({
+         define_preview = function (self, entry)
+            local command = build.asString(entry[1])
+
+            if not command then
+               return
+            end
+
+            local formattedCommand = string.split(command, "\n")
+
+            vim.api.nvim_buf_set_lines(self.state.bufnr, 0, -1, false, formattedCommand)
+         end,
+      }),
+      sorter = conf.generic_sorter(opts),
+      attach_mappings = function(prompt_bufnr, map)
+         actions.select_default:replace(function()
+            actions.close(prompt_bufnr)
+            local selection = actionState.get_selected_entry()
+            build.buildInTerm(selection[1])
+         end)
+         return true
+      end,
+   }):find()
+end
+
 local l = "<leader>"
+local s = "<space>"
 local utils = require("utils")
 
+utils.keymap_func("n", l .. "B", searchBuild)
 utils.keymap_func("n", l .. "O", findFilesOverProject)
 utils.keymap_func("n", l .. "F", require("telescope").extensions.live_grep_args.live_grep_args)
-utils.keymap_func("n", l .. "f", searchOverCurrentFile)
-utils.keymap_func("n", l .. "fc", searchFileComponents)
+utils.keymap_func("n", s .. "f", searchOverCurrentFile)
+utils.keymap_func("n", s .. "fc", searchFileComponents)
 utils.keymap_func("n", l .. "ms", multiSearch)

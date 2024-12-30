@@ -1,13 +1,21 @@
 local FM = require("cluautils.file_manager")
+require("cluautils.string_utils")
 
 local M = {}
 local buildFile = "build.lua"
-local generateCommand = "generate"
 
 local function editBuildFile()
    vim.cmd("vsplit")
    vim.cmd("edit " .. buildFile)
 end
+
+local defaultCommandsAsStr = {
+   edit = [[
+vim.cmd("vsplit")
+vim.cmd("edit " .. buildFile)
+   ]],
+   generate = "Generating build.lua in the root folder :)"
+}
 
 local defaultCommands = {
    edit = editBuildFile,
@@ -33,12 +41,7 @@ conf = {
 
 ---@return boolean
 local function reloadConfigurationFile()
-   local fun, error = loadfile(buildFile)
-
-   if error then
-      vim.notify(error, vim.log.levels.ERROR)
-      return false
-   end
+   local fun, _ = loadfile(buildFile)
 
    if fun then
       pcall(fun)
@@ -50,15 +53,16 @@ end
 
 ---@return table
 local function getAvailableConfigurations()
-   if not reloadConfigurationFile() then
-      return defaultCommands
-   end
+   reloadConfigurationFile()
 
    local configurations = {}
 
----@diagnostic disable-next-line
-   for name, _ in pairs(conf) do
-      table.insert(configurations, name)
+   ---@diagnostic disable-next-line
+   if conf then
+      ---@diagnostic disable-next-line
+      for name, _ in pairs(conf) do
+         table.insert(configurations, name)
+      end
    end
 
    for name, _ in pairs(defaultCommands) do
@@ -68,11 +72,11 @@ local function getAvailableConfigurations()
    return configurations
 end
 
----@param configurations table
+---@param configurations table?
 ---@param command string
 ---@return (fun(): string)?
 local function getCodeAsFunction(configurations, command)
-   if not configurations[command] then
+   if not configurations or not configurations[command] then
       return nil
    end
 
@@ -82,17 +86,43 @@ end
 
 ---@param command string
 ---@return (fun(): string)?
-function M.build(command)
-   if not reloadConfigurationFile() then
-      return nil
+function M.buildInTerm(command)
+   local term = require('toggleterm.terminal').Terminal
+   local fun = M.build(command)
+
+   if not fun then
+      return
    end
 
+   local terminalCommand = fun()
+
+   if not terminalCommand then
+      return
+   end
+
+   term:new {
+      direction = "horizontal",
+      cmd = terminalCommand,
+      display_name = command,
+      hidden = false,
+      close_on_exit = false,
+   }:toggle()
+end
+
+---@param command string
+---@return (fun(): string)?
+function M.build(command)
+   reloadConfigurationFile()
+
    ---@diagnostic disable-next-line
-   local fun = getCodeAsFunction(conf, command) or defaultCommands[command]
+   local cmd = string.trim(command)
+
+   ---@diagnostic disable-next-line
+   local fun = getCodeAsFunction(conf, cmd) or defaultCommands[cmd]
 
    if not fun then
       vim.notify(
-         "Can't find command '" .. command .. "'",
+         "Can't find command '" .. cmd .. "'",
          vim.log.levels.WARN
       )
       return nil
@@ -101,8 +131,34 @@ function M.build(command)
    return fun
 end
 
-function M.completion()
-   return getAvailableConfigurations()
+---@param command string
+---@return string?
+function M.asString(command)
+   if not defaultCommands[command] then
+      return M.build(command)()
+   end
+
+   return defaultCommandsAsStr[command]
+end
+
+function M.completion(completion)
+   local configurations = getAvailableConfigurations()
+
+   if not completion or string.is_empty(completion) then
+      return configurations
+   end
+
+   local filteredConf = {}
+
+   for _, configuration in ipairs(configurations) do
+      local s = string.find(configuration, completion)
+
+      if s then
+         table.insert(filteredConf, configuration)
+      end
+   end
+
+   return filteredConf
 end
 
 
