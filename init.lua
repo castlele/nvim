@@ -117,6 +117,9 @@ require("lazy").setup {
       event = "VeryLazy",
       opts = {},
    },
+   {
+      dir = "~/dev/projects/build.nvim/",
+   },
 
    -- Git
    { "f-person/git-blame.nvim" },
@@ -189,6 +192,7 @@ require("plugins.toggleterm-configuration")
 require("plugins.align-configuration")
 require("plugins.stylua-nvim-configuration")
 require("neodev").setup()
+require("build")
 require("castlelecs.obsidian").setup {
    "docs",
    "catscastle",
