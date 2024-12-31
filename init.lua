@@ -112,6 +112,11 @@ require("lazy").setup {
       branch = "v2",
       lazy = true,
    },
+   {
+      "chentoast/marks.nvim",
+      event = "VeryLazy",
+      opts = {},
+   },
 
    -- Git
    { "f-person/git-blame.nvim" },
