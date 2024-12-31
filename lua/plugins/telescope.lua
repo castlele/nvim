@@ -12,7 +12,7 @@ local makeEntry = require("telescope.make_entry")
 local actionState = require("telescope.actions.state")
 local conf = require("telescope.config").values
 
-require("telescope").load_extension('fzf')
+require("telescope").load_extension("fzf")
 require("telescope").load_extension("live_grep_args")
 
 require("telescope").setup {
@@ -48,7 +48,11 @@ require("telescope").setup {
          -- the default case_mode is "smart_case"
          case_mode = "smart_case",
       },
-   }
+   },
+}
+
+local opts = {
+   cwd = vim.uv.cwd(),
 }
 
 local function findFilesOverProject()
@@ -94,15 +98,12 @@ local function searchFileComponents()
          "type",
          "function",
          "macro",
-      }
+      },
    }
 end
 
 ---@see TJs video for explanation https://www.youtube.com/watch?v=xdXE1tOT-qg
 local function multiSearch()
-   local opts = {
-      cwd = vim.uv.cwd(),
-   }
    local finder = finders.new_async_job {
       ---@type fun(prompt: string): table?
       command_generator = function(prompt)
@@ -132,63 +133,75 @@ local function multiSearch()
                "--with-filename",
                "--line-number",
                "--column",
-               "--smart-case"
-            }
+               "--smart-case",
+            },
          }
       end,
       entry_maker = makeEntry.gen_from_vimgrep(opts),
       cwd = opts.cwd,
    }
 
-   pickers.new(opts,
-      {
+   pickers
+      .new(opts, {
          debounce = 100,
          prompt_title = "Multi Search",
          finder = finder,
          previewer = conf.grep_previewer(opts),
          sorter = require("telescope.sorters").empty(),
-      }
-   ):find()
+      })
+      :find()
 end
 
 local function searchBuild()
-   local opts = {
-      cwd = vim.uv.cwd(),
-   }
-
    local finder = finders.new_table {
       results = build.completion(),
       entry_maker = makeEntry.gen_from_string(opts),
       cwd = opts.cwd,
    }
 
-   pickers.new(opts, {
-      debounce = 100,
-      prompt_title = "Build Commands",
-      finder = finder,
-      previewer = previewers.new_buffer_previewer({
-         define_preview = function (self, entry)
-            local command = build.asString(entry[1])
+   pickers
+      .new(opts, {
+         debounce = 100,
+         prompt_title = "Build Commands",
+         finder = finder,
+         previewer = previewers.new_buffer_previewer {
+            define_preview = function(self, entry)
+               local command = build.asString(entry[1])
 
-            if not command then
-               return
-            end
+               if not command then
+                  return
+               end
 
-            local formattedCommand = string.split(command, "\n")
+               local formattedCommand = string.split(command, "\n")
 
-            vim.api.nvim_buf_set_lines(self.state.bufnr, 0, -1, false, formattedCommand)
+               vim.api.nvim_buf_set_lines(
+                  self.state.bufnr,
+                  0,
+                  -1,
+                  false,
+                  formattedCommand
+               )
+            end,
+         },
+         sorter = conf.generic_sorter(opts),
+         attach_mappings = function(prompt_bufnr, map)
+            actions.select_default:replace(function()
+               actions.close(prompt_bufnr)
+               local selection = actionState.get_selected_entry()
+               build.buildInTerm(selection[1])
+            end)
+            return true
          end,
-      }),
-      sorter = conf.generic_sorter(opts),
-      attach_mappings = function(prompt_bufnr, map)
-         actions.select_default:replace(function()
-            actions.close(prompt_bufnr)
-            local selection = actionState.get_selected_entry()
-            build.buildInTerm(selection[1])
-         end)
-         return true
-      end,
-   }):find()
+      })
+      :find()
+end
+
+local function searchOverKBase()
+   builtin.find_files {
+      cwd = "~/dev/kbase/",
+      hidden = true,
+      no_ignore = true,
+   }
 end
 
 local l = "<leader>"
@@ -197,7 +210,12 @@ local utils = require("utils")
 
 utils.keymap_func("n", l .. "B", searchBuild)
 utils.keymap_func("n", l .. "O", findFilesOverProject)
-utils.keymap_func("n", l .. "F", require("telescope").extensions.live_grep_args.live_grep_args)
+utils.keymap_func(
+   "n",
+   l .. "F",
+   require("telescope").extensions.live_grep_args.live_grep_args
+)
 utils.keymap_func("n", s .. "f", searchOverCurrentFile)
 utils.keymap_func("n", s .. "fc", searchFileComponents)
 utils.keymap_func("n", l .. "ms", multiSearch)
+utils.keymap_func("n", l .. "fkb", searchOverKBase)
