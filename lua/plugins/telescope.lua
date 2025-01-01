@@ -153,6 +153,7 @@ local function searchOverKBase()
       cwd = "~/dev/kbase/",
       hidden = true,
       no_ignore = true,
+      search_file = "*.md",
    }
 end
 
@@ -166,7 +167,7 @@ utils.keymap_func(
    l .. "F",
    require("telescope").extensions.live_grep_args.live_grep_args
 )
-utils.keymap_func("n", s .. "f", searchOverCurrentFile)
 utils.keymap_func("n", s .. "fc", searchFileComponents)
+utils.keymap_func("n", l .. "f", searchOverCurrentFile)
 utils.keymap_func("n", l .. "ms", multiSearch)
 utils.keymap_func("n", l .. "fkb", searchOverKBase)

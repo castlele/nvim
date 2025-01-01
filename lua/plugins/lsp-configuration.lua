@@ -4,21 +4,33 @@ require("cluautils.table_utils")
 
 ---@MARK - tree sitter
 
-require('nvim-treesitter.configs').setup {
-   ensure_installed = { "swift", 'c', 'cpp', 'lua', 'python', 'vimdoc', 'vim', 'norg', 'kotlin', 'java', 'gleam' },
-   auto_install     = true,
-   highlight        = { enable = true },
-   indent           = { enable = true },
+require("nvim-treesitter.configs").setup {
+   ensure_installed = {
+      "swift",
+      "c",
+      "cpp",
+      "lua",
+      "python",
+      "vimdoc",
+      "vim",
+      "norg",
+      "kotlin",
+      "java",
+      "gleam",
+   },
+   auto_install = true,
+   highlight = { enable = true },
+   indent = { enable = true },
 }
 
 ---@MARK: - LSP
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 require("mason").setup()
 -- Ensure the servers above are installed
-local mason_lspconfig = require('mason-lspconfig')
+local mason_lspconfig = require("mason-lspconfig")
 
 local packages = {
    "~/.luaver/luarocks/3.0.0_5.1/share/lua/5.1",
@@ -46,13 +58,16 @@ local servers = {
             },
          },
          workspace = {
-            library = table.concat_tables(vim.api.nvim_get_runtime_file("", true), packages),
+            library = table.concat_tables(
+               vim.api.nvim_get_runtime_file("", true),
+               packages
+            ),
             checkThirdParty = false,
             telemetry = { enable = false },
          },
          completion = { callSnippet = "Replace" },
          diagnostics = { globals = { "vim" } },
-      }
+      },
    },
 }
 
@@ -65,46 +80,52 @@ require("lspconfig").gleam.setup {}
 ---@MARK - General configuration
 
 local on_attach = function(_, bufnr)
-   vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc'
+   vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
 
    local opts = { buffer = bufnr, silent = true }
 
-   vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-   vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-   vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-   vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-   vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-   vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
-   vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
-   vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
-   vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, opts)
-   vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
-   vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, opts)
+   vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+   vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+   vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+   vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+   vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+   vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
+   vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, opts)
+   vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+   vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, opts)
+   vim.keymap.set({ "n", "v" }, "<space>ca", vim.lsp.buf.code_action, opts)
+   vim.keymap.set("n", "<space>f", function()
+      if vim.bo.filetype == "lua" then
+         vim.cmd("LuaFormat")
+      else
+         vim.lsp.buf.format { async = true }
+      end
+   end, opts)
 end
 
 mason_lspconfig.setup_handlers {
    function(server_name)
-      require('lspconfig')[server_name].setup {
+      require("lspconfig")[server_name].setup {
          capabilities = capabilities,
          on_attach = on_attach,
          settings = servers[server_name],
          filetypes = (servers[server_name] or {}).filetypes,
       }
-   end
+   end,
 }
 
 --TODO: Move to servser!
-require('lspconfig').sourcekit.setup {
+require("lspconfig").sourcekit.setup {
    capabilities = capabilities,
    on_attach = on_attach,
 }
 
 -- Completion
 
-local cmp = require('cmp')
-local luasnip = require('luasnip')
+local cmp = require("cmp")
+local luasnip = require("luasnip")
 
-require('luasnip.loaders.from_vscode').lazy_load()
+require("luasnip.loaders.from_vscode").lazy_load()
 luasnip.config.setup()
 
 cmp.setup {
@@ -117,20 +138,18 @@ cmp.setup {
       end,
    },
    mapping = cmp.mapping.preset.insert {
-      ['<C-n>'] = cmp.mapping.select_next_item(),
-      ['<C-p>'] = cmp.mapping.select_prev_item(),
-      ['<CR>'] = cmp.mapping.confirm({ select = true }),
-      ['<S-Tab>'] = cmp.mapping.complete(),
+      ["<C-n>"] = cmp.mapping.select_next_item(),
+      ["<C-p>"] = cmp.mapping.select_prev_item(),
+      ["<CR>"] = cmp.mapping.confirm { select = true },
+      ["<S-Tab>"] = cmp.mapping.complete(),
    },
-   sources = cmp.config.sources(
-      {
-         -- TODO: Add this as a source on some key combination
-         -- TODO: By it self it feels laggy and couses some errors
-         -- { name = "codeium" },
-         { name = "luasnip" },
-         { name = "nvim_lsp" },
-         { name = 'buffer' },
-         { name = 'path' },
-      }
-   ),
+   sources = cmp.config.sources {
+      -- TODO: Add this as a source on some key combination
+      -- TODO: By it self it feels laggy and couses some errors
+      -- { name = "codeium" },
+      { name = "luasnip" },
+      { name = "nvim_lsp" },
+      { name = "buffer" },
+      { name = "path" },
+   },
 }
