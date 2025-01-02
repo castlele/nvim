@@ -1,6 +1,6 @@
 require("cluautils.tests.base_test_case")
-require("cluautils.string_utils")
 require("castlelecs.case_converter")
+local strutils = require("cluautils.string_utils")
 
 ToSnakeConvertTest = CTestCase
 
@@ -9,7 +9,7 @@ function ToSnakeConvertTest:test_convert_empty_string()
 
     local result = ConvertToSnake(str)
 
-    return result:is_empty()
+    return strutils.isEmpty(result)
 end
 
 function ToSnakeConvertTest:test_convert_one_word()

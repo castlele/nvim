@@ -1,4 +1,4 @@
-require("cluautils.string_utils")
+local strutils = require("cluautils.string_utils")
 
 local actions = require("telescope.actions")
 local layout = require("telescope.actions.layout")
@@ -107,7 +107,7 @@ local function multiSearch()
             return nil
          end
 
-         local pieces = prompt:split("  ")
+         local pieces = strutils.split(prompt, "  ")
          local args = { "rg" }
 
          if pieces[1] then

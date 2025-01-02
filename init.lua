@@ -117,9 +117,7 @@ require("lazy").setup {
       event = "VeryLazy",
       opts = {},
    },
-   {
-      dir = "~/dev/projects/build.nvim/",
-   },
+   { dir = "~/dev/projects/build.nvim/" },
 
    -- Git
    { "f-person/git-blame.nvim" },
@@ -171,10 +169,6 @@ require("plenary")
 require("castlelecs.common_settings")
 require("castlelecs.keymap_settings")
 require("castlelecs.case_converter_binding")
-require("castlelecs.author_comments_binding").setup {
-   default_author_name = "Nikita Semenov",
-}
-require("castlelecs.init_declaration_to_usage_binding")
 require("castlelecs.imports_sorting")
 require("plugins.markdown_preview")
 require("plugins.better_whitespace")
@@ -192,7 +186,7 @@ require("plugins.toggleterm-configuration")
 require("plugins.align-configuration")
 require("plugins.stylua-nvim-configuration")
 require("neodev").setup()
-require("build")
+require("build").setup()
 require("castlelecs.obsidian").setup {
    "docs",
    "catscastle",

@@ -1,4 +1,4 @@
-require("cluautils.string_utils")
+local strutils = require("cluautils.string_utils")
 
 local ARGS = 'args'
 local SNAKE = 'Snake'
@@ -26,7 +26,7 @@ function ConvertToSnake(str)
         end
     end
 
-    if result:is_empty() then
+    if strutils.isEmpty(result) then
         return str:lower()
     end
 
@@ -47,7 +47,7 @@ function ConvertToCamel(str)
             local camel = str:sub(prev_index, prev_index):upper()
             local body = str:sub(prev_index + 1, i - 1)
 
-            if result:is_empty() then
+            if strutils.isEmpty(result) then
                 camel = camel:lower()
             end
 
@@ -57,7 +57,7 @@ function ConvertToCamel(str)
         end
     end
 
-    if result:is_empty() then
+    if strutils.isEmpty(result) then
         return str
     end
 

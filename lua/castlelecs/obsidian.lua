@@ -1,4 +1,4 @@
-require("cluautils.string_utils")
+local strutils = require("cluautils.string_utils")
 
 ---@class ObsidianModule
 ---@field vaults string[]
@@ -19,7 +19,7 @@ local function openVault(vault)
 end
 
 local function completion(filter)
-   if not filter or string.is_empty(filter) then
+   if not filter or strutils.isEmpty(filter) then
       return M.vaults
    end
 
