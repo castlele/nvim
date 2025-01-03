@@ -1,4 +1,4 @@
-require("cluautils.table_utils")
+local tableutils = require("cluautils.table_utils")
 
 ---@TODO: Refactor this file!!!!
 
@@ -58,7 +58,7 @@ local servers = {
             },
          },
          workspace = {
-            library = table.concat_tables(
+            library = tableutils.concat_tables(
                vim.api.nvim_get_runtime_file("", true),
                packages
             ),

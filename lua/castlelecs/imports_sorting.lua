@@ -1,5 +1,3 @@
-require("cluautils.table_utils")
-
 local function get_selected_lines(from, to)
     if to < from then
         from, to = to, from
