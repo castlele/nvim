@@ -1,7 +1,7 @@
 local colors = {
-   bg     = "#272b34",
-   fg     = "#dedede",
-   pink   = "#ff66b0",
+   bg = "#272b34",
+   fg = "#dedede",
+   pink = "#ff66b0",
    yellow = "#feffad",
    purple = "#beadfa",
    search = "#adadad",
@@ -43,13 +43,19 @@ local castlelecsscheme = {
    },
 }
 
-require('lualine').setup {
+require("lualine").setup {
    options = {
       theme = castlelecsscheme,
-      component_separators = '|',
-      section_separators = { left = '', right = '' },
+      component_separators = "|",
+      section_separators = { left = "", right = "" },
    },
    sections = {
+      lualine_a = {
+         {
+            "mode",
+            separator = { left = "", right = "" },
+         },
+      },
       lualine_b = {},
       lualine_c = { "branch" },
       lualine_x = { "diagnostics" },
@@ -63,6 +69,7 @@ require('lualine').setup {
             "tabs",
             mode = 0,
             use_mode_colors = true,
+            separator = { left = "", right = "" },
          },
       },
       lualine_c = {},

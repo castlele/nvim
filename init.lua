@@ -20,14 +20,6 @@ require("lazy").setup {
    { "nvim-lualine/lualine.nvim" }, -- Statusbarg
    { "kyazdani42/nvim-web-devicons" },
 
-   -- Writing
-   {
-      "folke/zen-mode.nvim",
-      dependencies = {
-         { "folke/twilight.nvim" },
-      },
-   },
-
    -- Lsp server and completions
    { "neovim/nvim-lspconfig" },
    { "williamboman/mason.nvim" },
@@ -82,7 +74,6 @@ require("lazy").setup {
    -- Supportive plugins
 
    {
-      -- TODOs highlighting
       "folke/todo-comments.nvim",
       dependencies = { "nvim-lua/plenary.nvim" },
       opts = {},
@@ -118,10 +109,6 @@ require("lazy").setup {
       opts = {},
    },
    { dir = "~/dev/projects/build.nvim/" },
-
-   -- Git
-   { "f-person/git-blame.nvim" },
-   { "sindrets/diffview.nvim" },
 
    -- Mobile development
    { "cfdrake/vim-pbxproj" }, -- pbxproj syntax highlighting
@@ -172,8 +159,6 @@ require("castlelecs.case_converter_binding")
 require("castlelecs.imports_sorting")
 require("plugins.markdown_preview")
 require("plugins.better_whitespace")
-require("plugins.git-blame-configuration")
-require("plugins.git")
 require("plugins.lualine")
 require("plugins.telescope")
 require("plugins.luasnip")
