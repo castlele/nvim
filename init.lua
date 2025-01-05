@@ -18,7 +18,7 @@ require("lazy").setup {
    { "rktjmp/lush.nvim" },
    { dir = "~/.config/castlelecsscheme" },
    { "nvim-lualine/lualine.nvim" }, -- Statusbarg
-   { "kyazdani42/nvim-web-devicons" },
+   { "nvim-tree/nvim-web-devicons" },
 
    -- Lsp server and completions
    { "neovim/nvim-lspconfig" },
@@ -95,8 +95,12 @@ require("lazy").setup {
       "nvim-neorg/neorg",
       dependencies = { "luarocks.nvim" },
       lazy = false,
-      version = "v8.0.1",
-      config = true,
+      version = "v9.1.1",
+      config = function ()
+         require("plugins.neorg-configuration")
+         vim.wo.foldlevel = 99
+         vim.wo.conceallevel = 2
+      end,
    },
    {
       "Vonr/align.nvim",
@@ -165,7 +169,6 @@ require("plugins.luasnip")
 require("plugins.lsp-configuration")
 require("plugins.comment")
 require("plugins.oil_configuration")
-require("plugins.neorg-configuration")
 require("plugins.treesj-configuration")
 require("plugins.toggleterm-configuration")
 require("plugins.align-configuration")

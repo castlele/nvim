@@ -5,7 +5,6 @@ require("neorg").setup {
       ["core.keybinds"] = {
          config = {
             default_keybinds = true,
-            neorg_leader = ",",
          },
       },
       ["core.dirman"] = { -- Manages Neorg workspaces
@@ -17,10 +16,11 @@ require("neorg").setup {
       },
       ["core.export"] = {
          config = {
-            export_dir = "~/Documents/neorg/"
+            export_dir = "~/Documents/neorg/",
          },
       },
-      ["core.integrations.treesitter"] = { },
-      ["core.ui.calendar"] = {}
+      ["core.integrations.treesitter"] = {},
+      ["core.ui.calendar"] = {},
+      ["core.ui"] = {},
    },
 }
