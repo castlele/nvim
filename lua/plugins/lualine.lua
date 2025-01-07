@@ -5,6 +5,7 @@ local colors = {
    yellow = "#feffad",
    purple = "#beadfa",
    search = "#adadad",
+   dark = "#141414",
 }
 
 local castlelecsscheme = {
@@ -39,6 +40,7 @@ local castlelecsscheme = {
       y = { fg = colors.fg, bg = colors.bg },
    },
    inactive = {
+      a = { bg = colors.dark },
       b = { fg = colors.fg, bg = colors.bg },
    },
 }
@@ -70,6 +72,10 @@ require("lualine").setup {
             mode = 0,
             use_mode_colors = true,
             separator = { left = "", right = "" },
+            tabs_color = {
+               active = "lualine_a_normal",
+               inactive = "lualine_a_inactive",
+            },
          },
       },
       lualine_c = {},
