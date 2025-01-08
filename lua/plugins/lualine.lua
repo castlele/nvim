@@ -45,6 +45,10 @@ local castlelecsscheme = {
    },
 }
 
+local function reminder()
+   return "Look back!"
+end
+
 require("lualine").setup {
    options = {
       theme = castlelecsscheme,
@@ -78,7 +82,7 @@ require("lualine").setup {
             },
          },
       },
-      lualine_c = {},
+      lualine_c = { reminder },
       lualine_x = {},
       lualine_y = {
          {
