@@ -90,6 +90,11 @@ require("lazy").setup {
       "vhyrro/luarocks.nvim",
       priority = 1000,
       config = true,
+      opts = {
+         rocks = {
+            "pathlib.nvim"
+         }
+      },
    },
    {
       "nvim-neorg/neorg",
@@ -112,7 +117,7 @@ require("lazy").setup {
       event = "VeryLazy",
       opts = {},
    },
-   { dir = "~/dev/projects/build.nvim/" },
+   { "castlele/build.nvim" },
 
    -- Mobile development
    { "cfdrake/vim-pbxproj" }, -- pbxproj syntax highlighting
