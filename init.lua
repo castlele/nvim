@@ -92,8 +92,8 @@ require("lazy").setup {
       config = true,
       opts = {
          rocks = {
-            "pathlib.nvim"
-         }
+            "pathlib.nvim",
+         },
       },
    },
    {
@@ -101,10 +101,9 @@ require("lazy").setup {
       dependencies = { "luarocks.nvim" },
       lazy = false,
       version = "v9.1.1",
-      config = function ()
+      config = function()
          require("plugins.neorg-configuration")
          vim.wo.foldlevel = 99
-         vim.wo.conceallevel = 2
       end,
    },
    {
@@ -148,6 +147,19 @@ require("lazy").setup {
          vim.g.mkdp_filetypes = { "markdown" }
       end,
       ft = { "markdown" },
+   },
+   {
+      "Zeioth/markmap.nvim",
+      build = "yarn global add markmap-cli",
+      cmd = { "MarkmapOpen", "MarkmapSave", "MarkmapWatch", "MarkmapWatchStop" },
+      opts = {
+         html_output = "/tmp/markmap.html", -- (default) Setting a empty string "" here means: [Current buffer path].html
+         hide_toolbar = false, -- (default)
+         grace_period = 3600000, -- (default) Stops markmap watch after 60 minutes. Set it to 0 to disable the grace_period.
+      },
+      config = function(_, opts)
+         require("markmap").setup(opts)
+      end,
    },
 
    -- Puml image creation
