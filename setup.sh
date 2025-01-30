@@ -4,7 +4,7 @@ OS_TYPE="$OSTYPE"
 LINUX_MINT="linux-gnu"
 MACOS="darwin"
 
-NVIM_VERSION=v0.10.3
+NVIM_VERSION=v0.10.4
 
 if [[ $OS_TYPE == $LINUX_MINT* ]]; then
     INSTALLATION_CMD="sudo apt install"
