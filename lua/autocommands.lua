@@ -11,8 +11,7 @@ local function disable_relative_numbers()
    toggle_relative_numbers(false)
 end
 
-local function change_indent_level()
-   local filetype = vim.bo.filetype
+local function changeIndentLevel(filetype)
    local tabstop = 4
    local shiftwidth = 4
 
@@ -23,6 +22,20 @@ local function change_indent_level()
 
    vim.opt.tabstop = tabstop
    vim.opt.shiftwidth = shiftwidth
+end
+
+local function setFileTypeSpecificKeymaps(filetype)
+   if filetype == "norg" then
+      vim.keymap.set("n", "<space>r", "<cmd>Neorg toggle-concealer<CR>")
+   end
+end
+
+local function setupFileTypeSpecific()
+   local filetype = vim.bo.filetype
+   print(filetype)
+
+   changeIndentLevel(filetype)
+   setFileTypeSpecificKeymaps(filetype)
 end
 
 local function setTerminalKeymaps()
@@ -37,5 +50,5 @@ vim.api.nvim_create_autocmd(
    { "InsertLeave" },
    { callback = enable_relative_numbers }
 )
-vim.api.nvim_create_autocmd({ "FileType" }, { callback = change_indent_level })
+vim.api.nvim_create_autocmd({ "FileType" }, { callback = setupFileTypeSpecific })
 vim.api.nvim_create_autocmd({ "TermOpen" }, { callback = setTerminalKeymaps })
