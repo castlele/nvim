@@ -101,6 +101,7 @@ require("lazy").setup {
       dependencies = { "luarocks.nvim" },
       lazy = false,
       version = "v9.1.1",
+      version = "v9.2.0",
       config = function()
          require("plugins.neorg-configuration")
          vim.wo.foldlevel = 99
