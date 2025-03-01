@@ -6,7 +6,29 @@ local M = {}
 
 ---@param vault string
 local function openVault(vault)
-   local command = "open obsidian://vault/" .. vault
+   local osname
+   local openCmd
+
+   local fh = assert(io.popen("uname -o 2>/dev/null","r"))
+   if fh then
+      osname = fh:read()
+   end
+
+   if not osname then
+      vim.notify(
+         "Unsupported OS used",
+         vim.log.levels.WARN
+      )
+   end
+
+   if osname == "GNU/Linux" then
+      openCmd = "xdg-open"
+   else
+      openCmd = "open"
+   end
+
+   local command = string.format("%s obsidian://vault/%s", openCmd, vault)
+   print(command)
    local term = require("toggleterm.terminal").Terminal
 
    term

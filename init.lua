@@ -30,19 +30,19 @@ require("lazy").setup {
    { "hrsh7th/cmp-path" },
    { "L3MON4D3/LuaSnip" },
    { "saadparwaiz1/cmp_luasnip" },
-   {
+   -- {
       -- AI Integration
-      "Exafunction/codeium.nvim",
-      dependencies = {
-         "nvim-lua/plenary.nvim",
-         "hrsh7th/nvim-cmp",
-      },
-      config = function()
-         require("codeium").setup {
-            enable_chat = true,
-         }
-      end,
-   },
+   --    "Exafunction/codeium.nvim",
+   --    dependencies = {
+   --       "nvim-lua/plenary.nvim",
+   --       "hrsh7th/nvim-cmp",
+   --    },
+   --    config = function()
+   --       require("codeium").setup {
+   --          enable_chat = true,
+   --       }
+   --    end,
+   -- },
 
    -- Treesitter
    {
@@ -87,20 +87,9 @@ require("lazy").setup {
    { "ntpeters/vim-better-whitespace" },
    { "numToStr/Comment.nvim" },
    {
-      "vhyrro/luarocks.nvim",
-      priority = 1000,
-      config = true,
-      opts = {
-         rocks = {
-            "pathlib.nvim",
-         },
-      },
-   },
-   {
       "nvim-neorg/neorg",
       dependencies = { "luarocks.nvim" },
       lazy = false,
-      version = "v9.1.1",
       version = "v9.2.0",
       config = function()
          require("plugins.neorg-configuration")
