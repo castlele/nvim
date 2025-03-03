@@ -88,7 +88,6 @@ require("lazy").setup {
    { "numToStr/Comment.nvim" },
    {
       "nvim-neorg/neorg",
-      dependencies = { "luarocks.nvim" },
       lazy = false,
       version = "v9.2.0",
       config = function()
