@@ -39,7 +39,7 @@ local packages = {
 
 local servers = {
    clangd = {},
-   pyright = {},
+   --pyright = {},
    kotlin_language_server = {},
    lua_ls = {
       Lua = {
