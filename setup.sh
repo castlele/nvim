@@ -1,10 +1,10 @@
-#"!/bin/bash
+#!/bin/sh
 
 OS_TYPE="$OSTYPE"
 LINUX_MINT="linux-gnu"
 MACOS="darwin"
 
-NVIM_VERSION=v0.10.4
+NVIM_VERSION=v0.11.0
 
 if [[ $OS_TYPE == $LINUX_MINT* ]]; then
     INSTALLATION_CMD="sudo apt install"
@@ -19,10 +19,11 @@ installNeovim() {
     sudo rm -r /usr/local/share/nvim/
 
     cd ./neovim/
-    rm -r build/
+    rm -rf build/
     sudo rm -rf .deps/
     sudo cmake --build build/ --target uninstall
 
+    git fetch
     git checkout $NVIM_VERSION
     make CMAKE_BUILD_TYPE=Release
     sudo make install

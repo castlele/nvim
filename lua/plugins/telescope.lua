@@ -76,7 +76,7 @@ local function findFilesOverProject()
 
    builtin.find_files {
       hidden = true,
-      no_ignore = true,
+      no_ignore = false,
       file_ignore_patterns = ignore_files,
    }
 end
