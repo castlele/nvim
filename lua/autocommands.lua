@@ -32,7 +32,6 @@ end
 
 local function setupFileTypeSpecific()
    local filetype = vim.bo.filetype
-   print(filetype)
 
    changeIndentLevel(filetype)
    setFileTypeSpecificKeymaps(filetype)

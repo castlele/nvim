@@ -30,8 +30,17 @@ local packages = {
 
 return {
    cmd = { get_mason_bin_path("lua-language-server") },
-   root_markers = { ".git" },
    filetypes = { "lua" },
+   root_markers = {
+      ".luarc.json",
+      ".luarc.jsonc",
+      ".luacheckrc",
+      ".stylua.toml",
+      "stylua.toml",
+      "selene.toml",
+      "selene.yml",
+      ".git",
+   },
    settings = {
       Lua = {
          runtime = {

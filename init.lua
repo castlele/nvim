@@ -30,19 +30,6 @@ require("lazy").setup {
    { "hrsh7th/cmp-path" },
    { "L3MON4D3/LuaSnip" },
    { "saadparwaiz1/cmp_luasnip" },
-   -- {
-      -- AI Integration
-   --    "Exafunction/codeium.nvim",
-   --    dependencies = {
-   --       "nvim-lua/plenary.nvim",
-   --       "hrsh7th/nvim-cmp",
-   --    },
-   --    config = function()
-   --       require("codeium").setup {
-   --          enable_chat = true,
-   --       }
-   --    end,
-   -- },
 
    -- Treesitter
    {

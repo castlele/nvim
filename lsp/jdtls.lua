@@ -22,8 +22,15 @@ local function get_mason_bin_path(server_name)
   return mason_path.bin_prefix(bin_name)
 end
 
-return {
-   cmd = { get_mason_bin_path("gopls") },
-   root_markers = { "go.work", "go.mod", ".vim/", ".git/", ".hg/" },
-   filetypes = { "go", "gomod", "gowork", "gotmpl" },
+local packages = {
+   "~/.luaver/luarocks/2.3.0_5.1/share/lua/5.1",
+   "~/.luaver/luarocks/3.0.0_5.1/share/lua/5.1",
+   "${3rd}/love2d/library",
 }
+
+return {
+   cmd = { get_mason_bin_path("jdtls") },
+   root_markers = { "gradlew" },
+   filetypes = { "java" },
+}
+
