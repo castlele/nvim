@@ -22,5 +22,6 @@ require("neorg").setup {
       ["core.integrations.treesitter"] = {},
       ["core.ui.calendar"] = {},
       ["core.ui"] = {},
+      ["core.esupports.metagen"] = { config = { update_date = false } }, -- do not update date until https://github.com/nvim-neorg/neorg/issues/1579 fixed
    },
 }
