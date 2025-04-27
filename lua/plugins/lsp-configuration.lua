@@ -138,10 +138,27 @@ cmp.setup {
       end,
    },
    mapping = cmp.mapping.preset.insert {
-      ["<C-n>"] = cmp.mapping.select_next_item(),
-      ["<C-p>"] = cmp.mapping.select_prev_item(),
-      ["<CR>"] = cmp.mapping.confirm { select = true },
-      ["<S-Tab>"] = cmp.mapping.complete(),
+      ["<C-Space>"] = cmp.mapping.complete(),
+      ["<CR>"] = cmp.mapping.confirm({ select = true }),
+      ["<Tab>"] = cmp.mapping(function(fallback)
+         if cmp.visible() then
+            cmp.select_next_item()
+         elseif luasnip.locally_jumpable(1) then
+            luasnip.jump(1)
+         else
+            fallback()
+         end
+      end, { "i", "s" }),
+
+      ["<S-Tab>"] = cmp.mapping(function(fallback)
+         if cmp.visible() then
+            cmp.select_prev_item()
+         elseif luasnip.locally_jumpable(-1) then
+            luasnip.jump(-1)
+         else
+            fallback()
+         end
+      end, { "i", "s" }),
    },
    sources = cmp.config.sources {
       -- TODO: Add this as a source on some key combination
