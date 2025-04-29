@@ -28,7 +28,6 @@ local function openVault(vault)
    end
 
    local command = string.format("%s obsidian://vault/%s", openCmd, vault)
-   print(command)
    local term = require("toggleterm.terminal").Terminal
 
    term
@@ -62,9 +61,15 @@ end
 function M.setup(vaults)
    M.vaults = vaults
 
+   local opts = {
+      desc = "Obsidian repositories navigation",
+      complete = completion,
+      nargs = 1,
+   }
+
    vim.api.nvim_create_user_command("Obsidian", function(args)
       openVault(args.args)
-   end, { desc = "ToSnake", complete = completion, nargs = 1 })
+   end, opts)
 end
 
 return M

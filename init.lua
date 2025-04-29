@@ -165,3 +165,12 @@ require("castlelecs.obsidian").setup {
    "catscastle",
    "kbase",
 }
+require("castlelecs.norgtemplate").setup {
+   MON = {},
+   TUE = {},
+   WED = {},
+   THU = {},
+   FRI = {},
+   SAT = {},
+   SUN = {},
+}
