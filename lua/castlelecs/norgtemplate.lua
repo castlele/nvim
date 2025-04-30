@@ -43,7 +43,7 @@ local function getFileContent()
          endl = "\n"
       end
 
-      result = string.format(result .. "%s%s %s", endl, strRepeating("~", level), text:gsub("%%","%%%1"))
+      result = result .. string.format("%s%s %s", endl, strRepeating("~", level), text)
    end
 
    local function addTasks(level, tasks)
@@ -63,11 +63,11 @@ local function getFileContent()
       local tasks = M.config[day]
       local level = 1
 
-      addLevel(level, day)
+      addLevel(level, "( ) " .. day)
       addTasks(level, tasks)
 
       if M.sectionFooter then
-         result = string.format(result .. "\n\n%s", tostring(M.sectionFooter))
+         result = result .. string.format("\n\n%s", tostring(M.sectionFooter))
       end
 
       result = result .. "\n"
@@ -123,7 +123,11 @@ local function completion(date)
    local today = os.date(pattern, currentTime)
    local tomorrow = os.date(pattern, currentTime + day)
    local afterTomorrow = os.date(pattern, currentTime + day * 2)
-   local dates = { date, today, tomorrow, afterTomorrow }
+   local dates = { today, tomorrow, afterTomorrow }
+
+   if #date ~= 0 then
+      table.insert(dates, 1, date)
+   end
 
    return dates
 end
@@ -152,104 +156,5 @@ function M.setup(opts)
 
    registerVimCommand()
 end
-
-
-M.setup {
-   week = {
-      MON = {
-         "work - 3h",
-         "fill stats",
-         "prepare next week file",
-         "take care of Javie",
-         daily = {
-            "do sport",
-            "meditate",
-            "read book",
-         },
-      },
-      TUE = {
-         ["work - 3h"] = {
-            "design demo",
-         },
-         daily = {
-            "do sport",
-            "meditate",
-            "read book",
-         },
-      },
-      WED = {
-         "work - 3h",
-         "clean the floors",
-         "clean the office",
-         daily = {
-            "do sport",
-            "meditate",
-            "read book",
-         },
-      },
-      THU = {
-         "work - 3h",
-         daily = {
-            "do sport",
-            "meditate",
-            "read book",
-         },
-      },
-      FRI = {
-         "psychology session %13:00% - 1h",
-         "work - 3h",
-         "take care of Javie",
-         daily = {
-            "do sport",
-            "meditate",
-            "read book",
-         },
-      },
-      SAT = {
-         "followattr - 1h",
-         "comeback - 30m",
-         "call to grandmother",
-         daily = {
-            "do sport",
-            "meditate",
-            "read book",
-         },
-      },
-      SUN = {
-         "followattr - 1h",
-         "comeback - 30m",
-         "clean the floors",
-         "clean the office",
-         "review goals",
-         "review week",
-         daily = {
-            "do sport",
-            "meditate",
-            "read book",
-         },
-      },
-   },
-   sectionFooter = string.format(
-      "%s\n%s",
-      "total: ",
-      "result: "
-   ),
-   header = string.format(
-      "%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n",
-      "@document.meta",
-      "stats: [",
-      "    resting     : 0",
-      "    work        : 0",
-      "    uni         : 0",
-      "    health      : 0",
-      "    social      : 0",
-      "    relationship: 0",
-      "    projects    : 0",
-      "    finances    : 0",
-      "]",
-      "@end"
-   )
-}
-registerVimCommand()
 
 return M

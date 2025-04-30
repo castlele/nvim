@@ -30,6 +30,21 @@ require("lazy").setup {
    { "hrsh7th/cmp-path" },
    { "L3MON4D3/LuaSnip" },
    { "saadparwaiz1/cmp_luasnip" },
+   {
+      "zbirenbaum/copilot-cmp",
+      config = function()
+         require("copilot_cmp").setup()
+      end,
+   },
+   {
+      "zbirenbaum/copilot.lua",
+      config = function()
+         require("copilot").setup {
+            suggestion = { enabled = false },
+            panel = { enabled = false },
+         }
+      end,
+   },
 
    -- Treesitter
    {
@@ -166,11 +181,98 @@ require("castlelecs.obsidian").setup {
    "kbase",
 }
 require("castlelecs.norgtemplate").setup {
-   MON = {},
-   TUE = {},
-   WED = {},
-   THU = {},
-   FRI = {},
-   SAT = {},
-   SUN = {},
+   week = {
+      MON = {
+         "work - 3h",
+         "fill stats",
+         "prepare next week file",
+         "take care of Javie",
+         daily = {
+            "do sport",
+            "meditate",
+            "read book",
+         },
+      },
+      TUE = {
+         ["work - 3h"] = {
+            "design demo",
+         },
+         daily = {
+            "do sport",
+            "meditate",
+            "read book",
+         },
+      },
+      WED = {
+         "work - 3h",
+         "clean the floors",
+         "clean the office",
+         daily = {
+            "do sport",
+            "meditate",
+            "read book",
+         },
+      },
+      THU = {
+         "work - 3h",
+         daily = {
+            "do sport",
+            "meditate",
+            "read book",
+         },
+      },
+      FRI = {
+         "psychology session %13:00% - 1h",
+         "work - 3h",
+         "take care of Javie",
+         daily = {
+            "do sport",
+            "meditate",
+            "read book",
+         },
+      },
+      SAT = {
+         "followattr - 1h",
+         "comeback - 30m",
+         "call to grandmother",
+         daily = {
+            "do sport",
+            "meditate",
+            "read book",
+         },
+      },
+      SUN = {
+         "followattr - 1h",
+         "comeback - 30m",
+         "clean the floors",
+         "clean the office",
+         "review goals",
+         "review week",
+         daily = {
+            "do sport",
+            "meditate",
+            "read book",
+         },
+      },
+   },
+   sectionFooter = string.format(
+      "%s\n%s",
+      "total: ",
+      "result: "
+   ),
+   header = string.format(
+      "%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n",
+      "@document.meta",
+      "stats: [",
+      "    resting     : 0",
+      "    work        : 0",
+      "    uni         : 0",
+      "    health      : 0",
+      "    social      : 0",
+      "    relationship: 0",
+      "    projects    : 0",
+      "    finances    : 0",
+      "]",
+      "@end"
+   )
 }

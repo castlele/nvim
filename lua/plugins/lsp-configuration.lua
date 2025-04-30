@@ -140,7 +140,7 @@ cmp.setup {
    },
    mapping = cmp.mapping.preset.insert {
       ["<C-Space>"] = cmp.mapping.complete(),
-      ["<CR>"] = cmp.mapping.confirm({ select = true }),
+      ["<CR>"] = cmp.mapping.confirm { select = true },
       ["<Tab>"] = cmp.mapping(function(fallback)
          if cmp.visible() then
             cmp.select_next_item()
@@ -162,9 +162,7 @@ cmp.setup {
       end, { "i", "s" }),
    },
    sources = cmp.config.sources {
-      -- TODO: Add this as a source on some key combination
-      -- TODO: By it self it feels laggy and couses some errors
-      -- { name = "codeium" },
+      { name = "copilot" },
       { name = "luasnip" },
       { name = "nvim_lsp" },
       { name = "buffer" },
