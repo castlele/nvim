@@ -3,7 +3,7 @@ local FM = require("cluautils.file_manager")
 ---@class TemplateModule
 ---@field config WeekConfiguration?
 ---@field header string?
----@field footer string?
+---@field sectionFooter string?
 local M = {}
 
 ---@param str string
@@ -37,7 +37,13 @@ local function getFileContent()
    }
 
    local function addLevel(level, text)
-      result = string.format(result .. "\n%s %s", strRepeating("~", level), text)
+      local endl = ""
+
+      if #result ~= 0 then
+         endl = "\n"
+      end
+
+      result = string.format(result .. "%s%s %s", endl, strRepeating("~", level), text:gsub("%%","%%%1"))
    end
 
    local function addTasks(level, tasks)
@@ -60,8 +66,8 @@ local function getFileContent()
       addLevel(level, day)
       addTasks(level, tasks)
 
-      if M.footer then
-         result = string.format(result .. "\n\n%s", tostring(M.footer))
+      if M.sectionFooter then
+         result = string.format(result .. "\n\n%s", tostring(M.sectionFooter))
       end
 
       result = result .. "\n"
@@ -136,10 +142,12 @@ end
 
 ---@class WeekConfiguration
 ---@field week table
+---@field sectionFooter string?
+---@field header string?
 ---@param opts WeekConfiguration
 function M.setup(opts)
    M.config = opts.week
-   M.footer = opts.footer
+   M.sectionFooter = opts.sectionFooter
    M.header = opts.header
 
    registerVimCommand()
@@ -149,7 +157,7 @@ end
 M.setup {
    week = {
       MON = {
-         "work - 4h",
+         "work - 3h",
          "fill stats",
          "prepare next week file",
          "take care of Javie",
@@ -159,18 +167,88 @@ M.setup {
             "read book",
          },
       },
-      TUE = {},
-      WED = {},
-      THU = {},
-      FRI = {},
-      SAT = {},
-      SUN = {},
+      TUE = {
+         ["work - 3h"] = {
+            "design demo",
+         },
+         daily = {
+            "do sport",
+            "meditate",
+            "read book",
+         },
+      },
+      WED = {
+         "work - 3h",
+         "clean the floors",
+         "clean the office",
+         daily = {
+            "do sport",
+            "meditate",
+            "read book",
+         },
+      },
+      THU = {
+         "work - 3h",
+         daily = {
+            "do sport",
+            "meditate",
+            "read book",
+         },
+      },
+      FRI = {
+         "psychology session %13:00% - 1h",
+         "work - 3h",
+         "take care of Javie",
+         daily = {
+            "do sport",
+            "meditate",
+            "read book",
+         },
+      },
+      SAT = {
+         "followattr - 1h",
+         "comeback - 30m",
+         "call to grandmother",
+         daily = {
+            "do sport",
+            "meditate",
+            "read book",
+         },
+      },
+      SUN = {
+         "followattr - 1h",
+         "comeback - 30m",
+         "clean the floors",
+         "clean the office",
+         "review goals",
+         "review week",
+         daily = {
+            "do sport",
+            "meditate",
+            "read book",
+         },
+      },
    },
-   footer = string.format(
+   sectionFooter = string.format(
       "%s\n%s",
       "total: ",
       "result: "
    ),
+   header = string.format(
+      "%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n",
+      "@document.meta",
+      "stats: [",
+      "    resting     : 0",
+      "    work        : 0",
+      "    uni         : 0",
+      "    health      : 0",
+      "    social      : 0",
+      "    relationship: 0",
+      "    projects    : 0",
+      "    finances    : 0",
+      "]",
+      "@end"
+   )
 }
 registerVimCommand()
 
