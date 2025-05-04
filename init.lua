@@ -120,6 +120,15 @@ require("lazy").setup {
       version = "v2.10.0",
    },
 
+   -- Image rendering
+   {
+      "3rd/image.nvim",
+      build = false,
+      opts = {
+         processor = "magick_cli",
+      }
+   },
+
    -- Lua lang
    { "euclidianAce/BetterLua.vim" },
    { "folke/neodev.nvim" },
@@ -173,6 +182,7 @@ require("plugins.treesj-configuration")
 require("plugins.toggleterm-configuration")
 require("plugins.align-configuration")
 require("plugins.stylua-nvim-configuration")
+require("plugins.image-configuration")
 require("neodev").setup()
 require("build").setup()
 require("castlelecs.obsidian").setup {
