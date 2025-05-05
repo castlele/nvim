@@ -201,6 +201,7 @@ require("castlelecs.norgtemplate").setup {
             "do sport",
             "meditate",
             "read book",
+            "reflex on thoughs",
          },
       },
       TUE = {
@@ -211,6 +212,7 @@ require("castlelecs.norgtemplate").setup {
             "do sport",
             "meditate",
             "read book",
+            "reflex on thoughs",
          },
       },
       WED = {
@@ -221,6 +223,7 @@ require("castlelecs.norgtemplate").setup {
             "do sport",
             "meditate",
             "read book",
+            "reflex on thoughs",
          },
       },
       THU = {
@@ -229,6 +232,7 @@ require("castlelecs.norgtemplate").setup {
             "do sport",
             "meditate",
             "read book",
+            "reflex on thoughs",
          },
       },
       FRI = {
@@ -239,6 +243,7 @@ require("castlelecs.norgtemplate").setup {
             "do sport",
             "meditate",
             "read book",
+            "reflex on thoughs",
          },
       },
       SAT = {
@@ -249,6 +254,7 @@ require("castlelecs.norgtemplate").setup {
             "do sport",
             "meditate",
             "read book",
+            "reflex on thoughs",
          },
       },
       SUN = {
@@ -262,6 +268,7 @@ require("castlelecs.norgtemplate").setup {
             "do sport",
             "meditate",
             "read book",
+            "reflex on thoughs",
          },
       },
    },
