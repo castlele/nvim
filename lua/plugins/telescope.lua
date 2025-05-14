@@ -58,22 +58,6 @@ local function findFilesOverProject()
       "bin/",
    }
 
-   local ignore = { "customignore" }
-
-   for _, fileName in pairs(ignore) do
-      local file = io.open(fileName, IOMODE.READ)
-
-      if file ~= nil then
-         local lines = FM.get_lines_from_file(file)
-
-         for _, line in pairs(lines) do
-            table.insert(ignore_files, line)
-         end
-
-         io.close(file)
-      end
-   end
-
    builtin.find_files {
       hidden = true,
       no_ignore = false,

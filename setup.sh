@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 OS_TYPE="$OSTYPE"
 LINUX_MINT="linux-gnu"
@@ -14,6 +14,10 @@ fi
 
 installNeovim() {
     echo "Installing neovim"
+
+    if [[ $OS_TYPE == $LINUX_MINT* ]]; then
+        sudo apt-get install ninja-build gettext cmake curl build-essential
+    fi
 
     sudo rm /usr/local/bin/nvim
     sudo rm -r /usr/local/share/nvim/
@@ -63,6 +67,11 @@ setupDependencies() {
 
     nvm install 22
     npm install --global yarn
+
+    if [[ $OS_TYPE == $LINUX_MINT* ]]; then
+        cargo install --locked tree-sitter-cli
+        sudo apt install ripgrep
+    fi
 }
 
 setupLSP() {
