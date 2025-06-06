@@ -182,6 +182,7 @@ require("plugins.treesj-configuration")
 require("plugins.toggleterm-configuration")
 require("plugins.align-configuration")
 require("plugins.stylua-nvim-configuration")
+require("plugins.gitsigns-configuration")
 require("neodev").setup()
 require("build").setup()
 require("castlelecs.obsidian").setup {
