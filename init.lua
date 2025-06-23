@@ -190,6 +190,12 @@ require("castlelecs.obsidian").setup {
    "catscastle",
    "kbase",
 }
+local dailyTasks = {
+   "do sport",
+   "meditate",
+   "read book",
+   "reflex on thoughs",
+}
 require("castlelecs.norgtemplate").setup {
    week = {
       MON = {
@@ -197,17 +203,10 @@ require("castlelecs.norgtemplate").setup {
          "fill stats",
          "prepare next week file",
          "take care of Javie",
-         daily = {
-            "do sport",
-            "meditate",
-            "read book",
-            "reflex on thoughs",
-         },
+         daily = dailyTasks,
       },
       TUE = {
-         ["work - 3h"] = {
-            "design demo",
-         },
+         "work - 3h",
          daily = {
             "do sport",
             "meditate",
@@ -216,46 +215,28 @@ require("castlelecs.norgtemplate").setup {
          },
       },
       WED = {
-         "work - 3h",
+         ["work - 3h"] = {
+            "design demo",
+         },
          "clean the floors",
          "clean the office",
-         daily = {
-            "do sport",
-            "meditate",
-            "read book",
-            "reflex on thoughs",
-         },
+         daily = dailyTasks,
       },
       THU = {
          "work - 3h",
-         daily = {
-            "do sport",
-            "meditate",
-            "read book",
-            "reflex on thoughs",
-         },
+         daily = dailyTasks,
       },
       FRI = {
          "psychology session %13:00% - 1h",
          "work - 3h",
          "take care of Javie",
-         daily = {
-            "do sport",
-            "meditate",
-            "read book",
-            "reflex on thoughs",
-         },
+         daily = dailyTasks,
       },
       SAT = {
          "followattr - 1h",
          "comeback - 30m",
          "call to grandmother",
-         daily = {
-            "do sport",
-            "meditate",
-            "read book",
-            "reflex on thoughs",
-         },
+         daily = dailyTasks,
       },
       SUN = {
          "followattr - 1h",
@@ -264,22 +245,19 @@ require("castlelecs.norgtemplate").setup {
          "clean the office",
          "review goals",
          "review week",
-         daily = {
-            "do sport",
-            "meditate",
-            "read book",
-            "reflex on thoughs",
-         },
+         daily = dailyTasks,
       },
    },
    sectionFooter = string.format(
-      "%s\n%s",
+      "%s\n%s\n%s",
+      "goal: %SMART goal%",
       "total: ",
       "result: "
    ),
    header = string.format(
-      "%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n",
+      "%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n",
       "@document.meta",
+      "goal: %SMART goal%",
       "stats: [",
       "    resting     : 0",
       "    work        : 0",
