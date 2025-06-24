@@ -57,6 +57,14 @@ local function completion(filter)
    return filteredVaults
 end
 
+---@param vault string
+local function checkoutVault(vault)
+   local path = "$HOME/dev/" .. vault
+
+   vim.cmd.tabnew()
+   vim.cmd.lcd(path)
+end
+
 ---@param vaults string[]
 function M.setup(vaults)
    M.vaults = vaults
@@ -69,6 +77,10 @@ function M.setup(vaults)
 
    vim.api.nvim_create_user_command("Obsidian", function(args)
       openVault(args.args)
+   end, opts)
+
+   vim.api.nvim_create_user_command("ObsidianOpen", function(args)
+      checkoutVault(args.args)
    end, opts)
 end
 
