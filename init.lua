@@ -186,9 +186,8 @@ require("plugins.gitsigns-configuration")
 require("neodev").setup()
 require("build").setup()
 require("castlelecs.obsidian").setup {
-   "docs",
-   "catscastle",
-   "kbase",
+   "$HOME/dev/kbase",
+   "$HOME/dev/yooo",
 }
 local dailyTasks = {
    "do sport",

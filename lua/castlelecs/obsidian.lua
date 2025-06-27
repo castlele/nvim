@@ -1,24 +1,31 @@
 local strutils = require("cluautils.string_utils")
 
 ---@class ObsidianModule
----@field vaults string[]
+---@field vaults table[string, string] map where key is vault name and value is its path
 local M = {}
+
+---@param vault string
+local function checkoutVault(vault)
+   local path = M.vaults[vault]
+
+   vim.notify(vim.inspect(path), vim.log.levels.ERROR)
+
+   vim.cmd.tabnew()
+   vim.cmd.lcd(path)
+end
 
 ---@param vault string
 local function openVault(vault)
    local osname
    local openCmd
 
-   local fh = assert(io.popen("uname -o 2>/dev/null","r"))
+   local fh = assert(io.popen("uname -o 2>/dev/null", "r"))
    if fh then
       osname = fh:read()
    end
 
    if not osname then
-      vim.notify(
-         "Unsupported OS used",
-         vim.log.levels.WARN
-      )
+      vim.notify("Unsupported OS used", vim.log.levels.WARN)
    end
 
    if osname == "GNU/Linux" then
@@ -39,14 +46,32 @@ local function openVault(vault)
       :toggle()
 end
 
+---@param vaultsPaths []string
+---@return table[string, string] map where key is vault name and value is its path
+local function parseVaults(vaultsPaths)
+   local res = {}
+
+   for _, vaultPath in ipairs(vaultsPaths) do
+      local filePath = vim.fn.expand(vaultPath)
+      local pathComponents = vim.fn.split(filePath, "/")
+
+      local vaultName = pathComponents[#pathComponents]
+      res[vaultName] = vaultsPaths
+   end
+
+   return res
+end
+
 local function completion(filter)
+   local vaults = vim.tbl_keys(M.vaults)
+
    if not filter or strutils.isEmpty(filter) then
-      return M.vaults
+      return vaults
    end
 
    local filteredVaults = {}
 
-   for _, vault in ipairs(M.vaults) do
+   for _, vault in ipairs(vaults) do
       local s = string.find(vault, filter)
 
       if s then
@@ -57,31 +82,32 @@ local function completion(filter)
    return filteredVaults
 end
 
----@param vault string
-local function checkoutVault(vault)
-   local path = "$HOME/dev/" .. vault
-
-   vim.cmd.tabnew()
-   vim.cmd.lcd(path)
-end
-
----@param vaults string[]
+---@param vaults string[] paths to the vaults
 function M.setup(vaults)
-   M.vaults = vaults
+   M.vaults = parseVaults(vaults)
 
-   local opts = {
-      desc = "Obsidian repositories navigation",
-      complete = completion,
-      nargs = 1,
-   }
+   vim.api.nvim_create_user_command("ObsidianList", function()
+      vim.print(parseVaults(vaults))
+   end, {
+      desc = "List of Obsidian vaults",
+      nargs = 0,
+   })
 
    vim.api.nvim_create_user_command("Obsidian", function(args)
       openVault(args.args)
-   end, opts)
+   end, {
+      desc = "Obsidian repositories navigation",
+      complete = completion,
+      nargs = 1,
+   })
 
    vim.api.nvim_create_user_command("ObsidianOpen", function(args)
       checkoutVault(args.args)
-   end, opts)
+   end, {
+      desc = "Open Obsidian vault in new neovim tab",
+      complete = completion,
+      nargs = 1,
+   })
 end
 
 return M
