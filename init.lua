@@ -161,136 +161,87 @@ require("lazy").setup {
    },
 }
 
-local kbasePath = "$HOME/dev/kbase"
-
-require("autocommands")
-require("appearance")
-require("plenary")
-require("castlelecs.common_settings")
-require("castlelecs.keymap_settings")
-require("castlelecs.case_converter_binding")
-require("castlelecs.imports_sorting")
-require("plugins.markdown_preview")
-require("plugins.better_whitespace")
-require("plugins.lualine")
-
-local telescopeMethods = require("plugins.telescope-methods")
-require("plugins.telescope").setup {
-   setup = telescopeMethods.setupTelescope,
-   loadExtensions = telescopeMethods.loadExtensions,
-   telescopeBufferKeymaps = {
-      i = {
-         ["<C-w>"] = telescopeMethods.openSelectedInQlistAction(),
-         ["<C-y>"] = telescopeMethods.togglePreviewAction(),
-      },
-   },
-   keymaps = {
-      n = {
-         ["<space>fc"] = telescopeMethods.searchFileComponents,
-         ["<leader>O"] = telescopeMethods.findFilesOverProject,
-         ["<leader>F"] = telescopeMethods.live_grep,
-         ["<leader>f"] = telescopeMethods.searchOverCurrentFile,
-         ["<leader>ms"] = telescopeMethods.multiSearch,
-         ["<leader>fkb"] = function() telescopeMethods.searchOverKBase(kbasePath) end,
-      }
-   }
-}
-require("plugins.luasnip")
--- TODO: Remove this package entirely when default neovim config will replace it
-require("plugins.lsp-configuration")
--- require("plugins.new-lsp-configuration")
-require("plugins.comment")
-require("plugins.oil_configuration")
-require("plugins.treesj-configuration")
-require("plugins.toggleterm-configuration")
-require("plugins.align-configuration")
-require("plugins.stylua-nvim-configuration")
-require("plugins.gitsigns-configuration")
-require("neodev").setup()
-require("build").setup()
-require("castlelecs.obsidian").setup {
-   vaults = {
-      kbasePath,
-   },
-}
 local dailyTasks = {
    "do sport",
    "meditate",
    "read book",
    "reflex on thoughs",
 }
-require("castlelecs.norgtemplate").setup {
-   week = {
-      MON = {
-         "work - 3h",
-         "fill stats",
-         "prepare next week file",
-         "take care of Javie",
-         daily = dailyTasks,
-      },
-      TUE = {
-         "work - 3h",
-         daily = {
-            "do sport",
-            "meditate",
-            "read book",
-            "reflex on thoughs",
+require("plugins").setup {
+   kbasePath = "$HOME/dev/kbase",
+   weekOpts = {
+      week = {
+         MON = {
+            "work - 3h",
+            "fill stats",
+            "prepare next week file",
+            "take care of Javie",
+            daily = dailyTasks,
+         },
+         TUE = {
+            "work - 3h",
+            daily = {
+               "do sport",
+               "meditate",
+               "read book",
+               "reflex on thoughs",
+            },
+         },
+         WED = {
+            ["work - 3h"] = {
+               "design demo",
+            },
+            "clean the floors",
+            "clean the office",
+            daily = dailyTasks,
+         },
+         THU = {
+            "work - 3h",
+            daily = dailyTasks,
+         },
+         FRI = {
+            "psychology session %13:00% - 1h",
+            "work - 3h",
+            "take care of Javie",
+            daily = dailyTasks,
+         },
+         SAT = {
+            "followattr - 1h",
+            "comeback - 30m",
+            "call to grandmother",
+            daily = dailyTasks,
+         },
+         SUN = {
+            "followattr - 1h",
+            "comeback - 30m",
+            "clean the floors",
+            "clean the office",
+            "review goals",
+            "review week",
+            daily = dailyTasks,
          },
       },
-      WED = {
-         ["work - 3h"] = {
-            "design demo",
-         },
-         "clean the floors",
-         "clean the office",
-         daily = dailyTasks,
-      },
-      THU = {
-         "work - 3h",
-         daily = dailyTasks,
-      },
-      FRI = {
-         "psychology session %13:00% - 1h",
-         "work - 3h",
-         "take care of Javie",
-         daily = dailyTasks,
-      },
-      SAT = {
-         "followattr - 1h",
-         "comeback - 30m",
-         "call to grandmother",
-         daily = dailyTasks,
-      },
-      SUN = {
-         "followattr - 1h",
-         "comeback - 30m",
-         "clean the floors",
-         "clean the office",
-         "review goals",
-         "review week",
-         daily = dailyTasks,
-      },
-   },
-   sectionFooter = string.format(
-      "%s\n%s\n%s",
-      "goal: %SMART goal%",
-      "total: ",
-      "result: "
-   ),
-   header = string.format(
-      "%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n",
-      "@document.meta",
-      "goal: %SMART goal%",
-      "stats: [",
-      "    resting     : 0",
-      "    work        : 0",
-      "    uni         : 0",
-      "    health      : 0",
-      "    social      : 0",
-      "    relationship: 0",
-      "    projects    : 0",
-      "    finances    : 0",
-      "]",
-      "@end"
-   )
+      sectionFooter = string.format(
+         "%s\n%s\n%s",
+         "goal: %SMART goal%",
+         "total: ",
+         "result: "
+      ),
+      header = string.format(
+         "%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n",
+         "@document.meta",
+         "goal: %SMART goal%",
+         "stats: [",
+         "    resting     : 0",
+         "    work        : 0",
+         "    uni         : 0",
+         "    health      : 0",
+         "    social      : 0",
+         "    relationship: 0",
+         "    projects    : 0",
+         "    finances    : 0",
+         "]",
+         "@end"
+      )
+   }
 }
