@@ -161,6 +161,8 @@ require("lazy").setup {
    },
 }
 
+local kbasePath = "$HOME/dev/kbase"
+
 require("autocommands")
 require("appearance")
 require("plenary")
@@ -171,7 +173,28 @@ require("castlelecs.imports_sorting")
 require("plugins.markdown_preview")
 require("plugins.better_whitespace")
 require("plugins.lualine")
-require("plugins.telescope")
+
+local telescopeMethods = require("plugins.telescope-methods")
+require("plugins.telescope").setup {
+   setup = telescopeMethods.setupTelescope,
+   loadExtensions = telescopeMethods.loadExtensions,
+   telescopeBufferKeymaps = {
+      i = {
+         ["<C-w>"] = telescopeMethods.openSelectedInQlistAction(),
+         ["<C-y>"] = telescopeMethods.togglePreviewAction(),
+      },
+   },
+   keymaps = {
+      n = {
+         ["<space>fc"] = telescopeMethods.searchFileComponents,
+         ["<leader>O"] = telescopeMethods.findFilesOverProject,
+         ["<leader>F"] = telescopeMethods.live_grep,
+         ["<leader>f"] = telescopeMethods.searchOverCurrentFile,
+         ["<leader>ms"] = telescopeMethods.multiSearch,
+         ["<leader>fkb"] = function() telescopeMethods.searchOverKBase(kbasePath) end,
+      }
+   }
+}
 require("plugins.luasnip")
 -- TODO: Remove this package entirely when default neovim config will replace it
 require("plugins.lsp-configuration")
@@ -187,8 +210,7 @@ require("neodev").setup()
 require("build").setup()
 require("castlelecs.obsidian").setup {
    vaults = {
-      "$HOME/dev/kbase",
-      "$HOME/dev/yooo",
+      kbasePath,
    },
 }
 local dailyTasks = {
