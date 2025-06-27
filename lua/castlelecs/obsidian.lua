@@ -8,8 +8,6 @@ local M = {}
 local function checkoutVault(vault)
    local path = M.vaults[vault]
 
-   vim.notify(vim.inspect(path), vim.log.levels.ERROR)
-
    vim.cmd.tabnew()
    vim.cmd.lcd(path)
 end
@@ -56,7 +54,7 @@ local function parseVaults(vaultsPaths)
       local pathComponents = vim.fn.split(filePath, "/")
 
       local vaultName = pathComponents[#pathComponents]
-      res[vaultName] = vaultsPaths
+      res[vaultName] = vaultPath
    end
 
    return res
@@ -82,12 +80,14 @@ local function completion(filter)
    return filteredVaults
 end
 
----@param vaults string[] paths to the vaults
-function M.setup(vaults)
-   M.vaults = parseVaults(vaults)
+---@class ObsidianModuleConfig
+---@field vaults string[] paths to the vaults
+---@param config ObsidianModuleConfig
+function M.setup(config)
+   M.vaults = parseVaults(config.vaults)
 
    vim.api.nvim_create_user_command("ObsidianList", function()
-      vim.print(parseVaults(vaults))
+      vim.print(M.vaults)
    end, {
       desc = "List of Obsidian vaults",
       nargs = 0,
