@@ -46,7 +46,7 @@ local function openVault(vault)
       :toggle()
 end
 
----@param vaultsPaths []string
+---@param vaultsPaths table[string]
 ---@return table[string, string] map where key is vault name and value is its path
 local function parseVaults(vaultsPaths)
    local res = {}
