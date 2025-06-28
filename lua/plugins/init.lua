@@ -2,6 +2,7 @@
 local M = {}
 
 ---@class PluginsModuleConfig
+---@field isNewLspConfig boolean?
 ---@field kbasePath string?
 ---@field weekOpts WeekConfiguration?
 ---@param config PluginsModuleConfig
@@ -17,9 +18,6 @@ function M.setup(config)
    require("plugins.better_whitespace")
    require("plugins.lualine")
    require("plugins.luasnip")
-   -- TODO: Remove this package entirely when default neovim config will replace it
-   require("plugins.lsp-configuration")
-   -- require("plugins.new-lsp-configuration")
    require("plugins.comment")
    require("plugins.oil_configuration")
    require("plugins.treesj-configuration")
@@ -29,6 +27,12 @@ function M.setup(config)
    require("plugins.gitsigns-configuration")
    require("neodev").setup()
    require("build").setup()
+
+   if config.isNewLspConfig ~= nil and config.isNewLspConfig then
+      require("plugins.new-lsp-configuration")
+   else
+      require("plugins.lsp-configuration")
+   end
 
    if config.weekOpts then
       require("castlelecs.norgtemplate").setup(config.weekOpts)

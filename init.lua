@@ -168,6 +168,7 @@ local dailyTasks = {
    "reflex on thoughs",
 }
 require("plugins").setup {
+   isNewLspConfig = false,
    kbasePath = "$HOME/dev/kbase",
    weekOpts = {
       week = {
