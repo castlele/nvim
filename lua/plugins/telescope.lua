@@ -1,5 +1,3 @@
-local utils = require("utils")
-
 ---@class TelescopeConfiguratorModule
 local M = {}
 
@@ -9,6 +7,7 @@ local M = {}
 ---@field setup (fun(mappings: string))?
 ---@field loadExtensions (fun())?
 function M.setup(config)
+   local utils = require("utils")
    local keymaps = config.keymaps
 
    if config.setup then
@@ -23,17 +22,7 @@ function M.setup(config)
       return
    end
 
-   for mode, combs in pairs(keymaps) do
-      assert(type(mode) == "string")
-      assert(type(combs) == "table")
-
-      for key, fun in pairs(combs) do
-         assert(type(key) == "string")
-         assert(type(fun) == "function")
-
-         utils.keymap_func(mode, key, fun)
-      end
-   end
+   utils.setKeymaps(keymaps)
 end
 
 return M

@@ -28,6 +28,15 @@ function M.setup(config)
    require("neodev").setup()
    require("build").setup()
 
+   local picker = require("castlelecs.emoji-picker")
+   picker.setup {
+      keymaps = {
+         n = {
+            ["<leader>E"] = picker.searchBuildWithTelescope,
+         },
+      },
+   }
+
    if config.isNewLspConfig ~= nil and config.isNewLspConfig then
       require("plugins.new-lsp-configuration")
    else
