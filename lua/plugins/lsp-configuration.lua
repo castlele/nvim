@@ -59,10 +59,7 @@ local servers = {
             },
          },
          workspace = {
-            library = tableutils.concat_tables(
-               vim.api.nvim_get_runtime_file("", true),
-               packages
-            ),
+            library = packages,
             checkThirdParty = false,
             telemetry = { enable = false },
          },
