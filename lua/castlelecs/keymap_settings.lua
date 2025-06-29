@@ -9,6 +9,3 @@ k("n", "tn", ":tabnew" .. post)
 
 k("v", "y", '"+y')
 k("n", "y", '"+y')
-
-k("n", "qn", ":cnext" .. post)
-k("n", "qp", ":cprev" .. post)

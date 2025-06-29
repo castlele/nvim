@@ -26,7 +26,7 @@ function M.setup(config)
    require("plugins.stylua-nvim-configuration")
    require("plugins.gitsigns-configuration")
    require("lazydev").setup {
-      library = { path = "${3rd}/luv/library", words = { "vim%.uv" } }
+      library = { path = "${3rd}/luv/library", words = { "vim%.uv" } },
    }
    require("build").setup()
    require("mini.map").setup()
@@ -41,7 +41,58 @@ function M.setup(config)
    }
 
    if config.isNewLspConfig ~= nil and config.isNewLspConfig then
-      require("plugins.new-lsp-configuration")
+      local editorActions = require("castlelecs.editor-actions")
+
+      require("plugins.new-lsp-configuration").setup {
+         lsps = {
+            "lua_ls",
+            "clangd",
+            "gopls",
+            "html",
+            "jdtls",
+            "kotlin_language_server",
+         },
+         keymaps = {
+            n = {
+               ["gD"] = editorActions.goToDeclaration,
+               ["gd"] = editorActions.goToDefinition,
+               ["gr"] = editorActions.goToReferences,
+               ["K"] = editorActions.showHelp,
+               ["<leader>rn"] = editorActions.rename,
+               ["<leader>e"] = editorActions.showDiagnostics,
+            },
+            i = {
+               ["<C-K>"] = editorActions.showSignatureHelp,
+            },
+         },
+      }
+
+      require("plugins.treesitter-configuration").setup {
+         languages = {
+            "go",
+            "c",
+            "cpp",
+            "lua",
+            "vimdoc",
+            "vim",
+            "norg",
+            "kotlin",
+            "java",
+            "swift",
+            "objc",
+         },
+      }
+
+      require("plugins.cmp-configuration").setup {
+         keymaps = {
+            n = {
+               ["<CR>"] = editorActions.confirmCompletionSelection,
+            },
+            i = {
+               ["<C-Space>"] = editorActions.activateCompletions,
+            },
+         },
+      }
    else
       require("plugins.lsp-configuration")
    end
@@ -68,9 +119,11 @@ function M.setup(config)
                ["<leader>F"] = telescopeMethods.live_grep,
                ["<leader>f"] = telescopeMethods.searchOverCurrentFile,
                ["<leader>ms"] = telescopeMethods.multiSearch,
-               ["<leader>fkb"] = function() telescopeMethods.searchOverKBase(config.kbasePath) end,
-            }
-         }
+               ["<leader>fkb"] = function()
+                  telescopeMethods.searchOverKBase(config.kbasePath)
+               end,
+            },
+         },
       }
 
       require("castlelecs.obsidian").setup {
