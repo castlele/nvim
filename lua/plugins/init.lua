@@ -7,11 +7,22 @@ local M = {}
 ---@field weekOpts WeekConfiguration?
 ---@param config PluginsModuleConfig
 function M.setup(config)
+   local customKeymaps = {
+      n = {
+         ["<leader>nh"] = vim.cmd.noh,
+         ["th"] = vim.cmd.tabprev,
+         ["tl"] = vim.cmd.tabnext,
+         ["tn"] = vim.cmd.tabnew,
+      },
+   }
+   require("utils").setKeymaps(customKeymaps)
+   require("utils").keymap("n", "y", '"+y')
+   require("utils").keymap("v", "y", '"+y')
+
    require("autocommands")
    require("appearance")
    require("plenary")
    require("castlelecs.common_settings")
-   require("castlelecs.keymap_settings")
    require("castlelecs.case_converter_binding")
    require("castlelecs.imports_sorting")
    require("plugins.markdown_preview")
@@ -26,7 +37,12 @@ function M.setup(config)
    require("plugins.stylua-nvim-configuration")
    require("plugins.gitsigns-configuration")
    require("lazydev").setup {
-      library = { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+      library = {
+         path = "${3rd}/luv/library",
+         words = {
+            "vim%.uv",
+         },
+      },
    }
    require("build").setup()
    require("mini.map").setup()
