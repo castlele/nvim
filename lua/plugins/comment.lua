@@ -1,16 +1,15 @@
-require("Comment").setup({
+require("Comment").setup {
    toggler = {
-      line = "<C-_>"
+      line = "<C-_>",
    },
    opleader = {
-      line = "<C-_>"
+      line = "<C-_>",
    },
    mappings = {
       extra = false,
    },
-})
+}
 
 local ft = require("Comment.ft")
 
-ft({"objc", "objcpp"}, "// %s")
-
+ft({ "objc", "objcpp" }, "// %s")

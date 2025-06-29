@@ -27,6 +27,7 @@ function M.setup(config)
    require("plugins.gitsigns-configuration")
    require("neodev").setup()
    require("build").setup()
+   require("mini.map").setup()
 
    local picker = require("castlelecs.emoji-picker")
    picker.setup {
@@ -49,7 +50,6 @@ function M.setup(config)
 
    if config.kbasePath then
       local telescopeMethods = require("plugins.telescope-methods")
-
       require("plugins.telescope").setup {
          setup = telescopeMethods.setupTelescope,
          loadExtensions = telescopeMethods.loadExtensions,

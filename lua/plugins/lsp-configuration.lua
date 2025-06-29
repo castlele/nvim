@@ -41,7 +41,6 @@ local packages = {
 local servers = {
    clangd = {},
    --pyright = {},
-   kotlin_language_server = {},
    lua_ls = {
       Lua = {
          runtime = {
@@ -159,7 +158,6 @@ cmp.setup {
       end, { "i", "s" }),
    },
    sources = cmp.config.sources {
-      { name = "copilot" },
       { name = "luasnip" },
       { name = "nvim_lsp" },
       { name = "buffer" },

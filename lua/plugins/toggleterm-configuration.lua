@@ -1,5 +1,7 @@
 local utils = require("utils")
 
+-- TODO: Create a command to push all my current changes with message
+
 require("toggleterm").setup()
 
 local Terminal = require("toggleterm.terminal").Terminal
