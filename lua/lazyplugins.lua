@@ -12,14 +12,8 @@ return {
 
    lsp = {
       { "neovim/nvim-lspconfig" },
-      {
-         "mason-org/mason.nvim",
-         version = "v1.32.0",
-      },
-      {
-         "mason-org/mason-lspconfig.nvim",
-         version = "v1.32.0",
-      },
+      { "mason-org/mason.nvim" },
+      { "mason-org/mason-lspconfig.nvim" },
       { "hrsh7th/nvim-cmp" }, -- Completion
       { "hrsh7th/cmp-nvim-lsp" },
       { "hrsh7th/cmp-buffer" },
@@ -31,7 +25,7 @@ return {
    treesitter = {
       {
          "nvim-treesitter/nvim-treesitter",
-         version = "v0.9.3",
+         version = "v0.10.0",
          dependencies = {
             { "nvim-treesitter/nvim-treesitter-textobjects" },
             { "nvim-treesitter/playground" },
@@ -123,7 +117,7 @@ return {
       },
       {
          -- Support for vim api completions
-         "folke/neodev.nvim",
+         "folke/lazydev.nvim",
          ft = "lua",
       },
       -- TODO: Can I use formatters from mason

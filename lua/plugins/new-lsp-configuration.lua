@@ -3,27 +3,70 @@ local ts_languages = {
    "c",
    "cpp",
    "lua",
-   "python",
    "vimdoc",
    "vim",
    "norg",
    "kotlin",
    "java",
+   "swift",
+   "objc",
 }
-
-local lsp_servers = {
-   "gopls",
-   "lua_ls",
-   "jdtls",
-}
+local cmp_lsp = require('cmp_nvim_lsp')
+local capabilities = vim.tbl_deep_extend(
+   "force",
+   {},
+   vim.lsp.protocol.make_client_capabilities(),
+   cmp_lsp.default_capabilities())
 
 require("mason").setup()
-local mason_lspconfig = require("mason-lspconfig")
-
-mason_lspconfig.setup {
-   ensure_installed = lsp_servers,
+require("mason-lspconfig").setup {
+   ensure_installed = {
+      "lua_ls",
+      "clangd",
+      "gopls",
+      "html",
+      "jdtls",
+      "kotlin_language_server",
+   },
 }
 
+vim.lsp.enable("sourcekit")
+
+local packages = {
+   "~/.luaver/luarocks/2.3.0_5.1/share/lua/5.1",
+   "~/.luaver/luarocks/3.0.0_5.1/share/lua/5.1",
+   "${3rd}/love2d/library",
+}
+
+vim.lsp.config("lua_ls", {
+   settings = {
+      Lua = {
+         runtime = {
+            version = "LuaJIT",
+            path = {
+               "?.lua",
+               "?/init.lua",
+            },
+         },
+         format = {
+            enable = true,
+            defaultConfig = {
+               indent_style = "space",
+               indent_size = "3",
+            },
+         },
+         workspace = {
+            library = packages,
+            checkThirdParty = false,
+            telemetry = { enable = false },
+         },
+         completion = { callSnippet = "Replace" },
+         diagnostics = { globals = { "vim" } },
+      },
+   },
+})
+
+---@diagnostic disable-next-line
 require("nvim-treesitter.configs").setup {
    ensure_installed = ts_languages,
    auto_install = true,
@@ -31,15 +74,28 @@ require("nvim-treesitter.configs").setup {
    indent = { enable = true },
 }
 
-vim.lsp.enable(lsp_servers)
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(event)
+   local opts = { buffer = event.buf, silent = true }
 
-vim.api.nvim_create_autocmd("LspAttach", {
-   callback = function(args)
-      local opts = { buffer = args.buf, silent = true }
-
-      vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-      vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, opts)
-   end,
+   vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+   vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+   vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+   vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+   vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+   vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, opts)
+   vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, opts)
+   vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+   vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, opts)
+   vim.keymap.set({ "n", "v" }, "<space>ca", vim.lsp.buf.code_action, opts)
+   vim.keymap.set("n", "<space>f", function()
+      if vim.bo.filetype == "lua" then
+         vim.cmd("LuaFormat")
+      else
+         vim.lsp.buf.format { async = true }
+      end
+   end, opts)
+  end,
 })
 
 vim.cmd("set completeopt+=noselect")
@@ -48,18 +104,16 @@ vim.diagnostic.config {
    virtual_lines = { current_line = true },
 }
 
-local cmp = require("cmp")
 local luasnip = require("luasnip")
 
 require("luasnip.loaders.from_vscode").lazy_load()
 luasnip.config.setup()
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 vim.lsp.config("*", {
    capabilities = capabilities,
 })
 
+local cmp = require("cmp")
 cmp.setup {
    experimental = {
       ghost_text = true,
@@ -71,26 +125,7 @@ cmp.setup {
    },
    mapping = cmp.mapping.preset.insert {
       ["<C-Space>"] = cmp.mapping.complete(),
-      ["<CR>"] = cmp.mapping.confirm({ select = true }),
-      ["<Tab>"] = cmp.mapping(function(fallback)
-         if cmp.visible() then
-            cmp.select_next_item()
-         elseif luasnip.locally_jumpable(1) then
-            luasnip.jump(1)
-         else
-            fallback()
-         end
-      end, { "i", "s" }),
-
-      ["<S-Tab>"] = cmp.mapping(function(fallback)
-         if cmp.visible() then
-            cmp.select_prev_item()
-         elseif luasnip.locally_jumpable(-1) then
-            luasnip.jump(-1)
-         else
-            fallback()
-         end
-      end, { "i", "s" }),
+      ["<CR>"] = cmp.mapping.confirm { select = true },
    },
    sources = cmp.config.sources {
       { name = "luasnip" },

@@ -18,7 +18,7 @@ require("lazy").setup {
 }
 
 require("plugins").setup {
-   isNewLspConfig = false,
+   isNewLspConfig = true,
    kbasePath = "$HOME/dev/kbase",
    weekOpts = require("weekOpts"),
 }

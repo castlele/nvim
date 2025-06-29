@@ -30,7 +30,7 @@ capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 require("mason").setup()
 -- Ensure the servers above are installed
-local mason_lspconfig = require("mason-lspconfig")
+-- local mason_lspconfig = require("mason-lspconfig")
 
 local packages = {
    "~/.luaver/luarocks/2.3.0_5.1/share/lua/5.1",
@@ -68,11 +68,11 @@ local servers = {
    },
 }
 
-mason_lspconfig.setup {
-   ensure_installed = vim.tbl_keys(servers),
-}
+-- mason_lspconfig.setup {
+--    ensure_installed = vim.tbl_keys(servers),
+-- }
 
-require("lspconfig").gleam.setup {}
+-- require("lspconfig").gleam.setup {}
 
 ---@MARK - General configuration
 
@@ -100,22 +100,22 @@ local on_attach = function(_, bufnr)
    end, opts)
 end
 
-mason_lspconfig.setup_handlers {
-   function(server_name)
-      require("lspconfig")[server_name].setup {
-         capabilities = capabilities,
-         on_attach = on_attach,
-         settings = servers[server_name],
-         filetypes = (servers[server_name] or {}).filetypes,
-      }
-   end,
-}
+-- mason_lspconfig.setup_handlers {
+--    function(server_name)
+--       require("lspconfig")[server_name].setup {
+--          capabilities = capabilities,
+--          on_attach = on_attach,
+--          settings = servers[server_name],
+--          filetypes = (servers[server_name] or {}).filetypes,
+--       }
+--    end,
+-- }
 
 --TODO: Move to servser!
-require("lspconfig").sourcekit.setup {
-   capabilities = capabilities,
-   on_attach = on_attach,
-}
+-- require("lspconfig").sourcekit.setup {
+--    capabilities = capabilities,
+--    on_attach = on_attach,
+-- }
 
 -- Completion
 

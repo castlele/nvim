@@ -25,7 +25,9 @@ function M.setup(config)
    require("plugins.align-configuration")
    require("plugins.stylua-nvim-configuration")
    require("plugins.gitsigns-configuration")
-   require("neodev").setup()
+   require("lazydev").setup {
+      library = { path = "${3rd}/luv/library", words = { "vim%.uv" } }
+   }
    require("build").setup()
    require("mini.map").setup()
 
