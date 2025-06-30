@@ -7,17 +7,6 @@ local M = {}
 ---@field weekOpts WeekConfiguration?
 ---@param config PluginsModuleConfig
 function M.setup(config)
-   local customKeymaps = {
-      n = {
-         ["<leader>nh"] = vim.cmd.noh,
-         ["th"] = vim.cmd.tabprev,
-         ["tl"] = vim.cmd.tabnext,
-         ["tn"] = vim.cmd.tabnew,
-      },
-   }
-   require("utils").setKeymaps(customKeymaps)
-   require("utils").keymap("n", "y", '"+y')
-   require("utils").keymap("v", "y", '"+y')
 
    require("autocommands")
    require("appearance")
@@ -46,6 +35,17 @@ function M.setup(config)
    }
    require("build").setup()
    require("mini.map").setup()
+   local customKeymaps = {
+      n = {
+         ["<leader>nh"] = vim.cmd.noh,
+         ["th"] = vim.cmd.tabprev,
+         ["tl"] = vim.cmd.tabnext,
+         ["tn"] = vim.cmd.tabnew,
+      },
+   }
+   require("utils").setKeymaps(customKeymaps)
+   require("utils").keymap("n", "y", '"+y')
+   require("utils").keymap("v", "y", '"+y')
 
    local picker = require("castlelecs.emoji-picker")
    picker.setup {
