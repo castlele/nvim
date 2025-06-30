@@ -28,7 +28,7 @@ function M.searchBuildWithTelescope()
 
    pickers
       .new(opts, {
-         debounce = 100,
+         debounce = 0,
          prompt_title = "List of emojis",
          finder = finder,
          previewer = previewers.new_buffer_previewer {
@@ -46,11 +46,12 @@ function M.searchBuildWithTelescope()
          attach_mappings = function(prompt_bufnr, _)
             actions.select_default:replace(function()
                actions.close(prompt_bufnr)
+
                local selection = actionState.get_selected_entry()
                local index = selection.index
                local emoji = emojis[index].emoji
 
-               vim.cmd.normal("a"..emoji)
+               vim.fn.setreg('"', emoji)
             end)
             return true
          end,
