@@ -19,7 +19,7 @@ local function parseKeymaps(cmp, keymaps)
          assert(type(key) == "string")
          assert(type(fun) == "function")
 
-          res[key] = cmp.mapping(fun(cmp), { mode })
+         res[key] = cmp.mapping(fun(cmp), { mode })
       end
    end
 
@@ -49,7 +49,6 @@ function M.setup(config)
    local cmp = require("cmp")
    -- This is needed for keymap function to understand what completion engine is used
    cmp.type = "cmp"
-
    cmp.setup {
       experimental = {
          ghost_text = true,
@@ -58,6 +57,14 @@ function M.setup(config)
          expand = function(args)
             luasnip.lsp_expand(args.body)
          end,
+      },
+      window = {
+         completion = cmp.config.window.bordered {
+            border = "rounded",
+         },
+         documentation = cmp.config.window.bordered {
+            border = "rounded",
+         },
       },
       mapping = cmp.mapping.preset.insert(parseKeymaps(cmp, config.keymaps)),
       sources = cmp.config.sources {
