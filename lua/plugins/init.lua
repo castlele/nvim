@@ -101,11 +101,10 @@ function M.setup(config)
 
       require("plugins.cmp-configuration").setup {
          keymaps = {
-            n = {
-               ["<CR>"] = editorActions.confirmCompletionSelection,
-            },
             i = {
                ["<C-Space>"] = editorActions.activateCompletions,
+               -- TODO: Remove or uncomment based on the feelings about completion on the enter key
+               -- ["<CR>"] = editorActions.confirmCompletionSelection,
             },
          },
       }
