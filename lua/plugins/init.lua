@@ -7,7 +7,6 @@ local M = {}
 ---@field weekOpts WeekConfiguration?
 ---@param config PluginsModuleConfig
 function M.setup(config)
-
    require("autocommands")
    require("appearance")
    require("plenary")
@@ -143,7 +142,11 @@ function M.setup(config)
 
       require("castlelecs.obsidian").setup {
          vaults = {
-            config.kbasePath,
+            {
+               path = config.kbasePath,
+               res = "res",
+               templates = "templates",
+            },
          },
       }
    end

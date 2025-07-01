@@ -1,19 +1,27 @@
-local strutils = require("cluautils.string_utils")
-
+---@class VaultData
+---@field path string path to the vault
+---@field res string? path to the resource folder relateive to the `path`
+---@field templates string? path to the templates folder relateive to the `path`
 ---@class ObsidianModule
----@field vaults table[string, string] map where key is vault name and value is its path
+---@field vaults table[string, VaultData] map where key is vault name and value is its path
 local M = {}
 
----@param vault string
-local function checkoutVault(vault)
-   local path = M.vaults[vault]
-
-   vim.cmd.tabnew()
-   vim.cmd.lcd(path)
+---@param vaultName string
+---@param templateName string
+local function insertTemplate(vaultName, templateName)
+   -- vim.api.nvim_buf_set_lines(0, 0, )
 end
 
----@param vault string
-local function openVault(vault)
+---@param vaultName string
+local function checkoutVault(vaultName)
+   local vault = M.vaults[vaultName]
+
+   vim.cmd.tabnew()
+   vim.cmd.lcd(vault.path)
+end
+
+---@param vaultName string
+local function openVault(vaultName)
    local osname
    local openCmd
 
@@ -32,7 +40,7 @@ local function openVault(vault)
       openCmd = "open"
    end
 
-   local command = string.format("%s obsidian://vault/%s", openCmd, vault)
+   local command = string.format("%s obsidian://vault/%s", openCmd, vaultName)
    local term = require("toggleterm.terminal").Terminal
 
    term
@@ -44,17 +52,39 @@ local function openVault(vault)
       :toggle()
 end
 
----@param vaultsPaths table[string]
+---@param vaults table[string]|table[VaultData]
 ---@return table[string, string] map where key is vault name and value is its path
-local function parseVaults(vaultsPaths)
+local function parseVaults(vaults)
+   ---@type table[string, VaultData]
    local res = {}
 
-   for _, vaultPath in ipairs(vaultsPaths) do
-      local filePath = vim.fn.expand(vaultPath)
+   ---@type fun(vault: VaultData)
+   local insertVault = function(vault)
+      local filePath = vim.fn.expand(vault.path)
       local pathComponents = vim.fn.split(filePath, "/")
 
       local vaultName = pathComponents[#pathComponents]
-      res[vaultName] = vaultPath
+      res[vaultName] = vault
+   end
+
+   for _, vault in ipairs(vaults) do
+      if type(vault) == "string" then
+         insertVault {
+            path = vault,
+         }
+      elseif type(vault) == "table" then
+         assert(vault.path, "Vault data should contain path property")
+
+         insertVault(vault)
+      else
+         vim.notify(
+            string.format(
+               "Obsidian: Unknown vault passed to configuration: %s",
+               vim.inspect(vault)
+            ),
+            vim.log.levels.ERROR
+         )
+      end
    end
 
    return res
@@ -62,6 +92,7 @@ end
 
 local function completion(filter)
    local vaults = vim.tbl_keys(M.vaults)
+   local strutils = require("cluautils.string_utils")
 
    if not filter or strutils.isEmpty(filter) then
       return vaults
@@ -81,7 +112,7 @@ local function completion(filter)
 end
 
 ---@class ObsidianModuleConfig
----@field vaults string[] paths to the vaults
+---@field vaults table<string>|table<VaultData> paths to the vaults
 ---@param config ObsidianModuleConfig
 function M.setup(config)
    M.vaults = parseVaults(config.vaults)
@@ -107,6 +138,47 @@ function M.setup(config)
       desc = "Open Obsidian vault in new neovim tab",
       complete = completion,
       nargs = 1,
+   })
+
+   vim.api.nvim_create_user_command("ObsidianInsertTemplate", function(args)
+      insertTemplate(args.fargs[1], args.fargs[2])
+   end, {
+      desc = "Insert template in the current buffer",
+      complete = function(filter, command)
+         local commands = vim.split(command, " ")
+
+         if #commands - 1 == 1 then
+            return completion(filter)
+         elseif #commands - 1 == 2 then
+            local vaultName = commands[2]
+            local vault = M.vaults[vaultName]
+
+            if not vault.templates then
+               return {}
+            end
+
+            local templatesPath =
+               string.format("%s/%s", vault.path, vault.templates)
+            local res = {}
+
+            local fd = io.popen("ls " .. templatesPath)
+
+            if not fd then
+               return {}
+            end
+
+            for filename in fd:lines() do
+               table.insert(res, filename)
+            end
+
+            fd:close()
+
+            return res
+         else
+            return {}
+         end
+      end,
+      nargs = "*",
    })
 end
 
