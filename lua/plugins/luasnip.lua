@@ -37,3 +37,22 @@ ls.add_snippets("cpp", {
       t({"", "} // namespace "}), f(echo, {1}),
    })
 })
+
+-- html snippets
+
+ls.add_snippets("html", {
+   s("start", {
+      t("<!DOCTYPE html>"), t({"", ""}),
+      t("<html>"), t({"", ""}),
+      t("\t<head>"), t({"", ""}),
+      t("\t\t<title>"), i(1, "title name"), t("</title>"), t({"", ""}),
+      t("\t\t<meta charset=\"utf-8\">"), t({"", ""}),
+      t("\t</head>"), t({"", ""}),
+      t("\t<body>"), t({"", ""}),
+      t("\t\t<main>"), t({"", ""}),
+      t("\t\t\t"), i(2, "content"), t({"", ""}),
+      t("\t\t</main>"), t({"", ""}),
+      t("\t</body>"), t({"", ""}),
+      t("</html>"),
+   })
+})
