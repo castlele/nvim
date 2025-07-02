@@ -9,7 +9,32 @@ local M = {}
 ---@param vaultName string
 ---@param templateName string
 local function insertTemplate(vaultName, templateName)
-   -- vim.api.nvim_buf_set_lines(0, 0, )
+   local vault = M.vaults[vaultName]
+   local templatePath = string.format("%s/%s", vault.path, templateName)
+
+   local templateFile = io.open(templatePath, "r")
+
+   if not templateFile then
+      return
+   end
+
+   local currentLines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+   local templateLines = {}
+
+   for line in templateFile:lines(...) do
+      
+   end
+
+
+   vim.api.nvim_buf_set_lines(
+      0,
+      0,
+      -1,
+      false,
+      {
+         "Hello, World"
+      }
+   )
 end
 
 ---@param vaultName string
