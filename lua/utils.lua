@@ -27,4 +27,29 @@ function M.setKeymaps(keymaps)
    end
 end
 
+function M.throwError(msg)
+   vim.notify(msg, vim.log.levels.ERROR)
+end
+
+---@param filter string
+---@param variants table[string]
+---@return table[string]
+function M.completion(filter, variants)
+   if not filter or #filter == 0 then
+      return variants
+   end
+
+   local filteredVariants = {}
+
+   for _, variant in ipairs(variants) do
+      local s = string.find(variant, filter)
+
+      if s then
+         table.insert(filteredVariants, variant)
+      end
+   end
+
+   return filteredVariants
+end
+
 return M

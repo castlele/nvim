@@ -2,6 +2,7 @@
 ---@field path string path to the vault
 ---@field res string? path to the resource folder relateive to the `path`
 ---@field templates string? path to the templates folder relateive to the `path`
+
 ---@class ObsidianModule
 ---@field vaults table[string, VaultData] map where key is vault name and value is its path
 local M = {}
@@ -10,31 +11,31 @@ local M = {}
 ---@param templateName string
 local function insertTemplate(vaultName, templateName)
    local vault = M.vaults[vaultName]
-   local templatePath = string.format("%s/%s", vault.path, templateName)
+
+   if not vault.templates then
+      require("utils").throwError(vaultName .. " has no tempates")
+      return
+   end
+
+   local templatePath =
+      string.format("%s/%s/%s", vault.path, vault.templates, templateName)
 
    local templateFile = io.open(templatePath, "r")
 
    if not templateFile then
+      require("utils").throwError(templatePath .. " file is empty")
       return
    end
 
-   local currentLines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
    local templateLines = {}
 
-   for line in templateFile:lines(...) do
-      
+   for line in templateFile:lines() do
+      table.insert(templateLines, line)
    end
 
+   templateFile:close()
 
-   vim.api.nvim_buf_set_lines(
-      0,
-      0,
-      -1,
-      false,
-      {
-         "Hello, World"
-      }
-   )
+   vim.api.nvim_buf_set_lines(0, 0, 0, false, templateLines)
 end
 
 ---@param vaultName string
@@ -102,12 +103,11 @@ local function parseVaults(vaults)
 
          insertVault(vault)
       else
-         vim.notify(
+         require("utils").throwError(
             string.format(
                "Obsidian: Unknown vault passed to configuration: %s",
                vim.inspect(vault)
-            ),
-            vim.log.levels.ERROR
+            )
          )
       end
    end
@@ -116,24 +116,41 @@ local function parseVaults(vaults)
 end
 
 local function completion(filter)
-   local vaults = vim.tbl_keys(M.vaults)
-   local strutils = require("cluautils.string_utils")
+   return require("utils").completion(filter, vim.tbl_keys(M.vaults))
+end
 
-   if not filter or strutils.isEmpty(filter) then
-      return vaults
-   end
+local function multipleCompletion(filter, command)
+   local commands = vim.split(command, " ")
 
-   local filteredVaults = {}
+   if #commands - 1 == 1 then
+      return completion(filter)
+   elseif #commands - 1 == 2 then
+      local vaultName = commands[2]
+      local vault = M.vaults[vaultName]
 
-   for _, vault in ipairs(vaults) do
-      local s = string.find(vault, filter)
-
-      if s then
-         table.insert(filteredVaults, vault)
+      if not vault.templates then
+         return {}
       end
-   end
 
-   return filteredVaults
+      local templatesPath = string.format("%s/%s", vault.path, vault.templates)
+      local res = {}
+
+      local fd = io.popen("ls " .. templatesPath)
+
+      if not fd then
+         return {}
+      end
+
+      for filename in fd:lines() do
+         table.insert(res, filename)
+      end
+
+      fd:close()
+
+      return require("utils").completion(filter, res)
+   else
+      return {}
+   end
 end
 
 ---@class ObsidianModuleConfig
@@ -169,40 +186,7 @@ function M.setup(config)
       insertTemplate(args.fargs[1], args.fargs[2])
    end, {
       desc = "Insert template in the current buffer",
-      complete = function(filter, command)
-         local commands = vim.split(command, " ")
-
-         if #commands - 1 == 1 then
-            return completion(filter)
-         elseif #commands - 1 == 2 then
-            local vaultName = commands[2]
-            local vault = M.vaults[vaultName]
-
-            if not vault.templates then
-               return {}
-            end
-
-            local templatesPath =
-               string.format("%s/%s", vault.path, vault.templates)
-            local res = {}
-
-            local fd = io.popen("ls " .. templatesPath)
-
-            if not fd then
-               return {}
-            end
-
-            for filename in fd:lines() do
-               table.insert(res, filename)
-            end
-
-            fd:close()
-
-            return res
-         else
-            return {}
-         end
-      end,
+      complete = multipleCompletion,
       nargs = "*",
    })
 end

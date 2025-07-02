@@ -89,7 +89,7 @@ function M.setup(config)
                ["<leader>e"] = editorActions.showDiagnostics,
             },
             i = {
-               ["<C-K>"] = editorActions.showSignatureHelp,
+               ["<C-S>"] = editorActions.showSignatureHelp,
             },
          },
       }
