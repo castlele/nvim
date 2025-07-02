@@ -16,7 +16,6 @@ function M.setup(config)
    require("plugins.markdown_preview")
    require("plugins.better_whitespace")
    require("plugins.lualine")
-   require("plugins.luasnip")
    require("plugins.comment")
    require("plugins.oil_configuration")
    require("plugins.treesj-configuration")
@@ -54,9 +53,22 @@ function M.setup(config)
          },
       },
    }
+   local editorActions = require("castlelecs.editor-actions")
+
+   require("plugins.luasnip").setup{
+      keymaps = {
+         i = {
+            ["<C-j>"] = editorActions.moveNextArg,
+            ["<C-k>"] = editorActions.movePrevArg,
+         },
+         s = {
+            ["<C-j>"] = editorActions.moveNextArg,
+            ["<C-k>"] = editorActions.movePrevArg,
+         },
+      }
+   }
 
    if config.isNewLspConfig ~= nil and config.isNewLspConfig then
-      local editorActions = require("castlelecs.editor-actions")
 
       require("plugins.new-lsp-configuration").setup {
          lsps = {
