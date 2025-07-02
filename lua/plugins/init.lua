@@ -78,6 +78,7 @@ function M.setup(config)
             "html",
             "jdtls",
             "kotlin_language_server",
+            "marksman",
          },
          keymaps = {
             n = {
