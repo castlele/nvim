@@ -69,7 +69,6 @@ function M.setup(config)
    }
 
    if config.isNewLspConfig ~= nil and config.isNewLspConfig then
-
       require("plugins.new-lsp-configuration").setup {
          lsps = {
             "lua_ls",
