@@ -88,6 +88,27 @@ function M.setup(config)
          t("</html>"),
       })
    })
+
+   ls.add_snippets("go", {
+      s("test", {
+         t("cases := []struct {"), t({"", ""}),
+         t("\t"), i(1, "configuration"), t({"", ""}),
+         t("}{"), t({"", ""}),
+         t("\t"), i(2, "init configuration"), t({"", ""}),
+         t("}"), t({"", ""}),
+         t({"", ""}),
+         t("for i, ts := range cases {"), t({"", ""}),
+         t("\tt.Run(fmt.Sprintf(\"test %v\", i), func(t *testing.T) {"), t({"", ""}),
+         t("\t\tt.Parallel()"), t({"", ""}),
+         t("\t\tres := "), i(3, "call sut function"), t({"", ""}),
+         t({"", ""}),
+         t("\t\tif "), i(4, "test passing condition"), t(" {"), t({"", ""}),
+         t("\t\t\tt.Errorf(\"Expected: %v; got: %v\", ts.output, res)"), t({"", ""}),
+         t("\t\t}"), t({"", ""}),
+         t("\t})"), t({"", ""}),
+         t("}"), t({"", ""}),
+      })
+   })
 end
 
 return M
