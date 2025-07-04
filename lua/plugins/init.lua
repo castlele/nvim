@@ -2,7 +2,6 @@
 local M = {}
 
 ---@class PluginsModuleConfig
----@field isNewLspConfig boolean?
 ---@field kbasePath string?
 ---@field weekOpts WeekConfiguration?
 ---@param config PluginsModuleConfig
@@ -56,7 +55,7 @@ function M.setup(config)
    }
    local editorActions = require("castlelecs.editor-actions")
 
-   require("plugins.luasnip").setup{
+   require("plugins.luasnip").setup {
       keymaps = {
          i = {
             ["<C-j>"] = editorActions.moveNextArg,
@@ -66,63 +65,58 @@ function M.setup(config)
             ["<C-j>"] = editorActions.moveNextArg,
             ["<C-k>"] = editorActions.movePrevArg,
          },
-      }
+      },
+   }
+   require("plugins.lsp-configuration").setup {
+      lsps = {
+         "lua_ls",
+         "clangd",
+         "gopls",
+         "html",
+         "jdtls",
+         "kotlin_language_server",
+         "marksman",
+      },
+      keymaps = {
+         n = {
+            ["gD"] = editorActions.goToDeclaration,
+            ["gd"] = editorActions.goToDefinition,
+            ["gr"] = editorActions.goToReferences,
+            ["K"] = editorActions.showHelp,
+            ["<leader>rn"] = editorActions.rename,
+            ["<leader>e"] = editorActions.showDiagnostics,
+         },
+         i = {
+            ["<C-S>"] = editorActions.showSignatureHelp,
+         },
+      },
    }
 
-   if config.isNewLspConfig ~= nil and config.isNewLspConfig then
-      require("plugins.new-lsp-configuration").setup {
-         lsps = {
-            "lua_ls",
-            "clangd",
-            "gopls",
-            "html",
-            "jdtls",
-            "kotlin_language_server",
-            "marksman",
-         },
-         keymaps = {
-            n = {
-               ["gD"] = editorActions.goToDeclaration,
-               ["gd"] = editorActions.goToDefinition,
-               ["gr"] = editorActions.goToReferences,
-               ["K"] = editorActions.showHelp,
-               ["<leader>rn"] = editorActions.rename,
-               ["<leader>e"] = editorActions.showDiagnostics,
-            },
-            i = {
-               ["<C-S>"] = editorActions.showSignatureHelp,
-            },
-         },
-      }
+   require("plugins.treesitter-configuration").setup {
+      languages = {
+         "go",
+         "c",
+         "cpp",
+         "lua",
+         "vimdoc",
+         "vim",
+         "norg",
+         "kotlin",
+         "java",
+         "swift",
+         "objc",
+      },
+   }
 
-      require("plugins.treesitter-configuration").setup {
-         languages = {
-            "go",
-            "c",
-            "cpp",
-            "lua",
-            "vimdoc",
-            "vim",
-            "norg",
-            "kotlin",
-            "java",
-            "swift",
-            "objc",
+   require("plugins.cmp-configuration").setup {
+      keymaps = {
+         i = {
+            ["<C-Space>"] = editorActions.activateCompletions,
+            -- TODO: Remove or uncomment based on the feelings about completion on the enter key
+            -- ["<CR>"] = editorActions.confirmCompletionSelection,
          },
-      }
-
-      require("plugins.cmp-configuration").setup {
-         keymaps = {
-            i = {
-               ["<C-Space>"] = editorActions.activateCompletions,
-               -- TODO: Remove or uncomment based on the feelings about completion on the enter key
-               -- ["<CR>"] = editorActions.confirmCompletionSelection,
-            },
-         },
-      }
-   else
-      require("plugins.lsp-configuration")
-   end
+      },
+   }
 
    if config.weekOpts then
       require("castlelecs.norgtemplate").setup(config.weekOpts)

@@ -20,7 +20,6 @@ require("lazy").setup {
 local localConf = require("local")
 
 require("plugins").setup {
-   isNewLspConfig = true,
    kbasePath = localConf.kbasePath,
    weekOpts = require("weekOpts"),
 }
