@@ -21,5 +21,6 @@ local localConf = require("local")
 
 require("plugins").setup {
    kbasePath = localConf.kbasePath,
+   notesPath = localConf.notesPath,
    weekOpts = require("weekOpts"),
 }

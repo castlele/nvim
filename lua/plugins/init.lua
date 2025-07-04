@@ -3,6 +3,7 @@ local M = {}
 
 ---@class PluginsModuleConfig
 ---@field kbasePath string?
+---@field notesPath string?
 ---@field weekOpts WeekConfiguration?
 ---@param config PluginsModuleConfig
 function M.setup(config)
@@ -112,8 +113,6 @@ function M.setup(config)
       keymaps = {
          i = {
             ["<C-Space>"] = editorActions.activateCompletions,
-            -- TODO: Remove or uncomment based on the feelings about completion on the enter key
-            -- ["<CR>"] = editorActions.confirmCompletionSelection,
          },
       },
    }
@@ -153,6 +152,16 @@ function M.setup(config)
                path = config.kbasePath,
                res = "res",
                templates = "templates",
+            },
+         },
+      }
+
+      local notesModule = require("castlelecs.notes")
+      notesModule.setup {
+         notesPath = config.notesPath,
+         keymaps = {
+            n = {
+               ["<leader>n"] = notesModule.openLastNote,
             },
          },
       }
