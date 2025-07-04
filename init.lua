@@ -17,8 +17,10 @@ require("lazy").setup {
    vim.tbl_values(require("lazyplugins")),
 }
 
+local localConf = require("local")
+
 require("plugins").setup {
    isNewLspConfig = true,
-   kbasePath = "/Users/castlelecs/dev/kbase",
+   kbasePath = localConf.kbasePath,
    weekOpts = require("weekOpts"),
 }
