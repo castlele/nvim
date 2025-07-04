@@ -3,4 +3,4 @@ nvim-macos
 nvim-linux64
 *.tar.gz
 
-local.lua
+lua/local.lua
