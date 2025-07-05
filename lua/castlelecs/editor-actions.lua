@@ -37,6 +37,10 @@ function M.showSignatureHelp(config)
    vim.lsp.buf.signature_help(config)
 end
 
+function M.showCodeActions(opts)
+   vim.lsp.buf.code_action(opts)
+end
+
 ---@param engine table completion engine
 ---@return fun()
 function M.activateCompletions(engine)

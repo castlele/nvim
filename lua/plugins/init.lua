@@ -84,6 +84,7 @@ function M.setup(config)
             ["gd"] = editorActions.goToDefinition,
             ["gr"] = editorActions.goToReferences,
             ["K"] = editorActions.showHelp,
+            ["<C-K>"] = editorActions.showCodeActions,
             ["<leader>rn"] = editorActions.rename,
             ["<leader>e"] = editorActions.showDiagnostics,
          },
