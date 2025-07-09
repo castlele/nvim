@@ -6,8 +6,6 @@ local M = {}
 ---@field lsps table<string>?
 ---@param config LspModuleConfig
 function M.setup(config)
-   require("mason").setup()
-
    require("mason-lspconfig").setup {
       ensure_installed = config.lsps or {},
    }
