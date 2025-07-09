@@ -11,15 +11,19 @@ return {
    },
 
    lsp = {
-      { "neovim/nvim-lspconfig" },
-      { "mason-org/mason.nvim" },
-      { "mason-org/mason-lspconfig.nvim" },
-      { "hrsh7th/nvim-cmp" }, -- Completion
-      { "hrsh7th/cmp-nvim-lsp" },
-      { "hrsh7th/cmp-buffer" },
-      { "hrsh7th/cmp-path" },
-      { "L3MON4D3/LuaSnip" },
-      { "saadparwaiz1/cmp_luasnip" },
+      {
+         "neovim/nvim-lspconfig",
+         dependencies = {
+            { "mason-org/mason.nvim" },
+            { "mason-org/mason-lspconfig.nvim" },
+            { "hrsh7th/nvim-cmp" }, -- Completion
+            { "hrsh7th/cmp-nvim-lsp" },
+            { "hrsh7th/cmp-buffer" },
+            { "hrsh7th/cmp-path" },
+            { "L3MON4D3/LuaSnip" },
+            { "saadparwaiz1/cmp_luasnip" },
+         },
+      },
    },
 
    treesitter = {
@@ -43,10 +47,6 @@ return {
          -- TODO: Setup keymaps + update colorscheme for selections to be visible
          "echasnovski/mini.map",
          version = "*",
-      },
-      {
-         "stevearc/oil.nvim",
-         version = "v2.10.0",
       },
       {
          -- TODO: Reasearch configuration and usage
@@ -92,7 +92,10 @@ return {
          lazy = true,
       },
       -- TODO: Research and make me actually use it, it is so cool
-      { "Wansmer/treesj" }, -- toggling indentations
+      {
+         "Wansmer/treesj",
+         opts = true,
+      }, -- toggling indentations
    },
 
    codding = {
