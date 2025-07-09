@@ -30,11 +30,28 @@ local function setFileTypeSpecificKeymaps(filetype)
    end
 end
 
+---@param filetype string
+local function setSpell(filetype)
+   --TODO: Make it setup'able
+   local filetypesToCheck = {
+      "html",
+      "markdown",
+      "norg",
+   }
+
+   if vim.tbl_contains(filetypesToCheck, filetype) then
+      vim.cmd("set spell spelllang=en,ru")
+   else
+      vim.cmd("set nospell")
+   end
+end
+
 local function setupFileTypeSpecific()
    local filetype = vim.bo.filetype
 
    changeIndentLevel(filetype)
    setFileTypeSpecificKeymaps(filetype)
+   setSpell(filetype)
 end
 
 local function setTerminalKeymaps()
