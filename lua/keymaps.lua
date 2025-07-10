@@ -4,8 +4,12 @@ local customKeymaps = {
       ["th"] = vim.cmd.tabprev,
       ["tl"] = vim.cmd.tabnext,
       ["tn"] = vim.cmd.tabnew,
+      ["_"] = function() vim.cmd("Ex") end,
    },
 }
-require("utils").setKeymaps(customKeymaps)
-require("utils").keymap("n", "y", '"+y')
-require("utils").keymap("v", "y", '"+y')
+
+local utils = require("utils")
+
+utils.setKeymaps(customKeymaps)
+utils.keymap("n", "y", '"+y')
+utils.keymap("v", "y", '"+y')

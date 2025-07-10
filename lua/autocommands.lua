@@ -36,7 +36,6 @@ local function setSpell(filetype)
    local filetypesToCheck = {
       "html",
       "markdown",
-      "norg",
    }
 
    if vim.tbl_contains(filetypesToCheck, filetype) then
