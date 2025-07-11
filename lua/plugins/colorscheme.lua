@@ -51,56 +51,58 @@ end
 
 return {
    dir = "~/.config/castlelecsscheme",
+   active = false,
    dependencies = {
-      "rktjmp/lush.nvim",
+      { "rktjmp/lush.nvim", active = false },
       "nvim-tree/nvim-web-devicons",
       {
          "nvim-lualine/lualine.nvim",
-         opts = {
-            options = {
-               theme = castlelecsscheme,
-               component_separators = "|",
-               section_separators = { left = "", right = "" },
-            },
-            sections = {
-               lualine_a = {
-                  {
-                     "mode",
-                     separator = { left = "", right = "" },
-                  },
-               },
-               lualine_b = {},
-               lualine_c = { "branch" },
-               lualine_x = { "diagnostics" },
-               lualine_y = { "diff", "progress" },
-               lualine_z = { "location" },
-            },
-            tabline = {
-               lualine_a = {},
-               lualine_b = {
-                  {
-                     "tabs",
-                     mode = 0,
-                     use_mode_colors = true,
-                     separator = { left = "", right = "" },
-                     tabs_color = {
-                        active = "lualine_a_normal",
-                        inactive = "lualine_a_inactive",
-                     },
-                  },
-               },
-               lualine_c = { reminder },
-               lualine_x = {},
-               lualine_y = {
-                  {
-                     "filename",
-                     path = 1,
-                  },
-               },
-               lualine_z = {},
-            },
-            extensions = {},
-         },
+         active = false,
+         -- opts = {
+         --    options = {
+         --       theme = castlelecsscheme,
+         --       component_separators = "|",
+         --       section_separators = { left = "", right = "" },
+         --    },
+         --    sections = {
+         --       lualine_a = {
+         --          {
+         --             "mode",
+         --             separator = { left = "", right = "" },
+         --          },
+         --       },
+         --       lualine_b = {},
+         --       lualine_c = { "branch" },
+         --       lualine_x = { "diagnostics" },
+         --       lualine_y = { "diff", "progress" },
+         --       lualine_z = { "location" },
+         --    },
+         --    tabline = {
+         --       lualine_a = {},
+         --       lualine_b = {
+         --          {
+         --             "tabs",
+         --             mode = 0,
+         --             use_mode_colors = true,
+         --             separator = { left = "", right = "" },
+         --             tabs_color = {
+         --                active = "lualine_a_normal",
+         --                inactive = "lualine_a_inactive",
+         --             },
+         --          },
+         --       },
+         --       lualine_c = { reminder },
+         --       lualine_x = {},
+         --       lualine_y = {
+         --          {
+         --             "filename",
+         --             path = 1,
+         --          },
+         --       },
+         --       lualine_z = {},
+         --    },
+         --    extensions = {},
+         -- },
       }
    },
 }
