@@ -3,7 +3,6 @@ return {
    -- While adopting this plugin you can consider using [mini align](https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-align.md)
    "Vonr/align.nvim",
    branch = "v2",
-   lazy = true,
    config = function()
       local align = require("align")
       local NS = { noremap = true, silent = true }

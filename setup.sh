@@ -80,10 +80,6 @@ setupLSP() {
     # brew install kotlin-language-server
 }
 
-setupColorScheme() {
-    git clone https://github.com/castlele/castlelecsscheme.git ~/.config/castlelecsscheme
-}
-
 echo "Setup Neovim"
 
 while [[ $# -gt 0 ]]; do
@@ -94,7 +90,6 @@ while [[ $# -gt 0 ]]; do
             setupLua
             setupDependencies
             setupLSP
-            setupColorScheme
             break
             ;;
         -in | --install-nvim)
@@ -107,10 +102,6 @@ while [[ $# -gt 0 ]]; do
             ;;
         -lsp | --setup-lsp)
             setupLSP
-            shift 1
-            ;;
-        -cs | --setup-colorscheme)
-            setupColorScheme
             shift 1
             ;;
         * | h | --help) shift;
