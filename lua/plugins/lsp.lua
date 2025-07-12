@@ -54,6 +54,12 @@ return {
          },
       })
 
+      vim.lsp.config("sourcekit", {
+         settings = {
+            filetypes = { "swift", "objc", "objcpp" },
+         },
+      })
+
       vim.api.nvim_create_autocmd("LspAttach", {
          callback = function(event)
             local opts = { buffer = event.buf, silent = true }
