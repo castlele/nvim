@@ -5,12 +5,14 @@ local colors = {
    bg = "#272b34",
    bgdark = "#21242c",
    green = "#b3f6c0",
-   greendark = "#387a6b",
+   greendark = "#b3f6c0",
+   greenpaledark = "#387a6b",
    white = "#dedede",
    pink = "#ff66b0",
    yellow = "#feffad",
    purple = "#beadfa",
    red = "#ff471a",
+   orangelight = "#ffd9b3",
    orange = "#ffa64d",
    search = "#adadad",
    blue = "#8cf8f7",
@@ -45,17 +47,27 @@ local colorScheme = {
    Whitespace = { fg = colors.grey },
    --- float windows
    NormalFloat = { bg = colors.bg, fg = colors.white },
-   String = { fg = colors.green },
-   ["@string"] = { fg = colors.green },
+   String = { fg = colors.orangelight },
+
    --- keywords' base object
    Statement = { fg = colors.pink },
-   Comment = { fg = colors.greendark, italic = true },
+   Comment = { fg = colors.greenpaledark, italic = true },
 
-   --- Parentheses
+   Function = { fg = colors.greendark },
+   ["@function.builtin"] = { fg = colors.greendark },
+
+
    Special = { fg = colors.blue },
+   ["@variable.builtin"] = { fg = colors.yellow },
+   ["@variable.parameter.builtin"] = { fg = colors.yellow },
+   ["@constant.builtin"] = { fg = colors.yellow },
+   ["@module.builtin"] = { fg = colors.yellow },
+   ["@type.builtin"] = { fg = colors.yellow },
 
    PreProc = { fg = colors.purple, bold = true },
    Tag = { fg = colors.purple, bold = true },
+
+   Type = { fg = colors.yellow, },
 
    Error = { fg = colors.red, },
    ErrorMsg = { fg = colors.red, },
@@ -66,8 +78,10 @@ local colorScheme = {
    WarningMsg = { fg = colors.orange },
    DiagnosticWarn = { fg = colors.orange },
 
+   SpellBad = { sp = colors.red, undercurl = true,},
+
    TabLineFill = { bg = colors.bg },
-   TabLine = { bg = colors.dark, fg = colors.white },
+   TabLine = { bg = colors.dark, fg = colors.white, bold = false },
    TabLineSolid = { bg = colors.bg, fg = colors.dark, },
    TabLineSelSolid = { bg = colors.bg, fg = colors.pink },
    TabLineSel = { bg = colors.pink, fg = colors.dark, bold = true },
