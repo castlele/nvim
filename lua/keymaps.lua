@@ -5,6 +5,11 @@ local customKeymaps = {
       ["tl"] = vim.cmd.tabnext,
       ["tn"] = vim.cmd.tabnew,
       ["_"] = function() vim.cmd("Ex") end,
+      ["<leader>yfp"] = function()
+         local path = vim.fn.expand("%:p")
+         vim.fn.setreg("+", path)
+         print("file:", path)
+      end,
    },
 }
 
