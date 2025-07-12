@@ -10,7 +10,8 @@ local colors = {
    pink = "#ff66b0",
    yellow = "#feffad",
    purple = "#beadfa",
-   red = "#ff4747",
+   red = "#ff471a",
+   orange = "#ffa64d",
    search = "#adadad",
    blue = "#8cf8f7",
    grey = "#494a50",
@@ -55,6 +56,15 @@ local colorScheme = {
 
    PreProc = { fg = colors.purple, bold = true },
    Tag = { fg = colors.purple, bold = true },
+
+   Error = { fg = colors.red, },
+   ErrorMsg = { fg = colors.red, },
+   DiagnosticError = { fg = colors.red },
+
+   DiagnosticHint = { fg = colors.blue },
+
+   WarningMsg = { fg = colors.orange },
+   DiagnosticWarn = { fg = colors.orange },
 
    TabLineFill = { bg = colors.bg },
    TabLine = { bg = colors.dark, fg = colors.white },

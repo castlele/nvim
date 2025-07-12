@@ -20,8 +20,6 @@ local settings = {
    mouse = "a",                              -- mouse support
    listchars = { tab = "->", extends = ">", precedes = "<", space = "•"},
    list = true,
-   tabstop = 4,
-   shiftwidth = 4,
    backup = false,
    writebackup = false,
    signcolumn = "yes",
