@@ -5,7 +5,6 @@ local colors = {
    bg = "#272b34",
    bgdark = "#21242c",
    green = "#b3f6c0",
-   greendark = "#b3f6c0",
    greenpaledark = "#387a6b",
    white = "#dedede",
    pink = "#ff66b0",
@@ -53,16 +52,28 @@ local colorScheme = {
    Statement = { fg = colors.pink },
    Comment = { fg = colors.greenpaledark, italic = true },
 
-   Function = { fg = colors.greendark },
-   ["@function.builtin"] = { fg = colors.greendark },
-
+   Function = { fg = colors.green },
+   ["@lsp.type.method"] = { fg = colors.green, bold = true },
+   ["@function.builtin"] = { fg = colors.green },
+   ["@property"] = { fg = colors.white },
+   ["@lsp.type.variable"] = { fg = colors.white },
+   ["@lsp.type.property"] = { fg = colors.yellow, bold = true },
 
    Special = { fg = colors.blue },
+   ["@punctuation"] = { fg = colors.blue },
+   ["@punctuation.special"] = { fg = colors.blue },
+
    ["@variable.builtin"] = { fg = colors.yellow },
    ["@variable.parameter.builtin"] = { fg = colors.yellow },
    ["@constant.builtin"] = { fg = colors.yellow },
    ["@module.builtin"] = { fg = colors.yellow },
    ["@type.builtin"] = { fg = colors.yellow },
+
+   ["@lsp.type.class"] = { fg = colors.white, bold = true },
+   ["@lsp.type.enum"] = { fg = colors.white, bold = true },
+   ["@lsp.type.interface"] = { fg = colors.white, bold = true },
+   ["@lsp.type.namespace"] = { fg = colors.white, bold = true },
+   ["@lsp.type.struct"] = { fg = colors.white, bold = true },
 
    PreProc = { fg = colors.purple, bold = true },
    Tag = { fg = colors.purple, bold = true },
@@ -78,7 +89,7 @@ local colorScheme = {
    WarningMsg = { fg = colors.orange },
    DiagnosticWarn = { fg = colors.orange },
 
-   SpellBad = { sp = colors.red, undercurl = true,},
+   SpellBad = { sp = colors.red, undercurl = true, },
 
    TabLineFill = { bg = colors.bg },
    TabLine = { bg = colors.dark, fg = colors.white, bold = false },
