@@ -181,9 +181,8 @@ local function createTabline()
 end
 
 vim.opt.showtabline = 2
-vim.opt.tabline = createTabline()
 
-vim.api.nvim_create_autocmd({ "BufEnter" }, {
+vim.api.nvim_create_autocmd({ "BufEnter", "TabClosed" }, {
    callback = function()
       vim.opt.tabline = createTabline()
    end
