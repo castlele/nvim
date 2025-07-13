@@ -160,6 +160,7 @@ local function createTabline()
 
          if mod == 1 then
             s = s .. "[+]"
+            break
          end
       end
 
