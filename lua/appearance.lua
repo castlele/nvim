@@ -182,12 +182,6 @@ end
 
 vim.opt.showtabline = 2
 
-vim.api.nvim_create_autocmd({ "BufEnter", "TabClosed" }, {
-   callback = function()
-      vim.opt.tabline = createTabline()
-   end
-})
-
 local modes = {
    n       = { name = "NORMAL", color = "StatusLineNormal" },
    c       = { name = "COMMAND", color = "StatusLineCommand" },
@@ -224,7 +218,16 @@ local function getModeName()
    ) .. "%#StatusLine#"
 end
 
-vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI", "BufWritePost", "BufReadPost" }, {
+vim.api.nvim_create_autocmd({
+   "TextChanged",
+   "TextChangedI",
+   "BufWritePost",
+   "BufReadPost",
+   "BufEnter",
+   "TabEnter",
+   "TabLeave",
+   "TabClosed",
+}, {
    callback = function()
       vim.opt.tabline = createTabline()
    end,
