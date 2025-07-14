@@ -247,7 +247,7 @@ local function setup_dynamic_statusline()
 
    vim.api.nvim_create_autocmd({ "WinLeave", "BufLeave" }, {
       callback = function()
-         vim.opt_local.statusline = " %f%=%l:%c "
+         vim.opt_local.statusline = "%#StatusLine# %f%=%l:%c "
       end
    })
 end
