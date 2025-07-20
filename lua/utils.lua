@@ -52,4 +52,66 @@ function M.completion(filter, variants)
    return filteredVariants
 end
 
+function M.hslToHex(h, s, l)
+    s = s / 100
+    l = l / 100
+
+    local c = (1 - math.abs(2 * l - 1)) * s
+    local x = c * (1 - math.abs((h / 60) % 2 - 1))
+    local m = l - c / 2
+
+    local r, g, b = 0, 0, 0
+
+    if h >= 0 and h < 60 then
+        r, g, b = c, x, 0
+    elseif h >= 60 and h < 120 then
+        r, g, b = x, c, 0
+    elseif h >= 120 and h < 180 then
+        r, g, b = 0, c, x
+    elseif h >= 180 and h < 240 then
+        r, g, b = 0, x, c
+    elseif h >= 240 and h < 300 then
+        r, g, b = x, 0, c
+    elseif h >= 300 and h < 360 then
+        r, g, b = c, 0, x
+    end
+
+    r = math.floor((r + m) * 255 + 0.5)
+    g = math.floor((g + m) * 255 + 0.5)
+    b = math.floor((b + m) * 255 + 0.5)
+
+    return string.format("#%02x%02x%02x", r, g, b)
+end
+
+function M.hsbToHex(h, s, v)
+    s = s / 100
+    v = v / 100
+
+    local c = v * s
+    local x = c * (1 - math.abs((h / 60) % 2 - 1))
+    local m = v - c
+
+    local r, g, b = 0, 0, 0
+
+    if h >= 0 and h < 60 then
+        r, g, b = c, x, 0
+    elseif h >= 60 and h < 120 then
+        r, g, b = x, c, 0
+    elseif h >= 120 and h < 180 then
+        r, g, b = 0, c, x
+    elseif h >= 180 and h < 240 then
+        r, g, b = 0, x, c
+    elseif h >= 240 and h < 300 then
+        r, g, b = x, 0, c
+    elseif h >= 300 and h < 360 then
+        r, g, b = c, 0, x
+    end
+
+    r = math.floor((r + m) * 255 + 0.5)
+    g = math.floor((g + m) * 255 + 0.5)
+    b = math.floor((b + m) * 255 + 0.5)
+
+    return string.format("#%02x%02x%02x", r, g, b)
+end
+
 return M

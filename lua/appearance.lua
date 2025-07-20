@@ -1,4 +1,5 @@
 vim.cmd("syntax on")
+local hsb = require("utils").hsbToHex
 
 local colors = {
    bglight = "#586074",
@@ -20,96 +21,106 @@ local colors = {
    dark = "#141414",
 }
 
-local function int_to_hex(color)
-   return string.lower(string.format("#%06X", color))
-end
+colors.base0 = hsb(223, 0, 87) -- starting from linght gray
+colors.base1 = hsb(223, 24, 70)
+colors.base2 = hsb(223, 24, 45)
+colors.base3 = hsb(223, 25, 20) -- common bg of mine
+colors.base4 = hsb(223, 25, 17)
+colors.base5 = hsb(223, 0, 8) -- finishing almoust black
 
-vim.api.nvim_create_user_command("ToHex", function(args)
-   local color = int_to_hex(args.args)
-   vim.fn.setreg("+", color)
-   print(color)
-end, { nargs = 1 })
+--- pink
+colors.accent0 = hsb(315, 27, 96)
+--- green (mint)
+colors.accent1 = hsb(132, 27, 96)
+--- yellow
+colors.accent2 = hsb(61, 27, 96)
+--- purple
+colors.accent3 = hsb(253, 27, 96)
+--- pale red
+colors.accent4 = hsb(359, 27, 96)
 
-vim.api.nvim_create_user_command("GetColor", function(args)
-   local colors = vim.inspect(vim.api.nvim_get_hl_by_name(args.args, true))
-   vim.fn.setreg("+", colors)
-   print(colors)
-end, { nargs = 1 })
+--- blue
+colors.diagnostics0 = hsb(202, 67, 95)
+--- orange
+colors.diagnostics1 = hsb(37, 67, 95)
+--- red
+colors.diagnostics2 = hsb(359, 67, 95)
 
 local colorScheme = {
    --- default background
-   Normal = { bg = colors.bg, fg = colors.white },
+   Normal = { bg = colors.base3, fg = colors.base0 },
    --- current line number
-   CursorLineNr = { fg = colors.yellow, bold = true },
+   CursorLineNr = { fg = colors.accent2, bold = true },
    --- other line numbers
-   LineNr = { fg = colors.bglight },
-   Whitespace = { fg = colors.grey },
+   LineNr = { fg = colors.base2 },
+   -- Whitespace = { fg = colors.grey },
    --- float windows
-   NormalFloat = { bg = colors.bg, fg = colors.white },
-   String = { fg = colors.orangelight },
+   NormalFloat = { bg = colors.base3, fg = colors.base0 },
+   String = { fg = colors.accent2 },
 
    --- keywords' base object
-   Statement = { fg = colors.pink },
+   Statement = { fg = colors.accent0 },
+   -- TODO: Fix
    Comment = { fg = colors.greenpaledark, italic = true },
 
-   Function = { fg = colors.green },
-   ["@lsp.type.method"] = { fg = colors.green, bold = true },
-   ["@function.builtin"] = { fg = colors.green },
-   ["@property"] = { fg = colors.white },
-   ["@lsp.type.variable"] = { fg = colors.white },
-   ["@lsp.type.property"] = { fg = colors.yellow, bold = true },
+   Function = { fg = colors.accent1 },
+   ["@lsp.type.method"] = { fg = colors.accent1, bold = true },
+   ["@function.builtin"] = { fg = colors.accent1 },
+   ["@property"] = { fg = colors.base0 },
+   ["@lsp.type.variable"] = { fg = colors.base0 },
+   ["@lsp.type.property"] = { fg = colors.base0, bold = true },
 
-   Special = { fg = colors.blue },
-   ["@punctuation"] = { fg = colors.blue },
-   ["@punctuation.special"] = { fg = colors.blue },
+   Special = { fg = colors.base0 },
+   ["@punctuation"] = { fg = colors.base0 },
+   ["@punctuation.special"] = { fg = colors.base0 },
 
-   ["@variable.builtin"] = { fg = colors.yellow },
-   ["@variable.parameter.builtin"] = { fg = colors.yellow },
-   ["@constant.builtin"] = { fg = colors.yellow },
-   ["@module.builtin"] = { fg = colors.yellow },
-   ["@type.builtin"] = { fg = colors.yellow },
+   ["@variable.builtin"] = { fg = colors.accent2 },
+   ["@variable.parameter.builtin"] = { fg = colors.accent2 },
+   ["@constant.builtin"] = { fg = colors.accent2 },
+   ["@module.builtin"] = { fg = colors.accent2 },
+   ["@type.builtin"] = { fg = colors.accent2 },
 
-   ["@lsp.type.class"] = { fg = colors.white, bold = true },
-   ["@lsp.type.enum"] = { fg = colors.white, bold = true },
-   ["@lsp.type.interface"] = { fg = colors.white, bold = true },
-   ["@lsp.type.namespace"] = { fg = colors.white, bold = true },
-   ["@lsp.type.struct"] = { fg = colors.white, bold = true },
+   ["@lsp.type.class"] = { fg = colors.accent3, bold = true },
+   ["@lsp.type.enum"] = { fg = colors.accent3, bold = true },
+   ["@lsp.type.interface"] = { fg = colors.accent3, bold = true },
+   ["@lsp.type.namespace"] = { fg = colors.accent3, bold = true },
+   ["@lsp.type.struct"] = { fg = colors.accent3, bold = true },
 
-   PreProc = { fg = colors.purple, bold = true },
-   Tag = { fg = colors.purple, bold = true },
+   PreProc = { fg = colors.accent0, bold = true },
+   Tag = { fg = colors.accent0, bold = true },
 
-   Type = { fg = colors.yellow, },
+   Type = { fg = colors.accent3, },
 
-   Error = { fg = colors.red, },
-   ErrorMsg = { fg = colors.red, },
-   DiagnosticError = { fg = colors.red },
+   Error = { fg = colors.diagnostics2, },
+   ErrorMsg = { fg = colors.diagnostics2, },
+   DiagnosticError = { fg = colors.diagnostics2 },
 
-   DiagnosticHint = { fg = colors.blue },
+   DiagnosticHint = { fg = colors.diagnostics0 },
 
-   WarningMsg = { fg = colors.orange },
-   DiagnosticWarn = { fg = colors.orange },
+   WarningMsg = { fg = colors.diagnostics1 },
+   DiagnosticWarn = { fg = colors.diagnostics1 },
 
-   SpellBad = { sp = colors.red, undercurl = true, },
+   SpellBad = { sp = colors.diagnostics2, undercurl = true, },
 
-   TabLineFill = { bg = colors.bg },
-   TabLine = { bg = colors.dark, fg = colors.white, bold = false },
-   TabLineSolid = { bg = colors.bg, fg = colors.dark, },
-   TabLineSelSolid = { bg = colors.bg, fg = colors.pink },
-   TabLineSel = { bg = colors.pink, fg = colors.dark, bold = true },
+   TabLineFill = { bg = colors.base3 },
+   TabLine = { bg = colors.base5, fg = colors.base0, bold = false },
+   TabLineSolid = { bg = colors.base3, fg = colors.base5, },
+   TabLineSelSolid = { bg = colors.base3, fg = colors.accent0 },
+   TabLineSel = { bg = colors.accent0, fg = colors.base5, bold = true },
 
-   StatusLine = { bg = colors.bgdark },
-   StatusLineNormal = { bg = colors.pink, fg = colors.dark },
-   StatusLineNormalRev = { fg = colors.pink, bg = colors.bgdark },
-   StatusLineVisual = { bg = colors.purple, fg = colors.dark },
-   StatusLineVisualRev = { fg = colors.purple, bg = colors.bgdark },
-   StatusLineInsert = { bg = colors.yellow, fg = colors.dark },
-   StatusLineInsertRev = { fg = colors.yellow, bg = colors.bgdark },
-   StatusLineReplace = { bg = colors.red, fg = colors.dark },
-   StatusLineReplaceRev = { fg = colors.red, bg = colors.bgdark },
-   StatusLineCommand = { bg = colors.pink, fg = colors.dark },
-   StatusLineCommandRev = { fg = colors.pink, bg = colors.bgdark },
-   StatusLineTerminal = { bg = colors.pink, fg = colors.dark },
-   StatusLineTerminalRev = { fg = colors.pink, bg = colors.bgdark },
+   StatusLine = { bg = colors.base4 },
+   StatusLineNormal = { bg = colors.accent0, fg = colors.base5 },
+   StatusLineNormalRev = { fg = colors.accent0, bg = colors.base4 },
+   StatusLineVisual = { bg = colors.accent3, fg = colors.base5 },
+   StatusLineVisualRev = { fg = colors.accent3, bg = colors.base4 },
+   StatusLineInsert = { bg = colors.accent2, fg = colors.base5 },
+   StatusLineInsertRev = { fg = colors.accent2, bg = colors.base4 },
+   StatusLineReplace = { bg = colors.accent4, fg = colors.base5 },
+   StatusLineReplaceRev = { fg = colors.accent4, bg = colors.base4 },
+   StatusLineCommand = { bg = colors.accent0, fg = colors.base5 },
+   StatusLineCommandRev = { fg = colors.accent0, bg = colors.base4 },
+   StatusLineTerminal = { bg = colors.accent0, fg = colors.base5 },
+   StatusLineTerminalRev = { fg = colors.accent0, bg = colors.base4 },
 }
 
 for type, opts in pairs(colorScheme) do
