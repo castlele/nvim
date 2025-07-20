@@ -26,7 +26,7 @@ colors.base1 = hsb(223, 24, 70)
 colors.base2 = hsb(223, 24, 45)
 colors.base3 = hsb(223, 25, 20) -- common bg of mine
 colors.base4 = hsb(223, 25, 17)
-colors.base5 = hsb(223, 0, 8) -- finishing almoust black
+colors.base5 = hsb(223, 0, 8)   -- finishing almoust black
 
 --- pink
 colors.accent0 = hsb(315, 27, 96)
@@ -213,8 +213,8 @@ local modes = {
 
 ---@return string
 local function getModeName()
-   local mode = modes[vim.fn.mode()]
-   local name = mode.name or ("UNKNOWN [" .. vim.fn.mode() .. "]")
+   local mode = modes[vim.fn.mode()] or { name = ("UNKNOWN [" .. vim.fn.mode() .. "]") }
+   local name = mode.name
    local color = "%#" .. (mode.color or "StatusLineReplace")
    local revcolor = color .. "Rev#"
 
