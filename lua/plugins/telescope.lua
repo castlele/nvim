@@ -1,48 +1,3 @@
-local function findFilesOverProject()
-   local ignore_files = {
-      "%.git/",
-      "build/",
-      "bin/",
-   }
-
-   require("telescope.builtin").find_files {
-      hidden = true,
-      no_ignore = false,
-      file_ignore_patterns = ignore_files,
-   }
-end
-
-local function searchOverCurrentFile()
-   require("telescope.builtin").current_buffer_fuzzy_find {
-      skip_empty_lines = true,
-   }
-end
-
-local function searchFileComponents()
-   require("telescope.builtin").treesitter {
-      symbols = {
-         "var",
-         "type",
-         "function",
-         "macro",
-      },
-   }
-end
-
----@param kbasePath string
-local function searchOverKBase(kbasePath)
-   require("telescope.builtin").find_files {
-      cwd = kbasePath,
-      hidden = true,
-      no_ignore = true,
-      search_file = "*.md",
-   }
-end
-
-local function live_grep(...)
-   require("telescope").extensions.live_grep_args.live_grep_args(...)
-end
-
 return {
    "nvim-telescope/telescope.nvim",
    dependencies = {
@@ -97,17 +52,5 @@ return {
 
       telescope.load_extension("fzf")
       telescope.load_extension("live_grep_args")
-
-      require("utils").setKeymaps {
-         n = {
-            ["<space>fc"] = searchFileComponents,
-            ["<leader>O"] = findFilesOverProject,
-            ["<leader>F"] = live_grep,
-            ["<leader>f"] = searchOverCurrentFile,
-            ["<leader>fkb"] = function()
-               searchOverKBase(require("local").kbasePath)
-            end,
-         },
-      }
    end,
 }

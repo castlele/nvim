@@ -51,6 +51,7 @@ local colorScheme = {
    Normal = { bg = colors.base3, fg = colors.base0 },
    --- current line number
    CursorLineNr = { fg = colors.accent2, bold = true },
+   MiniPickPreviewLine = { bg = colors.accent2, bold = true },
    --- other line numbers
    LineNr = { fg = colors.base2 },
    -- Whitespace = { fg = colors.grey },
