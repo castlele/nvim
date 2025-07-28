@@ -18,6 +18,7 @@ return {
       },
    },
    config = function()
+      vim.lsp.enable("gdscript")
       vim.lsp.enable("sourcekit")
 
       local packages = {
