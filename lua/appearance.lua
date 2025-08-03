@@ -53,6 +53,7 @@ local colorScheme = {
    CursorLineNr = { bg = colors.base4, fg = colors.accent2, bold = true },
    CursorLine = { bg = colors.base4 },
    CursorLineSign = { bg = colors.base4 },
+   MiniPickMatchCurrent = { bg = colors.base5 },
 
    --- other line numbers
    LineNr = { fg = colors.base2 },
