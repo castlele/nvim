@@ -2,7 +2,7 @@ local dailyTasks = {
    "do sport",
    "meditate",
    "read book",
-   "reflex on thoughs",
+   "reflex on thoughts",
 }
 
 ---@type WeekConfiguration
