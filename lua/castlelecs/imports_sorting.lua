@@ -1,28 +1,15 @@
-local function get_selected_lines(from, to)
-    if to < from then
-        from, to = to, from
-    end
-
-    local lines = vim.api.nvim_buf_get_lines(0, from - 1, to, false)
-
-    return lines
-end
-
 local function swap_lines(from, to, lines)
    vim.api.nvim_buf_set_lines(0, from - 1, to, false, lines)
 end
 
 --- If some range was selected and there are import statements, those statements is sorted in alphabetical order.
---- File type should be equal to swift.
 function SSImports()
-   local from = vim.fn.getpos("'<")[2]
-   local to = vim.fn.getpos("'>")[2]
+   local lines, from, to = require("utils").getSelectedLines()
 
-   if from == nil or to == nil then
+   if #lines == 0 then
+      vim.notify("No lines selected for extraction", vim.log.levels.WARN)
       return
    end
-
-   local lines = get_selected_lines(from, to)
 
    table.sort(lines)
 

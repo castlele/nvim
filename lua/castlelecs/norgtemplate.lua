@@ -76,29 +76,10 @@ local function getFileContent()
    return result
 end
 
----@param char string
----@param origin string
----@return integer?
-local function lastIndexOf(char, origin)
-   ---@type integer?
-   local last = nil
-
-   for i = 1, #origin do
-      local c = origin:sub(i, i)
-
-      if char == c then
-         last = i
-      end
-   end
-
-   return last
-end
-
 local function createFile(date)
    local fileName = date .. ".norg"
 
-   local bufferPath = vim.fn.expand("%")
-   local path = bufferPath:sub(1, lastIndexOf("/", bufferPath))
+   local path = vim.fn.expand("%:p:h") .. "/"
 
    local filePath = path .. fileName
 

@@ -67,7 +67,7 @@ local weekOpts = {
       "result: "
    ),
    header = string.format(
-      "%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n",
+      "%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n",
       "@document.meta",
       "goal: [",
       "    %SMART goal%",
