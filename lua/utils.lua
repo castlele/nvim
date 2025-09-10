@@ -4,6 +4,24 @@ local function get_opts(desc)
    return { noremap = true, silent = true, desc = desc }
 end
 
+---@return table<string>, integer, integer
+function M.getSelectedLines()
+   local from = vim.fn.getpos("'<")[2]
+   local to = vim.fn.getpos("'>")[2]
+
+   if from == nil or to == nil then
+      return {}, 0, 0
+   end
+
+   if to < from then
+      from, to = to, from
+   end
+
+   local lines = vim.api.nvim_buf_get_lines(0, from - 1, to, false)
+
+   return lines, from, to
+end
+
 function M.keymap(mode, lhs, rhs, desc)
    vim.api.nvim_set_keymap(mode, lhs, rhs, get_opts(desc))
 end

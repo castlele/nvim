@@ -1,6 +1,7 @@
 require("castlelecs.case_converter_binding")
 require("castlelecs.imports_sorting")
 require("castlelecs.norgtemplate").setup(require("weekOpts"))
+require("castlelecs.extract").setup()
 
 local locals = require("local")
 local picker = require("castlelecs.emoji-picker")
