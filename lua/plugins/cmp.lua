@@ -211,6 +211,9 @@ return {
                luasnip.lsp_expand(args.body)
             end,
          },
+         completion = {
+            autocomplete = false,
+         },
          window = {
             completion = cmp.config.window.bordered {
                border = "rounded",
