@@ -52,6 +52,13 @@ local function setupFileTypeSpecific()
    changeIndentLevel(filetype)
    setFileTypeSpecificKeymaps(filetype)
    setSpell(filetype)
+
+   if filetype == "kotlin" then
+      vim.cmd([[set makeprg=./gradlew\ $*\ --console=plain]])
+      vim.cmd([[
+      set errorformat=%t:\ %f:%l:%c\ %m,%t:\ %f:%l:%c:%m,%t:\ %f:%l:\ %m,%-G%.%#
+      ]])
+   end
 end
 
 local function setTerminalKeymaps()
