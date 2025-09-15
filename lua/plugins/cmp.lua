@@ -70,6 +70,22 @@ return {
                }),
             })
 
+            -- Kotlin snippets
+
+            ls.add_snippets("kotlin", {
+               s("test", {
+                  t("@Test"), t { "", "" },
+                  t("fun `"), i(1, "Test name"), t("`() {"), t { "", "" },
+                  t("\tval expectedValue = "), i(2, "expected value"), t { "", "" },
+                  t("\tval sut = "), i(3, "system under test value"), t { "", "" },
+                  t { "", "" },
+                  t("\tval result = "), i(4, "testing..."), t { "", "" },
+                  t { "", "" },
+                  t("\tassertEquals(expectedValue, result)"), t { "", "" },
+                  t("}"),
+               }),
+            })
+
             -- CPP snippets
 
             ls.add_snippets("cpp", {
