@@ -10,7 +10,7 @@ local dailyTasks = {
 local weekOpts = {
    week = {
       MON = {
-         "work - 3h",
+         "work",
          "prepare next week file",
          "take care of Javie",
          "review goals",
@@ -18,7 +18,7 @@ local weekOpts = {
          daily = dailyTasks,
       },
       TUE = {
-         "work - 3h",
+         "work",
          daily = {
             "do sport",
             "meditate",
@@ -27,7 +27,7 @@ local weekOpts = {
          },
       },
       WED = {
-         ["work - 3h"] = {
+         ["work"] = {
             "design demo",
          },
          "clean the floors",
@@ -35,12 +35,12 @@ local weekOpts = {
          daily = dailyTasks,
       },
       THU = {
-         "work - 3h",
+         "work",
          daily = dailyTasks,
       },
       FRI = {
          "psychology session %13:00% - 1h",
-         "work - 3h",
+         "work",
          "take care of Javie",
          daily = dailyTasks,
       },
