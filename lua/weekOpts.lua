@@ -1,9 +1,6 @@
 local dailyTasks = {
-   "do sport",
-   "meditate",
-   "read book",
-   "reflex on thoughts",
    "play with Javie",
+   "cs training",
 }
 
 ---@type WeekConfiguration
@@ -13,8 +10,6 @@ local weekOpts = {
          "work",
          "prepare next week file",
          "take care of Javie",
-         "review goals",
-         "review week",
          daily = dailyTasks,
       },
       TUE = {
