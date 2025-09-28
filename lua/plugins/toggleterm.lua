@@ -9,15 +9,25 @@ return {
       require("toggleterm").setup()
 
       local Terminal = require("toggleterm.terminal").Terminal
-      local floating_terminal = Terminal:new {
-         direction = "float",
-      }
-      local bottom_terminal = Terminal:new {
-         direction = "horizontal",
-      }
-      local tab_terminal = Terminal:new {
-         direction = "tab",
-      }
+      local colors = require("colorscheme")
+
+      ---@param type string
+      ---@return Terminal
+      local function createTerm(type)
+         return Terminal:new {
+            direction = type,
+            shade_terminals = false,
+            highlights = {
+               Normal = { guibg = colors.base5 },
+               NormalFloat = { guibg = colors.base3 },
+               FloatBorder = { guibg = colors.base3 },
+            },
+         }
+      end
+
+      local floating_terminal = createTerm("float")
+      local bottom_terminal = createTerm("horizontal")
+      local tab_terminal = createTerm("tab")
 
       local function show_bottom_terminal()
          bottom_terminal:toggle()
