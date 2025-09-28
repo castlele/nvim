@@ -20,8 +20,11 @@ local colors = {
    dark = "#141414",
 }
 
+-- #dedede
 colors.base0 = hsb(223, 0, 87) -- starting from linght gray
+-- #8894B3
 colors.base1 = hsb(223, 24, 70)
+-- #575F73
 colors.base2 = hsb(223, 24, 45)
 -- #262a33
 colors.base3 = hsb(223, 25, 20) -- common bg of mine
@@ -34,7 +37,7 @@ colors.base5 = hsb(223, 0, 8)   -- finishing almoust black
 colors.accent0 = hsb(315, 27, 96)
 --- green (mint)
 colors.accent1 = hsb(132, 27, 96)
---- yellow
+--- yellow #f4f5b3
 colors.accent2 = hsb(61, 27, 96)
 --- purple
 colors.accent3 = hsb(253, 27, 96)
