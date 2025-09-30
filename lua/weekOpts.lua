@@ -22,9 +22,7 @@ local weekOpts = {
          },
       },
       WED = {
-         ["work"] = {
-            "design demo",
-         },
+         "work",
          "clean the floors",
          "clean the office",
          daily = dailyTasks,
