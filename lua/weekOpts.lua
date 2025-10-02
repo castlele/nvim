@@ -38,14 +38,10 @@ local weekOpts = {
          daily = dailyTasks,
       },
       SAT = {
-         "followattr - 1h",
-         "comeback - 30m",
          "call to grandmother",
          daily = dailyTasks,
       },
       SUN = {
-         "followattr - 1h",
-         "comeback - 30m",
          "clean the floors",
          "clean the office",
          "fill stats",
