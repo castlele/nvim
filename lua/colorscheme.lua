@@ -33,9 +33,9 @@ colors.base4 = hsb(223, 25, 17)
 -- #141414
 colors.base5 = hsb(223, 0, 8)   -- finishing almoust black
 
---- pink
+--- pink #f5b3e4
 colors.accent0 = hsb(315, 27, 96)
---- green (mint)
+--- green (mint) #b3f5c0
 colors.accent1 = hsb(132, 27, 96)
 --- yellow #f4f5b3
 colors.accent2 = hsb(61, 27, 96)
@@ -48,7 +48,7 @@ colors.accent4 = hsb(359, 27, 96)
 colors.diagnostics0 = hsb(202, 67, 95)
 --- orange
 colors.diagnostics1 = hsb(37, 67, 95)
---- red
+--- red #f25053
 colors.diagnostics2 = hsb(359, 67, 95)
 
 return colors
