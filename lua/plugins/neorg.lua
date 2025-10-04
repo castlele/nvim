@@ -1,8 +1,12 @@
 return {
    "nvim-neorg/neorg",
-   ft = "norg",
    lazy = false,
-   version = "v9.2.0",
+   version = "9.3.0",
+   dependencies = {
+      "nvim-neorg/lua-utils.nvim",
+      "pysan3/pathlib.nvim",
+      "nvim-neotest/nvim-nio",
+   },
    config = function()
       vim.wo.foldlevel = 99
 
