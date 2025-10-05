@@ -8,18 +8,12 @@ local weekOpts = {
    week = {
       MON = {
          "work",
-         "prepare next week file",
          "take care of Javie",
          daily = dailyTasks,
       },
       TUE = {
          "work",
-         daily = {
-            "do sport",
-            "meditate",
-            "read book",
-            "reflex on thoughs",
-         },
+         daily = dailyTasks,
       },
       WED = {
          "work",
