@@ -10,6 +10,7 @@ return {
       { "hrsh7th/cmp-path" },
       {
          "L3MON4D3/LuaSnip",
+         version = "v2.4.0",
          config = function()
             local ls = require("luasnip")
 
