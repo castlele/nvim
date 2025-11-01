@@ -44,9 +44,9 @@ colors.accent3 = hsb(253, 27, 96)
 --- pale red
 colors.accent4 = hsb(359, 27, 96)
 
---- blue
+--- blue #50b7f2
 colors.diagnostics0 = hsb(202, 67, 95)
---- orange
+--- orange #f2b450
 colors.diagnostics1 = hsb(37, 67, 95)
 --- red #f25053
 colors.diagnostics2 = hsb(359, 67, 95)

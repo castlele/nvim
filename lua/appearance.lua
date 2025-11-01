@@ -10,6 +10,8 @@ local colorScheme = {
    CursorLine = { bg = colors.base4 },
    CursorLineSign = { bg = colors.base4 },
    MiniPickMatchCurrent = { bg = colors.base5 },
+   Search = { bg = colors.accent2, fg = colors.base3 },
+   CurSearch = { bg = colors.accent2, fg = colors.base3 },
 
    --- other line numbers
    LineNr = { fg = colors.base2 },
