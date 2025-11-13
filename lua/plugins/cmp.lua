@@ -85,6 +85,14 @@ return {
                   t("\tassertEquals(expectedValue, result)"), t { "", "" },
                   t("}"),
                }),
+
+               s("cmp", {
+                  t("@Composable"), t { "", "" },
+                  t("fun "), i(1, "Composable Name"), t("("), t { "", "" },
+                  t("\tmodifier: Modifier = Modifier,"), t { "", "" },
+                  t(") {"), t { "", "" },
+                  t("}"), t { "", "" },
+               }),
             })
 
             -- CPP snippets
