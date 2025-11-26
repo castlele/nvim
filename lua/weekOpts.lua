@@ -1,45 +1,40 @@
-local dailyTasks = {
-   "play with Javie",
-   "cs training",
-}
-
 ---@type WeekConfiguration
 local weekOpts = {
    week = {
       MON = {
          "work",
          "take care of Javie",
-         daily = dailyTasks,
+         "play with Javie",
       },
       TUE = {
          "work",
-         daily = dailyTasks,
+         "play with Javie",
       },
       WED = {
          "work",
          "clean the floors",
          "clean the office",
-         daily = dailyTasks,
+         "play with Javie",
       },
       THU = {
-         "work",
-         daily = dailyTasks,
-      },
-      FRI = {
          "psychology session %13:00% - 1h",
          "work",
+         "play with Javie",
+      },
+      FRI = {
+         "work",
          "take care of Javie",
-         daily = dailyTasks,
+         "play with Javie",
       },
       SAT = {
          "call to grandmother",
-         daily = dailyTasks,
+         "play with Javie",
       },
       SUN = {
          "clean the floors",
          "clean the office",
          "fill stats",
-         daily = dailyTasks,
+         "play with Javie",
       },
    },
    sectionFooter = string.format(
