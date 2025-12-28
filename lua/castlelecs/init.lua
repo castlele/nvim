@@ -8,7 +8,7 @@ local picker = require("castlelecs.emoji-picker")
 picker.setup {
    keymaps = {
       n = {
-         ["<leader>E"] = picker.searchBuildWithTelescope,
+         ["<leader>E"] = picker.searchEmojiWithMinipick,
       },
    },
 }

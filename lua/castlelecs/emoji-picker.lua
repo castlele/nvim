@@ -1,7 +1,33 @@
 ---@class EmojiPickerModule
-local M = {}
+local M = {
+   pickerName = "List of emojis",
+}
 
-function M.searchBuildWithTelescope()
+---@param emoji table
+local function copyEmoji(emoji)
+   vim.fn.setreg('"', emoji.emoji)
+end
+
+function M.searchEmojiWithMinipick()
+   local picker = require("mini.pick")
+
+   local emojis = require("castlelecs.res.emojis")
+   local searchItems = {}
+
+   for _, emoji in ipairs(emojis) do
+      table.insert(searchItems, { emoji = emoji.emoji, name = emoji.name })
+   end
+
+   picker.start {
+      source = {
+         items = searchItems,
+         name = M.pickerName,
+         choose = copyEmoji,
+      },
+   }
+end
+
+function M.searchEmojiWithTelescope()
    local finders = require("telescope.finders")
    local pickers = require("telescope.pickers")
    local previewers = require("telescope.previewers")
@@ -27,36 +53,36 @@ function M.searchBuildWithTelescope()
    }
 
    pickers
-      .new(opts, {
-         debounce = 0,
-         prompt_title = "List of emojis",
-         finder = finder,
-         previewer = previewers.new_buffer_previewer {
-            define_preview = function(self, entry)
-               vim.api.nvim_buf_set_lines(
-                  self.state.bufnr,
-                  0,
-                  -1,
-                  false,
-                  vim.split(vim.inspect(entry), "\n")
-               )
-            end,
-         },
-         sorter = config.generic_sorter(opts),
-         attach_mappings = function(prompt_bufnr, _)
-            actions.select_default:replace(function()
-               actions.close(prompt_bufnr)
+       .new(opts, {
+          debounce = 0,
+          prompt_title = M.pickerName,
+          finder = finder,
+          previewer = previewers.new_buffer_previewer {
+             define_preview = function(self, entry)
+                vim.api.nvim_buf_set_lines(
+                   self.state.bufnr,
+                   0,
+                   -1,
+                   false,
+                   vim.split(vim.inspect(entry), "\n")
+                )
+             end,
+          },
+          sorter = config.generic_sorter(opts),
+          attach_mappings = function(prompt_bufnr, _)
+             actions.select_default:replace(function()
+                actions.close(prompt_bufnr)
 
-               local selection = actionState.get_selected_entry()
-               local index = selection.index
-               local emoji = emojis[index].emoji
+                local selection = actionState.get_selected_entry()
+                local index = selection.index
+                local emoji = emojis[index].emoji
 
-               vim.fn.setreg('"', emoji)
-            end)
-            return true
-         end,
-      })
-      :find()
+                vim.fn.setreg('"', emoji)
+             end)
+             return true
+          end,
+       })
+       :find()
 end
 
 ---@class EmojiPickerModuleConfig

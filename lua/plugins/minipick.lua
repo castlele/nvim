@@ -14,6 +14,7 @@ return {
          n = {
             ["<leader>O"] = picker.builtin.files,
             ["<leader>F"] = picker.builtin.grep_live,
+            ["<leader>H"] = picker.builtin.help,
             ["<leader>fkb"] = function ()
                picker.builtin.files(nil, {
                   source = {
