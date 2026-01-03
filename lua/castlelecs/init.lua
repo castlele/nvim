@@ -32,3 +32,5 @@ notesModule.setup {
       },
    },
 }
+
+require("castlelecs.gradle").setup {}
