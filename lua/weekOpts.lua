@@ -34,6 +34,7 @@ local weekOpts = {
          "play with Javie",
          "check how tasks align with goals",
          "psychology session %13:00% - 1h",
+         "job hunting routine",
          work = {
             "log time",
          },
@@ -54,7 +55,6 @@ local weekOpts = {
       SAT = {
          "play with Javie",
          "check how tasks align with goals",
-         "job hunting routine",
          "call to grandmother",
          "go for a walk",
       },
