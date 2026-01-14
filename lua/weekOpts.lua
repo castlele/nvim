@@ -5,48 +5,65 @@ local weekOpts = {
          "play with Javie",
          "check how tasks align with goals",
          "job hunting routine",
-         "work",
+         work = {
+            "log time",
+         },
          "set week goals",
          "take care of Javie",
+         "go for a walk",
       },
       TUE = {
          "play with Javie",
          "check how tasks align with goals",
          "job hunting routine",
-         "work",
+         work = {
+            "log time",
+         },
+         "go for a walk",
       },
       WED = {
          "play with Javie",
          "check how tasks align with goals",
          "job hunting routine",
-         "work",
+         work = {
+            "log time",
+         },
+         "go for a walk",
       },
       THU = {
          "play with Javie",
          "check how tasks align with goals",
          "psychology session %13:00% - 1h",
-         "work",
+         work = {
+            "log time",
+         },
          "clean the floors",
          "clean the office",
+         "go for a walk",
       },
       FRI = {
          "play with Javie",
          "check how tasks align with goals",
          "job hunting routine",
-         "work",
+         work = {
+            "log time",
+         },
          "take care of Javie",
+         "go for a walk",
       },
       SAT = {
          "play with Javie",
          "check how tasks align with goals",
          "job hunting routine",
          "call to grandmother",
+         "go for a walk",
       },
       SUN = {
          "play with Javie",
          "check how tasks align with goals",
          "clean the floors",
          "clean the office",
+         "go for a walk",
          "fill stats",
       },
    },
@@ -54,8 +71,7 @@ local weekOpts = {
       "%s\n%s\n%s",
       "goal:",
       "- %SMART goal%\n",
-      "total: ",
-      "result: "
+      "total: "
    ),
    header = string.format(
       "%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n",
