@@ -23,6 +23,8 @@ local settings = {
    backup = false,
    writebackup = false,
    signcolumn = "yes",
+   tabstop = 4,
+   shiftwidth = 4,
 }
 
 for k, v in pairs(settings) do
