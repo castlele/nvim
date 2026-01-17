@@ -7,8 +7,37 @@ require("castlelecs.sync").setup {
       {
          path = "$HOME/notes/",
          auto_cmd = "BufWritePost",
-         sync_cmd = function()
-            print("hello")
+         data = {
+            git = require("git"),
+         },
+         sync_cmd = function(data)
+            -- git add .
+            -- git stash push
+            -- git pull --no-edit
+            -- git stash pop stash@{0}
+            -- git commit --amend --no-edit --allow-empty
+            -- git push --force-with-lease
+            data.git
+               .stashAll()
+               .pull({
+                  args = {
+                     "--no-edit",
+                  },
+               })
+               .applyTopStash()
+               .add("/Users/castlelecs/notes/")
+               .amendCommit({
+                  args = {
+                     "--no-edit",
+                     "--allow-empty",
+                  },
+               })
+               .push({
+                  args = {
+                     "--force-with-lease",
+                  },
+               })
+               .execute()
          end,
       },
    },

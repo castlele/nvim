@@ -1,12 +1,12 @@
-vim.g.mapleader = ','
+vim.g.mapleader = ","
 vim.g.neovide_input_macos_alt_is_meta = true
 
 local settings = {
    number = true,
    cursorline = true,
    relativenumber = true,
-   ignorecase = true,     -- ignore case
-   smartcase = true,      -- but don't ignore it, when search string contains upper letters
+   ignorecase = true, -- ignore case
+   smartcase = true,  -- but don't ignore it, when search string contains upper letters
    incsearch = true,
    visualbell = true,
    expandtab = true,
@@ -18,7 +18,7 @@ local settings = {
    virtualedit = "all",
    backspace = { "indent", "eol", "start" }, -- allow backspacing over everything in insert mode
    mouse = "a",                              -- mouse support
-   listchars = { tab = "->", extends = ">", precedes = "<", space = "•"},
+   listchars = { tab = "->", extends = ">", precedes = "<", space = "•" },
    list = true,
    backup = false,
    writebackup = false,

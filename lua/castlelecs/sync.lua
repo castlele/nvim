@@ -6,8 +6,9 @@ local M = {
 
 ---@class SyncItem
 ---@field path string
+---@field data table?
 ---@field auto_cmd table<string>|string
----@field sync_cmd fun()
+---@field sync_cmd fun(data: table)
 
 ---This function expands ldcards and special keywords like $HOME
 ---@param path string input path
@@ -38,7 +39,7 @@ local function attachSync(item)
 
    local id = vim.api.nvim_create_autocmd(item.auto_cmd, {
       callback = function()
-         item.sync_cmd()
+         item.sync_cmd(item.data or {})
       end,
    })
 
