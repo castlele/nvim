@@ -6,7 +6,7 @@ local function navigateToCurrentWeekDay()
    end
 
    local capitalized = string.upper(weekday)
-   local found = vim.fn.search(capitalized, "W")
+   local found = vim.fn.search(capitalized)
 
    if found ~= 0 then
       vim.cmd("normal! zt'")
