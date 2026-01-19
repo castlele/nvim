@@ -1,3 +1,5 @@
+local locals = require("local")
+
 require("castlelecs.case_converter_binding")
 require("castlelecs.imports_sorting")
 require("castlelecs.norgtemplate").setup(require("weekOpts"))
@@ -28,7 +30,7 @@ require("castlelecs.sync").setup {
                end
 
                data.git
-                  .add("/Users/castlelecs/notes/")
+                  .add(locals.notesPath)
                   .amendCommit({
                      args = {
                         "--no-edit",
@@ -47,7 +49,6 @@ require("castlelecs.sync").setup {
    },
 }
 
-local locals = require("local")
 local picker = require("castlelecs.emoji-picker")
 picker.setup {
    keymaps = {
@@ -67,9 +68,10 @@ require("castlelecs.obsidian").setup {
    },
 }
 
+-- NOTE: Deprecate if not used
 local notesModule = require("castlelecs.notes")
 notesModule.setup {
-   notesPath = locals.notesPath,
+   notesPath = locals.currentNotesPath,
    keymaps = {
       n = {
          ["<leader>n"] = notesModule.openLastNote,
