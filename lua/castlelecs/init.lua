@@ -9,35 +9,37 @@ require("castlelecs.sync").setup {
          auto_cmd = "BufWritePost",
          data = {
             git = require("git"),
+            utils = require("utils"),
          },
          sync_cmd = function(data)
-            -- git add .
-            -- git stash push
-            -- git pull --no-edit
-            -- git stash pop stash@{0}
-            -- git commit --amend --no-edit --allow-empty
-            -- git push --force-with-lease
-            data.git
-               .stashAll()
-               .pull({
-                  args = {
-                     "--no-edit",
-                  },
-               })
-               .applyTopStash()
-               .add("/Users/castlelecs/notes/")
-               .amendCommit({
-                  args = {
-                     "--no-edit",
-                     "--allow-empty",
-                  },
-               })
-               .push({
-                  args = {
-                     "--force-with-lease",
-                  },
-               })
-               .execute()
+            vim.schedule(function()
+               local connection = data.utils.hasInternetConnection()
+
+               if not connection then
+                  vim.notify("Can't sync: no internet connection")
+               end
+
+               local isPullNeeded = data.git.hasAnythingToPull()
+
+               if isPullNeeded then
+                  data.git.autoPull().execute()
+               end
+
+               data.git
+                  .add("/Users/castlelecs/notes/")
+                  .amendCommit({
+                     args = {
+                        "--no-edit",
+                        "--allow-empty",
+                     },
+                  })
+                  .push({
+                     args = {
+                        "--force-with-lease",
+                     },
+                  })
+                  .execute()
+            end)
          end,
       },
    },
