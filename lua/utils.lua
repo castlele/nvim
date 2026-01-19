@@ -135,19 +135,19 @@ end
 ---@async
 ---@return boolean
 function M.hasInternetConnection()
-   return coroutine.wrap(function()
-      local co = coroutine.running()
+   local async = require("async")
 
-      vim.system(
-         { "ping", "-c", "3", "8.8.8.8", ">", "/dev/null", "2>&1" },
-         { text = true },
-         function(res)
-            coroutine.resume(co, res.code == 0)
-         end
-      )
+   local ping = function(resume)
+      vim.system({ "ping", "-c", "3", "8.8.8.8" }, {
+         stdout = false,
+         stderr = false,
+         text = true,
+      }, function(res)
+         resume(res.code == 0)
+      end)
+   end
 
-      return coroutine.yield()
-   end)()
+   return async.await(ping)
 end
 
 return M

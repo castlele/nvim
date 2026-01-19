@@ -3,10 +3,8 @@
 
 ---@class Git
 ---@field private cmdQueue table<table<string>>
----@field private isRunning boolean
 local M = {
    cmdQueue = {},
-   isRunning = false,
 }
 
 ---@param t1 table
@@ -89,25 +87,23 @@ end
 ---@async
 ---@return boolean
 function M.hasAnythingToPull()
-   return coroutine.wrap(function()
-      local co = coroutine.running()
-
+   local hasChanges = function(resume)
       vim.system(
          { "git", "rev-list", "--count", "HEAD..@{u}" },
          { text = true },
          function(res)
             if res.code ~= 0 then
-               coroutine.resume(co, false)
+               resume(false)
                return
             end
 
             local count = tonumber(res.stdout)
-            coroutine.resume(co, count ~= nil and count > 0)
+            resume(count ~= nil and count > 0)
          end
       )
+   end
 
-      return coroutine.yield()
-   end)()
+   return require("async").await(hasChanges)
 end
 
 ---@private
@@ -120,25 +116,18 @@ function M._enqueueCmd(cmd, opts)
    table.insert(M.cmdQueue, fullCmd)
 end
 
+---@async
 ---@private
 function M._drain()
-   if M.isRunning then
-      return
-   end
-
    local cmd = table.remove(M.cmdQueue, 1)
 
    if not cmd then
-      M.isRunning = false
-
       vim.schedule(function()
          vim.notify("Git is finished to execute commands", vim.log.levels.INFO)
       end)
 
       return
    end
-
-   M.isRunning = true
 
    vim.schedule(function()
       vim.notify(
@@ -147,21 +136,24 @@ function M._drain()
       )
    end)
 
-   -- TODO: Try to rewrite using coroutines
-   vim.fn.jobstart(cmd, {
-      on_exit = function(_, code, _)
-         if code ~= 0 then
-            vim.schedule(function()
-               vim.notify(
-                  "Git failed: " .. table.concat(cmd, " "),
-                  vim.log.levels.ERROR
-               )
-            end)
-         end
-         M.isRunning = false
-         M._drain()
-      end,
-   })
+   local execute = function(resume)
+      vim.system(cmd, {}, function(res)
+         resume(res.code)
+      end)
+   end
+
+   local code = require("async").await(execute)
+
+   if code ~= 0 then
+      vim.schedule(function()
+         vim.notify(
+            "Git failed: " .. table.concat(cmd, " "),
+            vim.log.levels.ERROR
+         )
+      end)
+   end
+
+   M._drain()
 end
 
 return M

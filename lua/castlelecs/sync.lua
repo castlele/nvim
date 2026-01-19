@@ -39,7 +39,9 @@ local function attachSync(item)
 
    local id = vim.api.nvim_create_autocmd(item.auto_cmd, {
       callback = function()
-         item.sync_cmd(item.data or {})
+         vim.schedule(function()
+            item.sync_cmd(item.data or {})
+         end)
       end,
    })
 

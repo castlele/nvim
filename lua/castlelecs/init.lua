@@ -9,11 +9,13 @@ require("castlelecs.sync").setup {
          auto_cmd = "BufWritePost",
          data = {
             git = require("git"),
-            utils = require("utils"),
          },
          sync_cmd = function(data)
-            vim.schedule(function()
-               local connection = data.utils.hasInternetConnection()
+            local utils = require("utils")
+            local async = require("async")
+
+            async.launch(function()
+               local connection = utils.hasInternetConnection()
 
                if not connection then
                   vim.notify("Can't sync: no internet connection")
