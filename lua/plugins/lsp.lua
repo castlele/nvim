@@ -19,6 +19,7 @@ return {
    },
    config = function()
       vim.lsp.enable("gdscript")
+      vim.lsp.enable("sourcekit")
 
       local packages = {
          "~/.luaver/luarocks/2.3.0_5.1/share/lua/5.1",
