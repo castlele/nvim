@@ -1,7 +1,7 @@
 return {
    "nvim-neorg/neorg",
    lazy = false,
-   version = "9.3.0",
+   version = "9.4.0",
    dependencies = {
       "nvim-neorg/lua-utils.nvim",
       "pysan3/pathlib.nvim",
