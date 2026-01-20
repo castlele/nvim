@@ -20,7 +20,11 @@ require("castlelecs.sync").setup {
                local connection = utils.hasInternetConnection()
 
                if not connection then
-                  vim.notify("Can't sync: no internet connection")
+                  vim.notify(
+                     "Can't sync: no internet connection",
+                     vim.log.levels.ERROR
+                  )
+                  return
                end
 
                local isPullNeeded = data.git.hasAnythingToPull()

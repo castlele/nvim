@@ -12,11 +12,7 @@ function M.launch(fn)
    local function step(...)
       local ok, yielded = coroutine.resume(co, ...)
 
-      if not ok then
-         error(yielded)
-      end
-
-      if coroutine.status(co) == "dead" then
+      if not ok or coroutine.status(co) == "dead" then
          return
       end
 

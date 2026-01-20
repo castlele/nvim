@@ -138,12 +138,22 @@ function M.hasInternetConnection()
    local async = require("async")
 
    local ping = function(resume)
-      vim.system({ "ping", "-c", "3", "8.8.8.8" }, {
-         stdout = false,
-         stderr = false,
-         text = true,
-      }, function(res)
-         resume(res.code == 0)
+      vim.system({
+         "curl",
+         "-sS",
+         "-o",
+         "/dev/null",
+         "-w",
+         "%{http_code}",
+         "--connect-timeout",
+         "2",
+         "--max-time",
+         "3",
+         "https://www.google.com/generate_204",
+      }, {}, function(res)
+         local success = res.code == 0
+         local code = tonumber(res.stdout or "0") == 204
+         resume(success and code)
       end)
    end
 
