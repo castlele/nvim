@@ -1,4 +1,5 @@
 local locals = require("local")
+local utils = require("utils")
 
 require("castlelecs.case_converter_binding")
 require("castlelecs.imports_sorting")
@@ -13,7 +14,6 @@ require("castlelecs.sync").setup {
             git = require("git"),
          },
          sync_cmd = function(data)
-            local utils = require("utils")
             local async = require("async")
 
             async.launch(function()
@@ -84,3 +84,9 @@ notesModule.setup {
 }
 
 require("castlelecs.gradle").setup {}
+
+vim.api.nvim_create_user_command("SyncNotes", function()
+   require("async").launch(function()
+      require("git").pull().execute()
+   end)
+end, {})
