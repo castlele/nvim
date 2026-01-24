@@ -5,7 +5,7 @@ require("castlelecs.case_converter_binding")
 require("castlelecs.imports_sorting")
 require("castlelecs.norgtemplate").setup(require("weekOpts"))
 require("castlelecs.extract").setup()
-require("castlelecs.device_manager").setup()
+require("castlelecs.device.manager").setup()
 require("castlelecs.sync").setup {
    items = {
       {
