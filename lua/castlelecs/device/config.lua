@@ -1,6 +1,7 @@
 ---@enum DeviceManagerHI
 local HI = {
    IosHeader = "IosHeader",
+   AndroidHeader = "AndroidHeader",
    RowOS = "RowOS",
    SuspendedRowStatus = "SuspendedRowStatus",
 }
@@ -38,6 +39,12 @@ function M.setHighlighting()
       bold = true,
       fg = normal.fg,
       bg = "#5ac8fa",
+   })
+
+   vim.api.nvim_set_hl(0, M.hi.AndroidHeader, {
+      bold = true,
+      fg = normal.fg,
+      bg = "#a4c639",
    })
 
    vim.api.nvim_set_hl(0, M.hi.RowOS, { link = "Comment" })

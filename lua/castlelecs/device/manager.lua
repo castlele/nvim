@@ -1,6 +1,7 @@
 ---@class DeviceManager
 ---@field mainWin Window
 ---@field devices Device[]
+---@field headerToDevices table<string, Device[]>
 ---@field api DeviceManagerApi
 ---@field config DeviceManagerConfig
 local M = {}
@@ -8,38 +9,58 @@ local M = {}
 function M.draw()
    vim.schedule(function()
       ---@type string[]
-      local lines = { "iOS" }
+      local lines = {}
       local hi = {}
 
-      for index, device in ipairs(M.devices) do
-         local deviceName = string.format("   %i. %s ", index, device.name)
-         local deviceNameWithOS = deviceName .. device.osVersion
-         local status = string.format("(%s) ", device.status)
+      for header, devices in pairs(M.headerToDevices) do
+         table.insert(lines, header)
 
-         local spacing =
-            string.rep(" ", M.mainWin.width - #deviceNameWithOS - #status)
+         if header == "ios" then
+            table.insert(hi, {
+               row = #lines - 1,
+               startCol = 0,
+               endCol = #header,
+               name = M.config.hi.IosHeader,
+            })
+         elseif header == "android" then
+            table.insert(hi, {
+               row = #lines - 1,
+               startCol = 0,
+               endCol = #header,
+               name = M.config.hi.AndroidHeader,
+            })
+         end
 
-         table.insert(
-            lines,
-            string.format("%s%s%s", deviceNameWithOS, spacing, status)
-         )
+         for index, device in ipairs(devices) do
+            local deviceName = string.format("   %i. %s ", index, device.name)
+            local deviceNameWithOS = deviceName .. device.osVersion
+            local status = string.format("(%s) ", device.status)
 
-         table.insert(hi, {
-            row = index,
-            startCol = #deviceName,
-            endCol = #deviceNameWithOS,
-            name = M.config.hi.RowOS,
-         })
+            local spacing =
+               string.rep(" ", M.mainWin.width - #deviceNameWithOS - #status)
 
-         if device.status == "Shutdown" then
-            local lhs = #deviceNameWithOS + #spacing
+            table.insert(
+               lines,
+               string.format("%s%s%s", deviceNameWithOS, spacing, status)
+            )
 
             table.insert(hi, {
-               row = index,
-               startCol = lhs,
-               endCol = lhs + #status,
-               name = M.config.hi.SuspendedRowStatus,
+               row = #lines - 1,
+               startCol = #deviceName,
+               endCol = #deviceNameWithOS,
+               name = M.config.hi.RowOS,
             })
+
+            if device.status == "Shutdown" then
+               local lhs = #deviceNameWithOS + #spacing
+
+               table.insert(hi, {
+                  row = #lines - 1,
+                  startCol = lhs,
+                  endCol = lhs + #status,
+                  name = M.config.hi.SuspendedRowStatus,
+               })
+            end
          end
       end
 
@@ -48,8 +69,6 @@ function M.draw()
       vim.api.nvim_buf_set_lines(M.mainWin.buf, 0, -1, false, lines)
 
       vim.bo[M.mainWin.buf].modifiable = false
-
-      M.config.highlightRange(M.mainWin.buf, 0, 0, 3, M.config.hi.IosHeader)
 
       for _, h in ipairs(hi) do
          M.config.highlightRange(
@@ -64,8 +83,9 @@ function M.draw()
 end
 
 function M.updateDevices()
-   M.api.getIosDevices(function(devices)
+   M.api.getAll(function(devices)
       M.devices = devices
+      M.headerToDevices = M.api.sort("os", M.devices)
       M.draw()
    end)
 end
@@ -78,7 +98,25 @@ function M.getCurrentDevice()
       return nil
    end
 
-   return M.devices[row]
+   local index = 0
+
+   for header, devices in pairs(M.headerToDevices) do
+      if index == row then
+         return nil
+      end
+
+      index = index + 1
+
+      for _, device in ipairs(devices) do
+         if index == row then
+            return device
+         end
+
+         index = index + 1
+      end
+   end
+
+   return nil
 end
 
 local function setAutoCmd()

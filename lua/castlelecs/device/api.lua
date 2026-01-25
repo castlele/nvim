@@ -1,7 +1,21 @@
 ---@class DeviceManagerApi
 local M = {}
+
 ---@private
 local _M = {}
+
+---@param algorithm "os"
+---@param devices Device[]
+---@return table<string, Device[]>
+function M.sort(algorithm, devices)
+   local result
+
+   if algorithm == "os" then
+      result = _M.sortByOS(devices)
+   end
+
+   return result
+end
 
 ---@class Device
 ---@field name string
@@ -9,9 +23,51 @@ local _M = {}
 ---@field status string
 ---@field os "android"|"ios"
 ---@field osVersion string
---- TODO: Convert to private methdo. update to return both adr/ios
 ---@param callback fun(devices: Device[])
-function M.getIosDevices(callback)
+function M.getAll(callback)
+   ---@type fun(devices: Device[]?)
+   local getAndroidDevices = function(devices)
+      devices = devices or {}
+
+      _M.getAndroidDevices(function(androidDevices)
+         for _, androidDevice in ipairs(androidDevices) do
+            table.insert(devices, androidDevice)
+         end
+
+         callback(devices)
+      end)
+   end
+
+   if require("utils.os").isDarwin() then
+      _M.getIosDevices(getAndroidDevices)
+   else
+      getAndroidDevices()
+   end
+end
+
+---@param device Device
+---@param callback fun()
+function M.boot(device, callback)
+   if device.os == "ios" then
+      _M.bootIosDevice(device, callback)
+   else
+      _M.bootAndroidDevice(device, callback)
+   end
+end
+
+---@param device Device
+---@param callback fun()
+function M.shutdown(device, callback)
+   if device.os == "ios" then
+      _M.shutdownIosDevice(device, callback)
+   else
+      _M.shutdownAndroidDevice(device, callback)
+   end
+end
+
+---@private
+---@param callback fun(devices: Device[])
+function _M.getIosDevices(callback)
    vim.system({
       "xcrun",
       "simctl",
@@ -51,32 +107,155 @@ function M.getIosDevices(callback)
    end)
 end
 
----@param device Device
----@param callback fun()
-function M.boot(device, callback)
-   if device.os == "ios" then
-      _M.bootIosDevice(device, callback)
-   else
-      ---@diagnostic disable-next-line: missing-fields
-      _M.throwIfNeeded({ code = -1 }, "Unsupported device os: " .. device.os)
-   end
+---@private
+---@param callback fun(devices: Device[])
+function _M.getAndroidDevices(callback)
+   vim.system({
+      "avdmanager",
+      "list",
+      "avd",
+   }, { text = true }, function(res)
+      if _M.throwIfNeeded(res, "Got an error during avdmanager run") then
+         callback {}
+         return
+      end
+
+      ---@type Device[]
+      local devices = {}
+      ---@type string?
+      local currentName
+
+      _M.getAndroidDeviceId(function(running)
+         for line in res.stdout:gmatch("[^\r\n]+") do
+            local name = line:match("Name:%s*(.+)$")
+
+            if name then
+               currentName = name
+               local info = running[name] or {}
+
+               table.insert(devices, {
+                  name = name,
+                  os = "android",
+                  id = info.id or "",
+                  status = info.status or "Shutdown",
+                  osVersion = "",
+               })
+            end
+
+            local basedOn = line:match("Based on:%s*(.+)$")
+
+            if currentName and basedOn then
+               local androidVersion = basedOn:match("Android%s+API%s+(%d+)")
+
+               devices[#devices].osVersion = "API " .. androidVersion
+               currentName = nil
+            end
+         end
+
+         callback(devices)
+      end)
+   end)
 end
 
----@param device Device
----@param callback fun()
-function M.shutdown(device, callback)
-   if device.os == "ios" then
-      _M.shutdownIosDevice(device, callback)
-   else
-      ---@diagnostic disable-next-line: missing-fields
-      _M.throwIfNeeded({ code = -1 }, "Unsupported device os: " .. device.os)
-   end
+---@private
+---@param callback fun(running: table<string, table<string, string>>)
+function _M.getAndroidDeviceId(callback)
+   vim.system({ "adb", "devices" }, { text = true }, function(res)
+      if _M.throwIfNeeded(res, "Got an error during adb devices call") then
+         callback {}
+         return
+      end
+
+      local ids = {}
+
+      for line in res.stdout:gmatch("[^\r\n]+") do
+         if not line:match("List of devices") then
+            local id, _ = line:match("(%S+)%s+(%S+)")
+
+            if id then
+               table.insert(ids, id)
+            end
+         end
+      end
+
+      if #ids == 0 then
+         callback {}
+         return
+      end
+
+      local running = {}
+      local passed = {}
+
+      for _, id in ipairs(ids) do
+         _M.getDeviceNameById(id, function(name)
+            table.insert(passed, id)
+
+            if name then
+               running[name] = {
+                  status = "Booted",
+                  id = id,
+               }
+            end
+
+            if #passed == #ids then
+               callback(running)
+            end
+         end)
+      end
+   end)
 end
 
+---@private
+---@param id string
+---@param callback fun(name: string?)
+function _M.getDeviceNameById(id, callback)
+   vim.system(
+      { "adb", "-s", id, "emu", "avd", "name" },
+      { text = true },
+      function(res)
+         if
+            _M.throwIfNeeded(
+               res,
+               "Got an error during adb -s emu avd name call"
+            )
+         then
+            callback(nil)
+            return
+         end
+
+         local name = res.stdout:match("[^\r\n]+")
+
+         if not name or #name == 0 then
+            callback(nil)
+            return
+         end
+
+         callback(name)
+      end
+   )
+end
+
+---@private
+---@param device Device
+---@param callback fun()
+function _M.bootAndroidDevice(device, callback)
+   vim.system(
+      { "emulator", "-avd", device.name, "-wipe-data", "-no-snapshot" },
+      { text = true },
+      function(res)
+         if _M.throwIfNeeded(res, "Got an error during emulator -avd call") then
+            return
+         end
+
+         callback()
+      end
+   )
+end
+
+---@private
 --- Running step by step:
 --- xcrun simctl boot uuid
 --- open -a 'Simulator' --args -CurrentDeviceUDID uuid
----@private
 ---@param device Device
 ---@param callback fun()
 function _M.bootIosDevice(device, callback)
@@ -114,8 +293,24 @@ function _M.bootIosDevice(device, callback)
    boot(open)
 end
 
---- Running step by step:
---- xcrun simctl shutdown uuid
+---@private
+---@param device Device
+---@param callback fun()
+function _M.shutdownAndroidDevice(device, callback)
+   vim.system(
+      { "adb", "-s", device.id, "emu", "kill" },
+      { text = true },
+      function(res)
+         if _M.throwIfNeeded(res, "Got an error during shutdown") then
+            return
+         end
+
+         callback()
+      end
+   )
+end
+
+---@private
 ---@param device Device
 ---@param callback fun()
 function _M.shutdownIosDevice(device, callback)
@@ -132,6 +327,23 @@ function _M.shutdownIosDevice(device, callback)
    )
 end
 
+---@private
+---@param devices Device[]
+---@return table<string, Device[]>
+function _M.sortByOS(devices)
+   local result = {}
+
+   for _, device in ipairs(devices) do
+      local osDevices = result[device.os] or {}
+
+      table.insert(osDevices, device)
+      result[device.os] = osDevices
+   end
+
+   return result
+end
+
+---@private
 ---@param res vim.SystemCompleted
 ---@param msg string
 ---@return boolean

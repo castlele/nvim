@@ -5,6 +5,6 @@ return {
       "nvim-telescope/telescope.nvim",
       "MunifTanjim/nui.nvim",
    },
-   enabled = vim.uv.os_uname().sysname == "Darwin",
+   enabled = require("utils.os").isDarwin(),
    opts = true,
 }
