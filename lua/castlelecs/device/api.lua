@@ -110,11 +110,24 @@ end
 ---@private
 ---@param callback fun(devices: Device[])
 function _M.getAndroidDevices(callback)
+   if vim.fn.executable("avdmanager") == 0 then
+      vim.schedule(function()
+         require("utils").throwError(
+            "No avdmanager cmdline tool available. You can't get an access to the android devices"
+         )
+      end)
+      callback {}
+      return
+   end
+
    vim.system({
       "avdmanager",
       "list",
       "avd",
-   }, { text = true }, function(res)
+   }, {
+      text = true,
+      timeout = 3000,
+   }, function(res)
       if _M.throwIfNeeded(res, "Got an error during avdmanager run") then
          callback {}
          return
