@@ -1,3 +1,36 @@
+local function setupJavaLsp()
+   local function get_jdtls_cache_dir()
+      return vim.fn.stdpath("cache") .. "/jdtls"
+   end
+
+   local function get_jdtls_workspace_dir()
+      return get_jdtls_cache_dir() .. "/workspace"
+   end
+
+   local workspace_dir = get_jdtls_workspace_dir()
+
+   vim.lsp.config("jdtls", {
+      cmd = {
+         "jdtls",
+         "-data",
+         workspace_dir,
+         cmd = {
+            "jdtls",
+            "-data",
+            workspace_dir,
+            "--jvm-arg=-XX:+UseParallelGC",
+            "--jvm-arg=-XX:GCTimeRatio=4",
+            "--jvm-arg=-XX:AdaptiveSizePolicyWeight=90",
+            "--jvm-arg=-Dsun.zip.disableMemoryMapping=true",
+            "--jvm-arg=-Xmx1G",
+            "--jvm-arg=-Xms500m",
+            "--jvm-arg=-Xlog:disable",
+            "--jvm-arg=-javaagent:" .. "jdtls" .. "/lombok.jar",
+         },
+      },
+   })
+end
+
 return {
    "neovim/nvim-lspconfig",
    dependencies = {
@@ -20,6 +53,7 @@ return {
    config = function()
       vim.lsp.enable("gdscript")
       vim.lsp.enable("sourcekit")
+      setupJavaLsp()
 
       local packages = {
          "~/.luaver/luarocks/2.3.0_5.1/share/lua/5.1",
