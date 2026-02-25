@@ -80,6 +80,18 @@ setupLSP() {
     # brew install kotlin-language-server
 }
 
+setupAI() {
+    echo "Set up AI (Ollama)"
+
+    if [[ $OS_TYPE == $LINUX_MINT* ]]; then
+        curl -fsSL https://ollama.com/install.sh | sh
+    elif [[ $OS_TYPE == $MACOS* ]]; then
+        brew install ollama
+    fi
+
+    ollama pull qwen2.5-coder:7b
+}
+
 echo "Setup Neovim"
 
 while [[ $# -gt 0 ]]; do
@@ -90,6 +102,7 @@ while [[ $# -gt 0 ]]; do
             setupLua
             setupDependencies
             setupLSP
+            setupAI
             break
             ;;
         -in | --install-nvim)
@@ -102,6 +115,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         -lsp | --setup-lsp)
             setupLSP
+            shift 1
+            ;;
+        -ai | --setup-ai)
+            setupAI
             shift 1
             ;;
         * | h | --help) shift;

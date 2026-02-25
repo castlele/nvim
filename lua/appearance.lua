@@ -51,10 +51,10 @@ local colorScheme = {
    PreProc = { fg = colors.accent0, bold = true },
    Tag = { fg = colors.accent0, bold = true },
 
-   Type = { fg = colors.accent3, },
+   Type = { fg = colors.accent3 },
 
-   Error = { fg = colors.diagnostics2, },
-   ErrorMsg = { fg = colors.diagnostics2, },
+   Error = { fg = colors.diagnostics2 },
+   ErrorMsg = { fg = colors.diagnostics2 },
    DiagnosticError = { fg = colors.diagnostics2 },
 
    DiagnosticHint = { fg = colors.diagnostics0 },
@@ -62,11 +62,11 @@ local colorScheme = {
    WarningMsg = { fg = colors.diagnostics1 },
    DiagnosticWarn = { fg = colors.diagnostics1 },
 
-   SpellBad = { sp = colors.diagnostics2, undercurl = true, },
+   SpellBad = { sp = colors.diagnostics2, undercurl = true },
 
    TabLineFill = { bg = colors.base3 },
    TabLine = { bg = colors.base5, fg = colors.base0, bold = false },
-   TabLineSolid = { bg = colors.base3, fg = colors.base5, },
+   TabLineSolid = { bg = colors.base3, fg = colors.base5 },
    TabLineSelSolid = { bg = colors.base3, fg = colors.accent0 },
    TabLineSel = { bg = colors.accent0, fg = colors.base5, bold = true },
 
@@ -99,7 +99,7 @@ vim.cmd("hi Cursor2 guifg=white guibg=white")
 vim.cmd("set colorcolumn=80")
 
 vim.opt.guicursor =
-"n:block-Cursor2/lCursor2,v-c-i:block-Cursor/lCursor,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
+   "n:block-Cursor2/lCursor2,v-c-i:block-Cursor/lCursor,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
 
 local function createTabline()
    local s = " "
@@ -133,7 +133,7 @@ local function createTabline()
       for _, win in ipairs(wins) do
          local buf = vim.api.nvim_win_get_buf(win)
 
-         local mod = vim.fn.getbufvar(buf, '&mod')
+         local mod = vim.fn.getbufvar(buf, "&mod")
 
          if mod == 1 then
             s = s .. "[+]"
@@ -160,39 +160,35 @@ end
 vim.opt.showtabline = 2
 
 local modes = {
-   n       = { name = "NORMAL", color = "StatusLineNormal" },
-   c       = { name = "COMMAND", color = "StatusLineCommand" },
-   ["!"]   = { name = "SHELL", color = "StatusLineCommand" },
-   t       = { name = "TERMINAL", color = "StatusLineTerminal" },
+   n = { name = "NORMAL", color = "StatusLineNormal" },
+   c = { name = "COMMAND", color = "StatusLineCommand" },
+   ["!"] = { name = "SHELL", color = "StatusLineCommand" },
+   t = { name = "TERMINAL", color = "StatusLineTerminal" },
 
-   i       = { name = "INSERT", color = "StatusLineInsert" },
+   i = { name = "INSERT", color = "StatusLineInsert" },
 
-   v       = { name = "VISUAL", color = "StatusLineVisual" },
-   V       = { name = "V-LINE", color = "StatusLineVisual" },
+   v = { name = "VISUAL", color = "StatusLineVisual" },
+   V = { name = "V-LINE", color = "StatusLineVisual" },
    ["\22"] = { name = "V-BLOCK", color = "StatusLineVisual" },
-   s       = { name = "SELECT", color = "StatusLineVisual" },
-   S       = { name = "S-LINE", color = "StatusLineVisual" },
+   s = { name = "SELECT", color = "StatusLineVisual" },
+   S = { name = "S-LINE", color = "StatusLineVisual" },
    ["\19"] = { name = "S-BLOCK", color = "StatusLineVisual" },
 
-   R       = { name = "REPLACE", color = "StatusLineReplace" },
+   R = { name = "REPLACE", color = "StatusLineReplace" },
 }
 
 ---@return string
 local function getModeName()
-   local mode = modes[vim.fn.mode()] or { name = ("UNKNOWN [" .. vim.fn.mode() .. "]") }
+   local mode = modes[vim.fn.mode()]
+      or { name = ("UNKNOWN [" .. vim.fn.mode() .. "]") }
    local name = mode.name
    local color = "%#" .. (mode.color or "StatusLineReplace")
    local revcolor = color .. "Rev#"
 
    color = color .. "#"
 
-   return string.format(
-      "%s%s %s %s",
-      revcolor,
-      color,
-      name,
-      revcolor
-   ) .. "%#StatusLine#"
+   return string.format("%s%s %s %s", revcolor, color, name, revcolor)
+      .. "%#StatusLine#"
 end
 
 vim.api.nvim_create_autocmd({
@@ -219,13 +215,13 @@ local function setup_dynamic_statusline()
             "%p%%   ",
             "%l:%c ",
          }
-      end
+      end,
    })
 
    vim.api.nvim_create_autocmd({ "WinLeave", "BufLeave" }, {
       callback = function()
          vim.opt_local.statusline = "%#StatusLine# %f%=%l:%c "
-      end
+      end,
    })
 end
 
