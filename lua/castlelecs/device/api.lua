@@ -74,7 +74,7 @@ function _M.getIosDevices(callback)
       "list",
       "devices",
       "available",
-      "--j",
+      "--json",
    }, {
       text = true,
    }, function(res)
