@@ -4,3 +4,5 @@ nvim-linux64
 *.tar.gz
 
 lua/local.lua
+
+nvim-pack-lock.json
