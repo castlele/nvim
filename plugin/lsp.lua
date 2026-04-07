@@ -50,8 +50,18 @@ require("mason-lspconfig").setup {
    },
 }
 
-vim.lsp.enable("gdscript")
-vim.lsp.enable("sourcekit")
+vim.lsp.enable {
+   "lua_ls",
+   "clangd",
+   "gopls",
+   "html",
+   "jdtls",
+   "kotlin_language_server",
+   "marksman",
+   "gdscript",
+   "sourcekit",
+}
+
 setupJavaLsp()
 
 local packages = {

@@ -18,11 +18,20 @@ vim.api.nvim_create_autocmd("LspDetach", {
    end,
 })
 
-require("lazydev").setup {
-   library = {
-      path = "${3rd}/luv/library",
-      words = {
-         "vim%.uv",
-      },
-   },
-}
+vim.api.nvim_create_autocmd("LspAttach", {
+   buffer = 0,
+   once = true,
+   callback = function(_)
+      local ok, lazydev = pcall(require, "lazydev")
+      if ok then
+         lazydev.setup {
+            library = {
+               {
+                  path = "${3rd}/luv/library",
+                  words = { "vim%.uv" },
+               },
+            },
+         }
+      end
+   end,
+})
