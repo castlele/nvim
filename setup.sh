@@ -29,7 +29,7 @@ installNeovim() {
 
     git fetch
     git checkout $NVIM_VERSION
-    make CMAKE_BUILD_TYPE=Release
+    sudo make CMAKE_BUILD_TYPE=Release
     sudo make install
     cd ..
 }
