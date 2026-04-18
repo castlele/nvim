@@ -11,11 +11,10 @@ local colorScheme = {
    CursorLineSign = { bg = colors.base4 },
    MiniPickMatchCurrent = { bg = colors.base5 },
    Search = { bg = colors.accent2, fg = colors.base3 },
-   CurSearch = { bg = colors.accent2, fg = colors.base3 },
+   CurSearch = { bg = colors.accent1, fg = colors.base3, italic = true },
 
    --- other line numbers
    LineNr = { fg = colors.base2 },
-   -- Whitespace = { fg = colors.grey },
    --- float windows
    NormalFloat = { bg = colors.base3, fg = colors.base0 },
    String = { fg = colors.accent2 },
@@ -99,7 +98,7 @@ vim.cmd("hi Cursor2 guifg=white guibg=white")
 vim.cmd("set colorcolumn=80")
 
 vim.opt.guicursor =
-   "n:block-Cursor2/lCursor2,v-c-i:block-Cursor/lCursor,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
+"n:block-Cursor2/lCursor2,v-c-i:block-Cursor/lCursor,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
 
 local function createTabline()
    local s = " "
@@ -180,7 +179,7 @@ local modes = {
 ---@return string
 local function getModeName()
    local mode = modes[vim.fn.mode()]
-      or { name = ("UNKNOWN [" .. vim.fn.mode() .. "]") }
+       or { name = ("UNKNOWN [" .. vim.fn.mode() .. "]") }
    local name = mode.name
    local color = "%#" .. (mode.color or "StatusLineReplace")
    local revcolor = color .. "Rev#"
@@ -188,7 +187,7 @@ local function getModeName()
    color = color .. "#"
 
    return string.format("%s%s %s %s", revcolor, color, name, revcolor)
-      .. "%#StatusLine#"
+       .. "%#StatusLine#"
 end
 
 vim.api.nvim_create_autocmd({
