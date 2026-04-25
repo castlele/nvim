@@ -1,7 +1,6 @@
 vim.pack.add {
    "https://github.com/olimorris/codecompanion.nvim.git",
    "https://github.com/nvim-lua/plenary.nvim.git",
-   "https://github.com/nvim-treesitter/nvim-treesitter.git",
 }
 
 require("codecompanion").setup {
@@ -24,7 +23,7 @@ require("codecompanion").setup {
                      -- 2) X5_COPILOT_API_KEY environment variable
                      api_key = function()
                         return vim.g.x5_copilot_api_key
-                           or vim.env.X5_COPILOT_API_KEY
+                            or vim.env.X5_COPILOT_API_KEY
                      end,
                   },
 
