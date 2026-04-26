@@ -25,7 +25,7 @@ colors.accent1 = hsb(132, 27, 96)
 colors.accent2 = hsb(61, 27, 96)
 --- purple
 colors.accent3 = hsb(253, 27, 96)
---- pale red
+--- pale red #f5b3b4
 colors.accent4 = hsb(359, 27, 96)
 
 --- blue #50b7f2
