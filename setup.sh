@@ -6,17 +6,13 @@ MACOS="darwin"
 
 NVIM_VERSION=v0.12.2
 
-if [[ $OS_TYPE == $LINUX_MINT* ]]; then
-    INSTALLATION_CMD="sudo apt install"
-elif [[ $OS_TYPE == $MACOS* ]]; then
-    INSTALLATION_CMD="brew install"
-fi
-
 installNeovim() {
     echo "Installing neovim"
 
     if [[ $OS_TYPE == $LINUX_MINT* ]]; then
         sudo apt-get install ninja-build gettext cmake curl build-essential
+    elif [[ $OS_TYPE == $MACOS* ]]; then
+        brew install ninja cmake gettext curl git
     fi
 
     sudo rm /usr/local/bin/nvim
@@ -44,16 +40,14 @@ setupLua() {
     echo "Installing luaver"
     curl -fsSL https://raw.githubusercontent.com/dhavalkapil/luaver/master/install.sh | sh -s - -r v1.1.0
 
-    [ -s ~/.luaver/luaver ] && . ~/.luaver/luaver
+    source ~/.zshrc
 
     luaver install 5.1
     luaver set-default 5.1
     luaver install-luarocks 2.3.0
     luaver set-default-luarocks 2.3.0
 
-    cd cluautils
-        luarocks make
-    cd ..
+    luarocks install cluautils
 }
 
 setupDependencies() {
@@ -68,16 +62,7 @@ setupDependencies() {
     nvm install 22
     npm install --global yarn
 
-    if [[ $OS_TYPE == $LINUX_MINT* ]]; then
-        cargo install --locked tree-sitter-cli
-        sudo apt install ripgrep
-    fi
-}
-
-setupLSP() {
-    echo "Set up LSPs"
-    # brew install lua-language-server
-    # brew install kotlin-language-server
+    cargo install --locked tree-sitter-cli
 }
 
 setupAI() {
@@ -101,8 +86,6 @@ while [[ $# -gt 0 ]]; do
             installNeovim
             setupLua
             setupDependencies
-            setupLSP
-            setupAI
             break
             ;;
         -in | --install-nvim)
@@ -111,10 +94,6 @@ while [[ $# -gt 0 ]]; do
             ;;
         -sl | --setup-lua)
             setupLua
-            shift 1
-            ;;
-        -lsp | --setup-lsp)
-            setupLSP
             shift 1
             ;;
         -ai | --setup-ai)
