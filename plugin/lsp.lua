@@ -51,21 +51,6 @@ require("mason-lspconfig").setup {
    },
 }
 
-vim.lsp.enable {
-   "lua_ls",
-   "clangd",
-   "gopls",
-   "html",
-   "jdtls",
-   "kotlin_language_server",
-   "marksman",
-   "gdscript",
-   "sourcekit",
-   "tinymist",
-}
-
-setupJavaLsp()
-
 local packages = {
    "~/.luaver/luarocks/2.3.0_5.1/share/lua/5.1",
    "~/.luaver/luarocks/3.0.0_5.1/share/lua/5.1",
@@ -86,7 +71,11 @@ vim.lsp.config("lua_ls", {
             enable = true,
             defaultConfig = {
                indent_style = "space",
-               indent_size = "3",
+               indent_size = "2",
+               max_line_length = "80",
+               end_of_line = "lf",
+               quote_style = "double",
+               call_arg_parentheses = "remove_table_only",
             },
          },
          workspace = {
@@ -106,10 +95,23 @@ vim.lsp.config("sourcekit", {
    },
 })
 
-vim.api.nvim_create_autocmd("LspAttach", {
-   callback = function(event)
-      local opts = { buffer = event.buf, silent = true }
+vim.lsp.enable {
+   "lua_ls",
+   "clangd",
+   "gopls",
+   "html",
+   "jdtls",
+   "kotlin_language_server",
+   "marksman",
+   "gdscript",
+   "sourcekit",
+   "tinymist",
+}
 
+setupJavaLsp()
+
+vim.api.nvim_create_autocmd("LspAttach", {
+   callback = function(_)
       require("utils").setKeymaps {
          n = {
             ["gD"] = vim.lsp.buf.declaration,
@@ -124,10 +126,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
             ["<C-S>"] = vim.lsp.buf.signature_help,
          },
       }
-
-      vim.keymap.set("n", "<space>f", function()
-         vim.lsp.buf.format { async = true }
-      end, opts)
    end,
 })
 
@@ -141,7 +139,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
    callback = function(event)
       local client = vim.lsp.get_client_by_id(event.data.client_id)
       if
-         client and client:supports_method("textDocument/completion", event.buf)
+          client and client:supports_method("textDocument/completion", event.buf)
       then
          vim.lsp.completion.enable(
             true,

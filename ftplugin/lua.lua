@@ -1,5 +1,5 @@
-vim.opt_local.tabstop = 3
-vim.opt_local.shiftwidth = 3
+vim.opt_local.tabstop = 2
+vim.opt_local.shiftwidth = 2
 
 vim.api.nvim_create_autocmd("BufWritePre", {
    buffer = 0,
@@ -15,23 +15,5 @@ vim.api.nvim_create_autocmd("LspDetach", {
          event = "BufWritePre",
          buffer = args.buf,
       }
-   end,
-})
-
-vim.api.nvim_create_autocmd("LspAttach", {
-   buffer = 0,
-   once = true,
-   callback = function(_)
-      local ok, lazydev = pcall(require, "lazydev")
-      if ok then
-         lazydev.setup {
-            library = {
-               {
-                  path = "${3rd}/luv/library",
-                  words = { "vim%.uv" },
-               },
-            },
-         }
-      end
    end,
 })
