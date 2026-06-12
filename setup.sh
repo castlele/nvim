@@ -4,7 +4,7 @@ OS_TYPE="$OSTYPE"
 LINUX_MINT="linux-gnu"
 MACOS="darwin"
 
-NVIM_VERSION=v0.12.2
+NVIM_VERSION=v0.12.3
 
 installNeovim() {
     echo "Installing neovim"
