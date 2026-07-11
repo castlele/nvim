@@ -15,18 +15,19 @@ installNeovim() {
         brew install ninja cmake gettext curl git
     fi
 
-    sudo rm /usr/local/bin/nvim
-    sudo rm -r /usr/local/share/nvim/
+    NVIM_HOME="$HOME/.local/neovim"
+
+    sudo rm $NVIM_HOME/bin/nvim
+    sudo rm -r $NVIM_HOME/share/nvim/
 
     cd ./neovim/
     rm -rf build/
     sudo rm -rf .deps/
-    sudo cmake --build build/ --target uninstall
 
     git fetch
     git checkout $NVIM_VERSION
     sudo make CMAKE_BUILD_TYPE=Release
-    sudo make install
+    sudo make CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=$NVIM_HOME" install
     cd ..
 }
 
@@ -83,7 +84,7 @@ while [[ $# -gt 0 ]]; do
     case "$1" in
         -all)
             echo "all"
-            installNeovim
+            #installNeovim
             setupLua
             setupDependencies
             break
