@@ -45,7 +45,7 @@ require("mason-lspconfig").setup {
     "gopls",
     "html",
     "jdtls",
-    "kotlin_language_server",
+    "kotlin_lsp",
     "marksman",
     "tinymist",
   },
