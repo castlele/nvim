@@ -3,6 +3,14 @@ vim.pack.add {
   "https://github.com/nvim-lua/plenary.nvim.git",
 }
 
+require("utils").setKeymaps {
+  n = {
+    ["<leader>C"] = function()
+      vim.cmd("CodeCompanionChat Toggle")
+    end,
+  },
+}
+
 require("codecompanion").setup {
   adapters = {
     acp = {
@@ -29,6 +37,9 @@ require("codecompanion").setup {
     chat = {
       adapter = "claude_code",
       model = "sonnet",
+      opts = {
+        completion_provider = "default",
+      },
     },
     inline = {
       adapter = "claude_code",
