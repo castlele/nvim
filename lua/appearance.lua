@@ -205,9 +205,15 @@ vim.api.nvim_create_autocmd({
    end,
 })
 
+-- floating windows (Telescope, etc.) get a statusline once 'statusline' is set locally
+local function is_float()
+   return vim.api.nvim_win_get_config(0).relative ~= ""
+end
+
 local function setup_dynamic_statusline()
    vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter", "ModeChanged" }, {
       callback = function()
+         if is_float() then return end
          vim.opt_local.statusline = table.concat {
             getModeName(),
             "%=",
@@ -219,6 +225,7 @@ local function setup_dynamic_statusline()
 
    vim.api.nvim_create_autocmd({ "WinLeave", "BufLeave" }, {
       callback = function()
+         if is_float() then return end
          vim.opt_local.statusline = "%#StatusLine# %f%=%l:%c "
       end,
    })
