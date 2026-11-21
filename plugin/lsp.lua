@@ -97,6 +97,10 @@ vim.lsp.config("sourcekit", {
   },
 })
 
+vim.lsp.config("kotlin_lsp", {
+  cmd = { "intellij-server", "--stdio" },
+  single_file_support = false,
+})
 vim.lsp.enable {
   "lua_ls",
   "clangd",
