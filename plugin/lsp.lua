@@ -47,6 +47,7 @@ require("mason-lspconfig").setup {
     "jdtls",
     "marksman",
     "tinymist",
+    "kotlin_lsp",
   },
 }
 
@@ -102,7 +103,7 @@ vim.lsp.enable {
   "gopls",
   "html",
   "jdtls",
-  "kotlin_language_server",
+  "kotlin_lsp",
   "marksman",
   "gdscript",
   "sourcekit",
